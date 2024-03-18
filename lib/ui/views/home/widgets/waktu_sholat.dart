@@ -12,7 +12,7 @@ class WaktuSholat extends StatefulWidget {
 }
 
 class _WaktuSholatState extends State<WaktuSholat> {
-  Widget getNextPrayerTime() {
+  String getNextPrayerTime() {
     // Define prayer times
     Map<String, String> prayerTimes = {
       'Shubuh': '04:30',
@@ -58,7 +58,9 @@ class _WaktuSholatState extends State<WaktuSholat> {
           int.parse(prayerTimes[nextPrayer]!.split(':')[1]));
     }
 
-    return Column(
+    return "$nextPrayer at ${format.format(nextPrayerTime!)}";
+
+    Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Sholat $nextPrayer"),
@@ -78,59 +80,59 @@ class _WaktuSholatState extends State<WaktuSholat> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: getNextPrayerTime(),
+      child: Text(getNextPrayerTime()),
     );
   }
 }
 
-// class CountdownTimerWidget extends StatefulWidget {
-//   @override
-//   _CountdownTimerWidgetState createState() => _CountdownTimerWidgetState();
-// }
+class CountdownTimerWidget extends StatefulWidget {
+  @override
+  _CountdownTimerWidgetState createState() => _CountdownTimerWidgetState();
+}
 
-// class _CountdownTimerWidgetState extends State<CountdownTimerWidget> {
-//   Timer? _timer;
-//   Duration? _duration;
+class _CountdownTimerWidgetState extends State<CountdownTimerWidget> {
+  Timer? _timer;
+  Duration? _duration;
 
-//   @override
-//   void initState() {
-//     super.initState();
-//     _startTimer();
-//   }
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
 
-//   void _startTimer() {
-//     final nextPrayerTime = (context.findAncestorWidgetOfExactType<WaktuSholat>()
-//             as _WaktuSholatState)
-//         .getNextPrayerTime();
-//     _duration = nextPrayerTime.difference(DateTime.now());
+  void _startTimer() {
+    final nextPrayerTime = (context.findAncestorWidgetOfExactType<WaktuSholat>()
+            as _WaktuSholatState)
+        .getNextPrayerTime();
+    _duration = nextPrayerTime.difference(DateTime.now());
 
-//     _timer?.cancel(); // Cancel existing timer if any
-//     _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
-//       if (_duration!.inSeconds == 0) {
-//         setState(() {
-//           timer.cancel();
-//         });
-//       } else {
-//         setState(() {
-//           _duration = _duration! - Duration(seconds: 1);
-//         });
-//       }
-//     });
-//   }
+    _timer?.cancel(); // Cancel existing timer if any
+    _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
+      if (_duration!.inSeconds == 0) {
+        setState(() {
+          timer.cancel();
+        });
+      } else {
+        setState(() {
+          _duration = _duration! - Duration(seconds: 1);
+        });
+      }
+    });
+  }
 
-//   @override
-//   void dispose() {
-//     _timer?.cancel();
-//     super.dispose();
-//   }
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Center(
-//       child: Text(
-//         "Time until next prayer: ${_duration!.inHours.toString().padLeft(2, '0')}:${(_duration!.inMinutes % 60).toString().padLeft(2, '0')}:${(_duration!.inSeconds % 60).toString().padLeft(2, '0')}",
-//         style: TextStyle(fontSize: 24),
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        "Time until next prayer: ${_duration!.inHours.toString().padLeft(2, '0')}:${(_duration!.inMinutes % 60).toString().padLeft(2, '0')}:${(_duration!.inSeconds % 60).toString().padLeft(2, '0')}",
+        style: TextStyle(fontSize: 24),
+      ),
+    );
+  }
+}
