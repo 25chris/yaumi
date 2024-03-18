@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:yaumi/app/app.bottomsheets.dart';
 import 'package:yaumi/app/app.dialogs.dart';
 import 'package:yaumi/app/app.locator.dart';
@@ -10,7 +11,7 @@ Future<void> main() async {
   await setupLocator();
   setupDialogUi();
   setupBottomSheetUi();
-  runApp(const MainApp());
+  initializeDateFormatting("id").then((_) => runApp(const MainApp()));
 }
 
 class MainApp extends StatelessWidget {
