@@ -4,6 +4,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:yaumi/ui/common/app_shared_style.dart';
 import 'package:yaumi/ui/common/ui_helpers.dart';
+import 'package:yaumi/ui/views/yaumi/widgets/yaumi_date_picker.dart';
 
 import 'yaumi_viewmodel.dart';
 
@@ -124,42 +125,7 @@ class YaumiView extends StackedView<YaumiViewModel> {
                 StaggeredGridTile.count(
                   crossAxisCellCount: 6,
                   mainAxisCellCount: 1.3,
-                  child: DatePicker(
-                    DateTime.now().subtract(Duration(days: 11)),
-                    locale: "id_ID",
-                    initialSelectedDate: DateTime.now(),
-                    selectionColor: Colors.teal,
-                    selectedTextColor: Colors.white,
-                    activeDates: List.generate(
-                        10,
-                        (index) =>
-                            DateTime.now().subtract(Duration(days: index))),
-                    daysCount: 14, // 10 days back, current day, 3 days forward
-                    onDateChange: (date) {
-                      // Check if the selected date is within the inactive range
-                      // if (date.isAfter(now) && date.isBefore(threeDaysAhead)) {
-                      // Show dialog or toast to inform about inactive date selection
-                      // showDialog(
-                      // context: context,
-                      // builder: (context) => AlertDialog(
-                      // title: Text('Date Unavailable'),
-                      // content: Text('This date is not available for selection.'),
-                      // actions: [
-                      // TextButton(
-                      // onPressed: () => Navigator.of(context).pop(),
-                      // child: Text('OK'),
-                      // ),
-                      // ],
-                      // ),
-                      // );
-                      // } else {
-                      // Update the state with the new date if it's within the active range
-                      // setState(() {
-                      // _selectedDate = date;
-                      // });
-                      // }
-                    },
-                  ),
+                  child: YaumiDatePicker(),
                 ),
                 // Padding(
                 // padding: const EdgeInsets.all(16.0),
