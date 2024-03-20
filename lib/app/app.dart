@@ -6,6 +6,7 @@ import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:yaumi/ui/views/yaumi/yaumi_view.dart';
 import 'package:yaumi/ui/views/absen/absen_view.dart';
+import 'package:yaumi/ui/views/groups/groups_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -14,6 +15,7 @@ import 'package:yaumi/ui/views/absen/absen_view.dart';
     MaterialRoute(page: StartupView),
     MaterialRoute(page: YaumiView),
     MaterialRoute(page: AbsenView),
+    MaterialRoute(page: GroupsView),
 // @stacked-route
   ],
   dependencies: [

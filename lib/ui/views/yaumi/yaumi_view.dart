@@ -17,127 +17,180 @@ class YaumiView extends StackedView<YaumiViewModel> {
     Widget? child,
   ) {
     return Scaffold(
-      body: ListView(
-        children: [
-          Text(
-            "Muthaba'ah Yaumiah",
-            textAlign: TextAlign.center,
-            style: ktsBodyLarge.copyWith(
-                fontSize: 30.0,
-                color: Colors.blueGrey[900],
-                fontWeight: FontWeight.w800),
-          ),
-          verticalSpaceSmall,
-          StaggeredGrid.count(
-            crossAxisCount: 6,
-            mainAxisSpacing: 2,
-            crossAxisSpacing: 2,
-            children: [
-              StaggeredGridTile.count(
-                  crossAxisCellCount: 3,
-                  mainAxisCellCount: 1.5,
-                  child: Container(
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(border: Border.all()),
-                    child: Text.rich(TextSpan(children: [
-                      TextSpan(
-                          text: "Pencapaian periode sebelumnya:\n",
-                          style: ktsBodyLarge.copyWith(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w800,
-                              color: Colors.blueGrey[500])),
-                      TextSpan(
-                          text: "100.0 %",
-                          style: ktsBodyLarge.copyWith(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.blueGrey[800]))
-                    ])),
-                  )),
-              StaggeredGridTile.count(
-                  crossAxisCellCount: 3,
-                  mainAxisCellCount: 1.5,
-                  child: Container(
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(border: Border.all()),
-                    child: Text.rich(TextSpan(children: [
-                      TextSpan(
-                          text: "Pencapaian periode sekarang:\n",
-                          style: ktsBodyLarge.copyWith(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w800,
-                              color: Colors.blueGrey[500])),
-                      TextSpan(
-                          text: "80.0 %",
-                          style: ktsBodyLarge.copyWith(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.blueGrey[800]))
-                    ])),
-                  )),
-              StaggeredGridTile.count(
+      body: SafeArea(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text.rich(TextSpan(children: [
+                  TextSpan(
+                    text: "Muthaba'ah ",
+                    style: ktsBodyLarge.copyWith(
+                        fontSize: 30.0,
+                        color: Colors.blueGrey[600],
+                        fontStyle: FontStyle.italic,
+                        fontFamily: "Montserrat",
+                        fontWeight: FontWeight.w800),
+                  ),
+                  TextSpan(
+                    text: "Yaumiah",
+                    style: ktsBodyLarge.copyWith(
+                        fontSize: 30.0,
+                        color: Colors.blue,
+                        fontStyle: FontStyle.italic,
+                        fontFamily: "Montserrat",
+                        fontWeight: FontWeight.w800),
+                  )
+                ])),
+                IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.settings,
+                      color: Colors.green,
+                    ))
+              ],
+            ),
+            verticalSpaceSmall,
+            StaggeredGrid.count(
+              crossAxisCount: 6,
+              mainAxisSpacing: 2,
+              crossAxisSpacing: 2,
+              children: [
+                StaggeredGridTile.count(
+                    crossAxisCellCount: 3,
+                    mainAxisCellCount: 1.5,
+                    child: Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.all(8),
+                      child: Text.rich(TextSpan(children: [
+                        TextSpan(
+                            text: "Pencapaian periode sebelumnya:\n",
+                            style: ktsBodyLarge.copyWith(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w800,
+                                color: Colors.blue)),
+                        TextSpan(
+                            text: "100.0 %",
+                            style: ktsBodyLarge.copyWith(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.blueGrey[800]))
+                      ])),
+                    )),
+                StaggeredGridTile.count(
+                    crossAxisCellCount: 3,
+                    mainAxisCellCount: 1.5,
+                    child: Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.all(8),
+                      child: Text.rich(TextSpan(children: [
+                        TextSpan(
+                            text: "Pencapaian periode sekarang:\n",
+                            style: ktsBodyLarge.copyWith(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w800,
+                                color: Colors.blue)),
+                        TextSpan(
+                            text: "80.0 %",
+                            style: ktsBodyLarge.copyWith(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.blueGrey[800]))
+                      ])),
+                    )),
+                StaggeredGridTile.count(
+                    crossAxisCellCount: 6,
+                    mainAxisCellCount: 1,
+                    child: Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.all(8),
+                      child: Text.rich(TextSpan(children: [
+                        TextSpan(
+                            text: "Rata-rata pencapaian harian: ",
+                            style: ktsBodyLarge.copyWith(
+                                fontSize: 13,
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.w800,
+                                color: Colors.blueGrey[500])),
+                        TextSpan(
+                            text: "80.0 %",
+                            style: ktsBodyLarge.copyWith(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.blueGrey[800]))
+                      ])),
+                    )),
+                StaggeredGridTile.count(
                   crossAxisCellCount: 6,
-                  mainAxisCellCount: 1,
-                  child: Container(
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(border: Border.all()),
-                    child: Text.rich(TextSpan(children: [
-                      TextSpan(
-                          text: "Rata-rata pencapaian harian: ",
-                          style: ktsBodyLarge.copyWith(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w800,
-                              color: Colors.blueGrey[500])),
-                      TextSpan(
-                          text: "80.0 %",
-                          style: ktsBodyLarge.copyWith(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.blueGrey[800]))
-                    ])),
-                  )),
-              DatePicker(
-                DateTime.now().subtract(Duration(days: 10)),
-                initialSelectedDate: DateTime.now(),
-                selectionColor: Colors.teal,
-                selectedTextColor: Colors.white,
-                daysCount: 14, // 10 days back, current day, 3 days forward
-                onDateChange: (date) {
-                  // Check if the selected date is within the inactive range
-                  // if (date.isAfter(now) && date.isBefore(threeDaysAhead)) {
-                  // Show dialog or toast to inform about inactive date selection
-                  // showDialog(
-                  // context: context,
-                  // builder: (context) => AlertDialog(
-                  // title: Text('Date Unavailable'),
-                  // content: Text('This date is not available for selection.'),
-                  // actions: [
-                  // TextButton(
-                  // onPressed: () => Navigator.of(context).pop(),
-                  // child: Text('OK'),
-                  // ),
-                  // ],
-                  // ),
-                  // );
-                  // } else {
-                  // Update the state with the new date if it's within the active range
-                  // setState(() {
-                  // _selectedDate = date;
-                  // });
-                  // }
-                },
+                  mainAxisCellCount: 1.3,
+                  child: DatePicker(
+                    DateTime.now().subtract(Duration(days: 11)),
+                    locale: "id_ID",
+                    initialSelectedDate: DateTime.now(),
+                    selectionColor: Colors.teal,
+                    selectedTextColor: Colors.white,
+                    activeDates: List.generate(
+                        10,
+                        (index) =>
+                            DateTime.now().subtract(Duration(days: index))),
+                    daysCount: 14, // 10 days back, current day, 3 days forward
+                    onDateChange: (date) {
+                      // Check if the selected date is within the inactive range
+                      // if (date.isAfter(now) && date.isBefore(threeDaysAhead)) {
+                      // Show dialog or toast to inform about inactive date selection
+                      // showDialog(
+                      // context: context,
+                      // builder: (context) => AlertDialog(
+                      // title: Text('Date Unavailable'),
+                      // content: Text('This date is not available for selection.'),
+                      // actions: [
+                      // TextButton(
+                      // onPressed: () => Navigator.of(context).pop(),
+                      // child: Text('OK'),
+                      // ),
+                      // ],
+                      // ),
+                      // );
+                      // } else {
+                      // Update the state with the new date if it's within the active range
+                      // setState(() {
+                      // _selectedDate = date;
+                      // });
+                      // }
+                    },
+                  ),
+                ),
+                // Padding(
+                // padding: const EdgeInsets.all(16.0),
+                // child: Text(
+                // 'Selected date: _selectedDate.toString().split(' ')[0]}'),
+                // ),
+              ],
+            ),
+            Expanded(
+                child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: List.generate(
+                      20,
+                      (index) => ListTile(
+                            leading: Icon(Icons.abc),
+                            title: Text("Judul"),
+                            subtitle: Text("Subtitle"),
+                            trailing:
+                                Checkbox(value: false, onChanged: (val) {}),
+                          )),
+                ),
               ),
-              // Padding(
-              // padding: const EdgeInsets.all(16.0),
-              // child: Text(
-              // 'Selected date: _selectedDate.toString().split(' ')[0]}'),
-              // ),
-            ],
-          )
-        ],
+            )),
+            Container(
+                padding: EdgeInsets.all(8),
+                width: MediaQuery.of(context).size.width,
+                child: ElevatedButton(onPressed: () {}, child: Text("SUBMIT")))
+          ],
+        ),
       ),
     );
   }
