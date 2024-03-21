@@ -7,8 +7,9 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:flutter/material.dart' as _i9;
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart' as _i10;
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i10;
+import 'package:stacked_services/stacked_services.dart' as _i11;
 import 'package:yaumi/ui/views/absen/absen_view.dart' as _i6;
 import 'package:yaumi/ui/views/groups/groups_view.dart' as _i7;
 import 'package:yaumi/ui/views/home/home_view.dart' as _i3;
@@ -83,8 +84,10 @@ class StackedRouter extends _i1.RouterBase {
       );
     },
     _i3.HomeView: (data) {
+      final args = data.getArgs<HomeViewArguments>(nullOk: false);
       return _i9.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i3.HomeView(),
+        builder: (context) =>
+            _i3.HomeView(key: args.key, currentUser: args.currentUser),
         settings: data,
       );
     },
@@ -127,7 +130,34 @@ class StackedRouter extends _i1.RouterBase {
   Map<Type, _i1.StackedRouteFactory> get pagesMap => _pagesMap;
 }
 
-extension NavigatorStateExtension on _i10.NavigationService {
+class HomeViewArguments {
+  const HomeViewArguments({
+    this.key,
+    required this.currentUser,
+  });
+
+  final _i9.Key? key;
+
+  final _i10.GoogleSignInAccount? currentUser;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "currentUser": "$currentUser"}';
+  }
+
+  @override
+  bool operator ==(covariant HomeViewArguments other) {
+    if (identical(this, other)) return true;
+    return other.key == key && other.currentUser == currentUser;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode ^ currentUser.hashCode;
+  }
+}
+
+extension NavigatorStateExtension on _i11.NavigationService {
   Future<dynamic> navigateToLoginView([
     int? routerId,
     bool preventDuplicates = true,
@@ -142,14 +172,17 @@ extension NavigatorStateExtension on _i10.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> navigateToHomeView([
+  Future<dynamic> navigateToHomeView({
+    _i9.Key? key,
+    required _i10.GoogleSignInAccount? currentUser,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return navigateTo<dynamic>(Routes.homeView,
+        arguments: HomeViewArguments(key: key, currentUser: currentUser),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -240,14 +273,17 @@ extension NavigatorStateExtension on _i10.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> replaceWithHomeView([
+  Future<dynamic> replaceWithHomeView({
+    _i9.Key? key,
+    required _i10.GoogleSignInAccount? currentUser,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return replaceWith<dynamic>(Routes.homeView,
+        arguments: HomeViewArguments(key: key, currentUser: currentUser),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

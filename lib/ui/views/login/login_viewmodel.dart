@@ -7,6 +7,6 @@ class LoginViewModel extends BaseViewModel {
   final _navigationService = locator<NavigationService>();
 
   Future<void> toHome() async {
-    _navigationService.navigateToHomeView();
+    _navigationService.navigateToHomeView(currentUser: null);
   }
 }
