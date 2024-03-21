@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:yaumi/ui/views/home/home_viewmodel.dart';
 
 class UserBar extends StatelessWidget {
-  const UserBar({super.key});
+  final HomeViewModel viewModel;
+  const UserBar({super.key, required this.viewModel});
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
+    return Padding(
         padding: const EdgeInsets.all(8.0),
         child: Card(
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20.0))),
           child: ListTile(
-            leading: CircleAvatar(),
-            title: Text("Nama Pengguna"),
-            subtitle: Text("Nama Group"),
-            trailing: Icon(Icons.settings),
+            leading: const CircleAvatar(),
+            title: const Text("Nama Pengguna"),
+            subtitle: const Text("Nama Group"),
+            trailing: IconButton(
+                onPressed: () => viewModel.toSettings(),
+                icon: const Icon(Icons.settings)),
           ),
         ));
   }

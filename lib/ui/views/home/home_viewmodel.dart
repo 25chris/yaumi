@@ -47,4 +47,8 @@ class HomeViewModel extends BaseViewModel {
   Future<void> toGroups() async {
     _navigationService.navigateToGroupsView();
   }
+
+  Future<void> toSettings() async {
+    _navigationService.navigateToSettingsView();
+  }
 }

@@ -1,4 +1,4 @@
-package com.example.yaumi
+package id.co.gspdt.yaumi
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -22,7 +22,7 @@ class HomeView extends StackedView<HomeViewModel> {
         child: ListView(
           children: [
             WaktuSholat(),
-            UserBar(),
+            UserBar(viewModel: viewModel),
             DashboardMenu(
               viewModel: viewModel,
             )
