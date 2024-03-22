@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stacked/stacked.dart';
+import 'package:yaumi/blocs/bloc/settings_bloc.dart';
+import 'package:yaumi/blocs/bloc/settings_event.dart';
+import 'package:yaumi/blocs/bloc/settings_state.dart';
 import 'package:yaumi/ui/common/app_shared_style.dart';
 import 'package:yaumi/ui/common/login_api.dart';
 import 'package:yaumi/ui/common/ui_helpers.dart';
@@ -57,17 +61,35 @@ class SettingsView extends StackedView<SettingsViewModel> {
               ),
             ),
           ),
-          ListTile(
-            leading: CircleAvatar(),
-            title: Text("Sholat Fardhu Berjama'ah"),
-            subtitle: Text("Tepat waktu & berjama'ah di masjid"),
-            trailing: Switch(value: false, onChanged: (val) {}),
+          BlocBuilder<SettingsBloc, SettingsState>(
+            builder: (context, state) {
+              return ListTile(
+                leading: CircleAvatar(),
+                title: Text("Sholat Fardhu Berjama'ah"),
+                subtitle: Text("Tepat waktu & berjama'ah di masjid"),
+                trailing: Switch(
+                    value: state.fardhu,
+                    onChanged: (val) {
+                      BlocProvider.of<SettingsBloc>(context)
+                          .add(FardhuChanged(value: val));
+                    }),
+              );
+            },
           ),
-          ListTile(
-            leading: CircleAvatar(),
-            title: Text("Sholat Tahajud"),
-            subtitle: Text("Sepertiga malam terakhir"),
-            trailing: Switch(value: false, onChanged: (val) {}),
+          BlocBuilder<SettingsBloc, SettingsState>(
+            builder: (context, state) {
+              return ListTile(
+                leading: CircleAvatar(),
+                title: Text("Sholat Tahajud"),
+                subtitle: Text("Sepertiga malam terakhir"),
+                trailing: Switch(
+                    value: state.tahajud,
+                    onChanged: (val) {
+                      BlocProvider.of<SettingsBloc>(context)
+                          .add(TahajudChanged(value: val));
+                    }),
+              );
+            },
           ),
           ListTile(
             leading: CircleAvatar(),
