@@ -9,6 +9,7 @@ import 'package:yaumi/ui/views/absen/absen_view.dart';
 import 'package:yaumi/ui/views/groups/groups_view.dart';
 import 'package:yaumi/ui/views/settings/settings_view.dart';
 import 'package:yaumi/ui/views/login/login_view.dart';
+import 'package:yaumi/ui/dialogs/profile_settings/profile_settings_dialog.dart';
 // @stacked-import
 
 @StackedApp(
@@ -34,7 +35,8 @@ import 'package:yaumi/ui/views/login/login_view.dart';
   ],
   dialogs: [
     StackedDialog(classType: InfoAlertDialog),
-    // @stacked-dialog
+    StackedDialog(classType: ProfileSettingsDialog),
+// @stacked-dialog
   ],
 )
 class App {}

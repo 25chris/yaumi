@@ -15,18 +15,27 @@ class LoginView extends StackedView<LoginViewModel> {
     LoginViewModel viewModel,
     Widget? child,
   ) {
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          LoginTitle(),
-          LoginForm(
-            viewModel: viewModel,
-          ),
-          LoginInfo()
-        ],
-      ),
-    );
+    return viewModel.isLoading
+        ? const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(
+                color: Colors.black,
+                strokeWidth: 6,
+              ),
+            ),
+          )
+        : Scaffold(
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const LoginTitle(),
+                LoginForm(
+                  viewModel: viewModel,
+                ),
+                const LoginInfo()
+              ],
+            ),
+          );
   }
 
   @override

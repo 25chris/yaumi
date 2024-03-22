@@ -8,6 +8,8 @@ class StartupViewModel extends BaseViewModel {
   final _navigationService = locator<NavigationService>();
   final _googleSignIn = GoogleSignIn();
 
+  bool isLoading = false;
+
   // Place anything here that needs to happen before we get into the application
   Future runStartupLogic() async {
     await Future.delayed(const Duration(seconds: 3));
