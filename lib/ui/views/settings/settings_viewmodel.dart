@@ -1,3 +1,4 @@
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:yaumi/app/app.dialogs.dart';
@@ -9,11 +10,12 @@ class SettingsViewModel extends BaseViewModel {
   final _dialogService = locator<DialogService>();
   final _navigationService = locator<NavigationService>();
 
-  void showDialog() {
+  void showDialog({required GoogleSignInAccount currentUser}) {
     _dialogService.showCustomDialog(
         variant: DialogType.profileSettings,
         title: 'Stacked Rocks!',
-        description: 'Teeeees');
+        description: 'Teeeees',
+        data: currentUser);
   }
 
   bool isLoading = false;

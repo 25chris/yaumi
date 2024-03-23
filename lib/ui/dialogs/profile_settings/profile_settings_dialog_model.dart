@@ -1,3 +1,3 @@
 import 'package:stacked/stacked.dart';
 
-class ProfileSettingsDialogModel extends BaseViewModel {}
+class ProfileSettingsDialogModel extends FormViewModel {}

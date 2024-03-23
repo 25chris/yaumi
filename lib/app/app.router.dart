@@ -116,8 +116,10 @@ class StackedRouter extends _i1.RouterBase {
       );
     },
     _i8.SettingsView: (data) {
+      final args = data.getArgs<SettingsViewArguments>(nullOk: false);
       return _i9.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i8.SettingsView(),
+        builder: (context) =>
+            _i8.SettingsView(key: args.key, currentUser: args.currentUser),
         settings: data,
       );
     },
@@ -147,6 +149,33 @@ class HomeViewArguments {
 
   @override
   bool operator ==(covariant HomeViewArguments other) {
+    if (identical(this, other)) return true;
+    return other.key == key && other.currentUser == currentUser;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode ^ currentUser.hashCode;
+  }
+}
+
+class SettingsViewArguments {
+  const SettingsViewArguments({
+    this.key,
+    required this.currentUser,
+  });
+
+  final _i9.Key? key;
+
+  final _i10.GoogleSignInAccount? currentUser;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "currentUser": "$currentUser"}';
+  }
+
+  @override
+  bool operator ==(covariant SettingsViewArguments other) {
     if (identical(this, other)) return true;
     return other.key == key && other.currentUser == currentUser;
   }
@@ -245,14 +274,17 @@ extension NavigatorStateExtension on _i11.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> navigateToSettingsView([
+  Future<dynamic> navigateToSettingsView({
+    _i9.Key? key,
+    required _i10.GoogleSignInAccount? currentUser,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return navigateTo<dynamic>(Routes.settingsView,
+        arguments: SettingsViewArguments(key: key, currentUser: currentUser),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -346,14 +378,17 @@ extension NavigatorStateExtension on _i11.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> replaceWithSettingsView([
+  Future<dynamic> replaceWithSettingsView({
+    _i9.Key? key,
+    required _i10.GoogleSignInAccount? currentUser,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return replaceWith<dynamic>(Routes.settingsView,
+        arguments: SettingsViewArguments(key: key, currentUser: currentUser),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

@@ -1,3 +1,4 @@
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:yaumi/app/app.bottomsheets.dart';
 import 'package:yaumi/app/app.locator.dart';
 import 'package:yaumi/app/app.router.dart';
@@ -29,7 +30,7 @@ class HomeViewModel extends BaseViewModel {
     _navigationService.navigateToGroupsView();
   }
 
-  Future<void> toSettings() async {
-    _navigationService.navigateToSettingsView();
+  Future<void> toSettings({required GoogleSignInAccount? currentUser}) async {
+    _navigationService.navigateToSettingsView(currentUser: currentUser);
   }
 }

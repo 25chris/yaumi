@@ -7,12 +7,20 @@
 import 'package:stacked_services/stacked_services.dart';
 
 import 'app.locator.dart';
+import '../ui/dialogs/dhuha/dhuha_dialog.dart';
+import '../ui/dialogs/fardhu/fardhu_dialog.dart';
 import '../ui/dialogs/info_alert/info_alert_dialog.dart';
 import '../ui/dialogs/profile_settings/profile_settings_dialog.dart';
+import '../ui/dialogs/rawatib/rawatib_dialog.dart';
+import '../ui/dialogs/tahajud/tahajud_dialog.dart';
 
 enum DialogType {
   infoAlert,
   profileSettings,
+  fardhu,
+  tahajud,
+  dhuha,
+  rawatib,
 }
 
 void setupDialogUi() {
@@ -23,6 +31,14 @@ void setupDialogUi() {
         InfoAlertDialog(request: request, completer: completer),
     DialogType.profileSettings: (context, request, completer) =>
         ProfileSettingsDialog(request: request, completer: completer),
+    DialogType.fardhu: (context, request, completer) =>
+        FardhuDialog(request: request, completer: completer),
+    DialogType.tahajud: (context, request, completer) =>
+        TahajudDialog(request: request, completer: completer),
+    DialogType.dhuha: (context, request, completer) =>
+        DhuhaDialog(request: request, completer: completer),
+    DialogType.rawatib: (context, request, completer) =>
+        RawatibDialog(request: request, completer: completer),
   };
 
   dialogService.registerCustomDialogBuilders(builders);

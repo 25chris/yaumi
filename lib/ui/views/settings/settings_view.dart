@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:stacked/stacked.dart';
 import 'package:yaumi/blocs/bloc/settings_bloc.dart';
 import 'package:yaumi/blocs/bloc/settings_event.dart';
 import 'package:yaumi/blocs/bloc/settings_state.dart';
 import 'package:yaumi/ui/common/app_shared_style.dart';
-import 'package:yaumi/ui/common/login_api.dart';
 import 'package:yaumi/ui/common/ui_helpers.dart';
 import 'package:yaumi/ui/views/settings/widgets/settings_header.dart';
 
 import 'settings_viewmodel.dart';
 
 class SettingsView extends StackedView<SettingsViewModel> {
-  const SettingsView({Key? key}) : super(key: key);
+  final GoogleSignInAccount? currentUser;
+  const SettingsView({Key? key, required this.currentUser}) : super(key: key);
 
   @override
   Widget builder(
@@ -47,20 +48,30 @@ class SettingsView extends StackedView<SettingsViewModel> {
                 ),
                 //nama
                 ListTile(
-                  onTap: () => viewModel.showDialog(),
-                  leading: const CircleAvatar(),
-                  title: const Text("Nama Pengguna"),
+                  onTap: () => viewModel.showDialog(currentUser: currentUser!),
+                  leading: CircleAvatar(
+                    backgroundImage: currentUser!.photoUrl != null
+                        ? NetworkImage(currentUser!.photoUrl!)
+                        : null,
+                    child: currentUser!.photoUrl != null
+                        ? null
+                        : Icon(
+                            Icons.person,
+                            color: Colors.blue,
+                          ),
+                  ),
+                  title: Text(currentUser!.displayName!),
                   subtitle: const Text("Edit photo profile & nama"),
                   trailing: IconButton(
                       onPressed: () {}, icon: const Icon(Icons.chevron_right)),
                 ),
-                ListTile(
-                  leading: const CircleAvatar(),
-                  title: const Text("Email Pengguna"),
-                  subtitle: const Text("Ganti password"),
-                  trailing: IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.chevron_right)),
-                ),
+                // ListTile(
+                //   leading: const CircleAvatar(),
+                //   title: Text(currentUser!.email),
+                //   subtitle: const Text("Ganti password"),
+                //   trailing: IconButton(
+                //       onPressed: () {}, icon: const Icon(Icons.chevron_right)),
+                // ),
                 verticalSpaceSmall,
                 Padding(
                   padding: const EdgeInsets.only(left: 16.0),

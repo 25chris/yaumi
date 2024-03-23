@@ -10,6 +10,10 @@ import 'package:yaumi/ui/views/groups/groups_view.dart';
 import 'package:yaumi/ui/views/settings/settings_view.dart';
 import 'package:yaumi/ui/views/login/login_view.dart';
 import 'package:yaumi/ui/dialogs/profile_settings/profile_settings_dialog.dart';
+import 'package:yaumi/ui/dialogs/fardhu/fardhu_dialog.dart';
+import 'package:yaumi/ui/dialogs/tahajud/tahajud_dialog.dart';
+import 'package:yaumi/ui/dialogs/dhuha/dhuha_dialog.dart';
+import 'package:yaumi/ui/dialogs/rawatib/rawatib_dialog.dart';
 // @stacked-import
 
 @StackedApp(
@@ -36,6 +40,10 @@ import 'package:yaumi/ui/dialogs/profile_settings/profile_settings_dialog.dart';
   dialogs: [
     StackedDialog(classType: InfoAlertDialog),
     StackedDialog(classType: ProfileSettingsDialog),
+    StackedDialog(classType: FardhuDialog),
+    StackedDialog(classType: TahajudDialog),
+    StackedDialog(classType: DhuhaDialog),
+    StackedDialog(classType: RawatibDialog),
 // @stacked-dialog
   ],
 )

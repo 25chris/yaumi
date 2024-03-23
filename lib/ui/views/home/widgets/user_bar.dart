@@ -24,7 +24,7 @@ class UserBar extends StatelessWidget {
             title: Text(currentUser!.displayName!),
             subtitle: const Text("Nama Group"),
             trailing: IconButton(
-                onPressed: () => viewModel.toSettings(),
+                onPressed: () => viewModel.toSettings(currentUser: currentUser),
                 icon: const Icon(Icons.settings)),
           ),
         ));
