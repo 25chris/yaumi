@@ -92,17 +92,45 @@ class DhuhaDialog extends StackedView<DhuhaDialogModel> {
                         )),
                     StaggeredGridTile.count(
                         crossAxisCellCount: 6,
-                        mainAxisCellCount: 1,
-                        child: Slider(
-                            min: 0,
-                            max: 12,
-                            label: yaumi.dhuha.toString(),
-                            divisions: 11,
-                            value: yaumi.dhuha.toDouble(),
-                            onChanged: (val) {
-                              context.read<YaumiBloc>().add(UpdateYaumi(
-                                  yaumi: yaumi.copyWith(dhuha: val.toInt())));
-                            }))
+                        mainAxisCellCount: 2,
+                        child: Column(
+                          children: [
+                            Slider(
+                                min: 0,
+                                max: 12,
+                                label: yaumi.dhuha.toString(),
+                                divisions: 11,
+                                value: yaumi.dhuha.toDouble(),
+                                onChanged: (val) {
+                                  context.read<YaumiBloc>().add(UpdateYaumi(
+                                      yaumi:
+                                          yaumi.copyWith(dhuha: val.toInt())));
+                                }),
+                            Text.rich(
+                              TextSpan(children: [
+                                TextSpan(
+                                  text: "Jumlah raka'at Dhuha:\n",
+                                  style: ktsBodyRegular.copyWith(
+                                      fontSize: 13, fontFamily: "Poppins"),
+                                ),
+                                TextSpan(
+                                  text: yaumi.dhuha.toString(),
+                                  style: ktsBodyRegular.copyWith(
+                                      fontSize: 15,
+                                      fontFamily: "Poppins",
+                                      color: Colors.blue[800],
+                                      fontWeight: FontWeight.w700),
+                                ),
+                                TextSpan(
+                                  text: " raka'at",
+                                  style: ktsBodyRegular.copyWith(
+                                      fontSize: 15, fontFamily: "Poppins"),
+                                )
+                              ]),
+                              textAlign: TextAlign.center,
+                            )
+                          ],
+                        ))
                   ],
                 ),
                 verticalSpaceMedium,

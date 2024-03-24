@@ -14,6 +14,10 @@ import 'package:yaumi/ui/dialogs/fardhu/fardhu_dialog.dart';
 import 'package:yaumi/ui/dialogs/tahajud/tahajud_dialog.dart';
 import 'package:yaumi/ui/dialogs/dhuha/dhuha_dialog.dart';
 import 'package:yaumi/ui/dialogs/rawatib/rawatib_dialog.dart';
+import 'package:yaumi/ui/dialogs/tilawah/tilawah_dialog.dart';
+import 'package:yaumi/ui/dialogs/shaum/shaum_dialog.dart';
+import 'package:yaumi/ui/dialogs/dzikir/dzikir_dialog.dart';
+import 'package:yaumi/ui/dialogs/taklim/taklim_dialog.dart';
 // @stacked-import
 
 @StackedApp(
@@ -44,6 +48,10 @@ import 'package:yaumi/ui/dialogs/rawatib/rawatib_dialog.dart';
     StackedDialog(classType: TahajudDialog),
     StackedDialog(classType: DhuhaDialog),
     StackedDialog(classType: RawatibDialog),
+    StackedDialog(classType: TilawahDialog),
+    StackedDialog(classType: ShaumDialog),
+    StackedDialog(classType: DzikirDialog),
+    StackedDialog(classType: TaklimDialog),
 // @stacked-dialog
   ],
 )

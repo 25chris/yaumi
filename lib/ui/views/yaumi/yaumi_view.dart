@@ -156,7 +156,17 @@ class YaumiView extends StackedView<YaumiViewModel> {
                           viewModel: viewModel,
                         ),
                         DhuhaListTile(viewModel: viewModel),
-                        RawatibListTile(viewModel: viewModel)
+                        RawatibListTile(viewModel: viewModel),
+                        TilawahListTile(
+                          viewModel: viewModel,
+                        ),
+                        ShaumListTile(viewModel: viewModel),
+                        DzikirListTile(viewModel: viewModel),
+                        TaklimListTile(
+                          viewModel: viewModel,
+                        ),
+                        IstighfarListTile(viewModel: viewModel),
+                        ShalawatListTile(viewModel: viewModel)
                       ],
                     ),
                   ),

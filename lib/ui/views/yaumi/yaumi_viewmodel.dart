@@ -33,4 +33,26 @@ class YaumiViewModel extends BaseViewModel {
         title: 'Shalat Sunnah',
         description: 'Rawatib');
   }
+
+  void showTilawahDialog() {
+    _dialogService.showCustomDialog(
+        variant: DialogType.tilawah,
+        title: "Tilawah Qur'an",
+        description: '1 day 1 Juz');
+  }
+
+  void showShaumDialog() {
+    _dialogService.showCustomDialog(
+        variant: DialogType.shaum, title: "", description: '');
+  }
+
+  void showDzikirDialog() {
+    _dialogService.showCustomDialog(
+        variant: DialogType.dzikir, title: "", description: '');
+  }
+
+  void showTaklimrDialog() {
+    _dialogService.showCustomDialog(
+        variant: DialogType.taklim, title: "", description: '');
+  }
 }

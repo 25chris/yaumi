@@ -8,15 +8,15 @@ import 'package:yaumi/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-import 'tahajud_dialog_model.dart';
+import 'dzikir_dialog_model.dart';
 
 const double _graphicSize = 60;
 
-class TahajudDialog extends StackedView<TahajudDialogModel> {
+class DzikirDialog extends StackedView<DzikirDialogModel> {
   final DialogRequest request;
   final Function(DialogResponse) completer;
 
-  const TahajudDialog({
+  const DzikirDialog({
     Key? key,
     required this.request,
     required this.completer,
@@ -25,7 +25,7 @@ class TahajudDialog extends StackedView<TahajudDialogModel> {
   @override
   Widget builder(
     BuildContext context,
-    TahajudDialogModel viewModel,
+    DzikirDialogModel viewModel,
     Widget? child,
   ) {
     return Dialog(
@@ -39,18 +39,18 @@ class TahajudDialog extends StackedView<TahajudDialogModel> {
                   DateTime(DateTime.now().year, DateTime.now().month,
                       DateTime.now().day))
               .first;
-          double calculateTahajudPoin(int tahajud) {
-            // Calculate the percentage and limit the decimal places to 2
-            return double.parse(((tahajud / 11) * 100).toStringAsFixed(2));
-          }
-
+          final todayDzikirScore = [
+            yaumi.dzikirPagi,
+            yaumi.dzikirPetang,
+          ].fold(0,
+              (previousValue, element) => previousValue + (element ? 50 : 0));
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  "Shalat Tahajud",
+                  "Dzikir Pagi & Petang",
                   style: ktsBodyRegular.copyWith(
                       fontSize: 20, fontWeight: FontWeight.w900),
                 ),
@@ -68,69 +68,65 @@ class TahajudDialog extends StackedView<TahajudDialogModel> {
                             Text.rich(
                               TextSpan(children: [
                                 TextSpan(
-                                    text: "Poin shalat tahajud hari ini:",
+                                    text: "Poin dzikir hari ini:",
                                     style: ktsBodyRegular.copyWith(
                                         fontSize: 17.5,
                                         fontWeight: FontWeight.w600,
                                         fontFamily: "Poppins")),
                                 TextSpan(
-                                    text: yaumi.tahajud == 0
-                                        ? "\n-"
-                                        : "\n${calculateTahajudPoin(yaumi.tahajud)}",
+                                    text: "\n$todayDzikirScore",
                                     style: ktsBodyLarge.copyWith(
                                         fontFamily: "Poppins",
                                         fontWeight: FontWeight.w800,
-                                        color: yaumi.tahajud < 4
+                                        color: todayDzikirScore < 49
                                             ? Colors.red
-                                            : yaumi.tahajud < 7
-                                                ? Colors.amber
-                                                : Colors.green))
+                                            : Colors.green))
                               ]),
                               textAlign: TextAlign.center,
                             )
                           ],
                         )),
                     StaggeredGridTile.count(
-                        crossAxisCellCount: 6,
-                        mainAxisCellCount: 2,
+                        crossAxisCellCount: 3,
+                        mainAxisCellCount: 1.8,
                         child: Column(
                           children: [
-                            Slider(
-                                min: 0,
-                                max: 11,
-                                label: yaumi.tahajud.toString(),
-                                divisions: 10,
-                                value: yaumi.tahajud.toDouble(),
+                            Checkbox(
+                                value: yaumi.dzikirPagi,
                                 onChanged: (val) {
                                   context.read<YaumiBloc>().add(UpdateYaumi(
-                                      yaumi: yaumi.copyWith(
-                                          tahajud: val.toInt())));
+                                      yaumi: yaumi.copyWith(dzikirPagi: val)));
                                 }),
-                            Text.rich(
-                              TextSpan(children: [
-                                TextSpan(
-                                  text: "Jumlah raka'at Tahajud:\n",
-                                  style: ktsBodyRegular.copyWith(
-                                      fontSize: 13, fontFamily: "Poppins"),
-                                ),
-                                TextSpan(
-                                  text: yaumi.tahajud.toString(),
-                                  style: ktsBodyRegular.copyWith(
-                                      fontSize: 15,
-                                      fontFamily: "Poppins",
-                                      color: Colors.blue[800],
-                                      fontWeight: FontWeight.w700),
-                                ),
-                                TextSpan(
-                                  text: " raka'at",
-                                  style: ktsBodyRegular.copyWith(
-                                      fontSize: 15, fontFamily: "Poppins"),
-                                )
-                              ]),
-                              textAlign: TextAlign.center,
+                            Text(
+                              "Dzikir Pagi",
+                              style: ktsBodyRegular.copyWith(
+                                  fontSize: 13.5,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "Poppins"),
                             )
                           ],
-                        ))
+                        )),
+                    StaggeredGridTile.count(
+                        crossAxisCellCount: 3,
+                        mainAxisCellCount: 1.8,
+                        child: Column(
+                          children: [
+                            Checkbox(
+                                value: yaumi.dzikirPetang,
+                                onChanged: (val) {
+                                  context.read<YaumiBloc>().add(UpdateYaumi(
+                                      yaumi:
+                                          yaumi.copyWith(dzikirPetang: val)));
+                                }),
+                            Text(
+                              "Dzikir Petang",
+                              style: ktsBodyRegular.copyWith(
+                                  fontSize: 13.5,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "Poppins"),
+                            )
+                          ],
+                        )),
                   ],
                 ),
                 verticalSpaceMedium,
@@ -163,6 +159,6 @@ class TahajudDialog extends StackedView<TahajudDialogModel> {
   }
 
   @override
-  TahajudDialogModel viewModelBuilder(BuildContext context) =>
-      TahajudDialogModel();
+  DzikirDialogModel viewModelBuilder(BuildContext context) =>
+      DzikirDialogModel();
 }

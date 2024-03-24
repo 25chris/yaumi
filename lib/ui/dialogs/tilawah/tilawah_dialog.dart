@@ -8,15 +8,15 @@ import 'package:yaumi/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-import 'tahajud_dialog_model.dart';
+import 'tilawah_dialog_model.dart';
 
 const double _graphicSize = 60;
 
-class TahajudDialog extends StackedView<TahajudDialogModel> {
+class TilawahDialog extends StackedView<TilawahDialogModel> {
   final DialogRequest request;
   final Function(DialogResponse) completer;
 
-  const TahajudDialog({
+  const TilawahDialog({
     Key? key,
     required this.request,
     required this.completer,
@@ -25,7 +25,7 @@ class TahajudDialog extends StackedView<TahajudDialogModel> {
   @override
   Widget builder(
     BuildContext context,
-    TahajudDialogModel viewModel,
+    TilawahDialogModel viewModel,
     Widget? child,
   ) {
     return Dialog(
@@ -39,9 +39,9 @@ class TahajudDialog extends StackedView<TahajudDialogModel> {
                   DateTime(DateTime.now().year, DateTime.now().month,
                       DateTime.now().day))
               .first;
-          double calculateTahajudPoin(int tahajud) {
+          double calculateTilawahPoin(int tilawah) {
             // Calculate the percentage and limit the decimal places to 2
-            return double.parse(((tahajud / 11) * 100).toStringAsFixed(2));
+            return double.parse(((tilawah / 20) * 100).toStringAsFixed(2));
           }
 
           return Padding(
@@ -50,7 +50,7 @@ class TahajudDialog extends StackedView<TahajudDialogModel> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  "Shalat Tahajud",
+                  "Tilawah Qur'an",
                   style: ktsBodyRegular.copyWith(
                       fontSize: 20, fontWeight: FontWeight.w900),
                 ),
@@ -68,21 +68,21 @@ class TahajudDialog extends StackedView<TahajudDialogModel> {
                             Text.rich(
                               TextSpan(children: [
                                 TextSpan(
-                                    text: "Poin shalat tahajud hari ini:",
+                                    text: "Poin tilawah qur'an hari ini:",
                                     style: ktsBodyRegular.copyWith(
                                         fontSize: 17.5,
                                         fontWeight: FontWeight.w600,
                                         fontFamily: "Poppins")),
                                 TextSpan(
-                                    text: yaumi.tahajud == 0
+                                    text: yaumi.tilawah == 0
                                         ? "\n-"
-                                        : "\n${calculateTahajudPoin(yaumi.tahajud)}",
+                                        : "\n${calculateTilawahPoin(yaumi.tilawah)}",
                                     style: ktsBodyLarge.copyWith(
                                         fontFamily: "Poppins",
                                         fontWeight: FontWeight.w800,
-                                        color: yaumi.tahajud < 4
+                                        color: yaumi.tilawah < 4
                                             ? Colors.red
-                                            : yaumi.tahajud < 7
+                                            : yaumi.tilawah < 7
                                                 ? Colors.amber
                                                 : Colors.green))
                               ]),
@@ -97,24 +97,24 @@ class TahajudDialog extends StackedView<TahajudDialogModel> {
                           children: [
                             Slider(
                                 min: 0,
-                                max: 11,
-                                label: yaumi.tahajud.toString(),
-                                divisions: 10,
-                                value: yaumi.tahajud.toDouble(),
+                                max: 20,
+                                label: yaumi.tilawah.toString(),
+                                divisions: 19,
+                                value: yaumi.tilawah.toDouble(),
                                 onChanged: (val) {
                                   context.read<YaumiBloc>().add(UpdateYaumi(
                                       yaumi: yaumi.copyWith(
-                                          tahajud: val.toInt())));
+                                          tilawah: val.toInt())));
                                 }),
                             Text.rich(
                               TextSpan(children: [
                                 TextSpan(
-                                  text: "Jumlah raka'at Tahajud:\n",
+                                  text: "Jumlah halaman yang dibaca:\n",
                                   style: ktsBodyRegular.copyWith(
                                       fontSize: 13, fontFamily: "Poppins"),
                                 ),
                                 TextSpan(
-                                  text: yaumi.tahajud.toString(),
+                                  text: yaumi.tilawah.toString(),
                                   style: ktsBodyRegular.copyWith(
                                       fontSize: 15,
                                       fontFamily: "Poppins",
@@ -122,7 +122,7 @@ class TahajudDialog extends StackedView<TahajudDialogModel> {
                                       fontWeight: FontWeight.w700),
                                 ),
                                 TextSpan(
-                                  text: " raka'at",
+                                  text: " halaman",
                                   style: ktsBodyRegular.copyWith(
                                       fontSize: 15, fontFamily: "Poppins"),
                                 )
@@ -163,6 +163,6 @@ class TahajudDialog extends StackedView<TahajudDialogModel> {
   }
 
   @override
-  TahajudDialogModel viewModelBuilder(BuildContext context) =>
-      TahajudDialogModel();
+  TilawahDialogModel viewModelBuilder(BuildContext context) =>
+      TilawahDialogModel();
 }

@@ -8,11 +8,15 @@ import 'package:stacked_services/stacked_services.dart';
 
 import 'app.locator.dart';
 import '../ui/dialogs/dhuha/dhuha_dialog.dart';
+import '../ui/dialogs/dzikir/dzikir_dialog.dart';
 import '../ui/dialogs/fardhu/fardhu_dialog.dart';
 import '../ui/dialogs/info_alert/info_alert_dialog.dart';
 import '../ui/dialogs/profile_settings/profile_settings_dialog.dart';
 import '../ui/dialogs/rawatib/rawatib_dialog.dart';
+import '../ui/dialogs/shaum/shaum_dialog.dart';
 import '../ui/dialogs/tahajud/tahajud_dialog.dart';
+import '../ui/dialogs/taklim/taklim_dialog.dart';
+import '../ui/dialogs/tilawah/tilawah_dialog.dart';
 
 enum DialogType {
   infoAlert,
@@ -21,6 +25,10 @@ enum DialogType {
   tahajud,
   dhuha,
   rawatib,
+  tilawah,
+  shaum,
+  dzikir,
+  taklim,
 }
 
 void setupDialogUi() {
@@ -39,6 +47,14 @@ void setupDialogUi() {
         DhuhaDialog(request: request, completer: completer),
     DialogType.rawatib: (context, request, completer) =>
         RawatibDialog(request: request, completer: completer),
+    DialogType.tilawah: (context, request, completer) =>
+        TilawahDialog(request: request, completer: completer),
+    DialogType.shaum: (context, request, completer) =>
+        ShaumDialog(request: request, completer: completer),
+    DialogType.dzikir: (context, request, completer) =>
+        DzikirDialog(request: request, completer: completer),
+    DialogType.taklim: (context, request, completer) =>
+        TaklimDialog(request: request, completer: completer),
   };
 
   dialogService.registerCustomDialogBuilders(builders);
