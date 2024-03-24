@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:yaumi/ui/common/app_shared_style.dart';
 
 // Define prayer times globally if they do not change
 final Map<String, String> prayerTimes = {

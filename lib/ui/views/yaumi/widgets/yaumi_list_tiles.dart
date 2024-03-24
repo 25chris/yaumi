@@ -35,12 +35,8 @@ class FardhuListTile extends StatelessWidget {
                 children: [
                   BlocBuilder<YaumiBloc, YaumiState>(
                     builder: (context, state) {
-                      final yaumi = state.allYaumis
-                          .where((element) =>
-                              element.date ==
-                              DateTime(DateTime.now().year,
-                                  DateTime.now().month, DateTime.now().day))
-                          .first;
+                      final yaumi = state.allYaumis.firstWhere(
+                          (e) => e.date == viewModel.selectedDateTime);
                       final todayFardhuScore = [
                         yaumi.shubuh,
                         yaumi.dhuhur,
@@ -109,11 +105,7 @@ class TahajudListTile extends StatelessWidget {
             ? BlocBuilder<YaumiBloc, YaumiState>(
                 builder: (context, state) {
                   final yaumi = state.allYaumis
-                      .where((element) =>
-                          element.date ==
-                          DateTime(DateTime.now().year, DateTime.now().month,
-                              DateTime.now().day))
-                      .first;
+                      .firstWhere((e) => e.date == viewModel.selectedDateTime);
                   double calculateTahajudPoin(int tahajud) {
                     // Calculate the percentage and limit the decimal places to 2
                     return double.parse(
@@ -176,11 +168,7 @@ class DhuhaListTile extends StatelessWidget {
             ? BlocBuilder<YaumiBloc, YaumiState>(
                 builder: (context, state) {
                   final yaumi = state.allYaumis
-                      .where((element) =>
-                          element.date ==
-                          DateTime(DateTime.now().year, DateTime.now().month,
-                              DateTime.now().day))
-                      .first;
+                      .firstWhere((e) => e.date == viewModel.selectedDateTime);
                   double calculateDhuhaPoin(int dhuha) {
                     // Calculate the percentage and limit the decimal places to 2
                     return double.parse(
@@ -242,11 +230,7 @@ class RawatibListTile extends StatelessWidget {
             ? BlocBuilder<YaumiBloc, YaumiState>(
                 builder: (context, state) {
                   final yaumi = state.allYaumis
-                      .where((element) =>
-                          element.date ==
-                          DateTime(DateTime.now().year, DateTime.now().month,
-                              DateTime.now().day))
-                      .first;
+                      .firstWhere((e) => e.date == viewModel.selectedDateTime);
                   final todayRawatibScore = [
                     yaumi.qshubuh,
                     yaumi.qdhuhur,
@@ -313,11 +297,7 @@ class TilawahListTile extends StatelessWidget {
             ? BlocBuilder<YaumiBloc, YaumiState>(
                 builder: (context, state) {
                   final yaumi = state.allYaumis
-                      .where((element) =>
-                          element.date ==
-                          DateTime(DateTime.now().year, DateTime.now().month,
-                              DateTime.now().day))
-                      .first;
+                      .firstWhere((e) => e.date == viewModel.selectedDateTime);
                   double calculateTilawahPoin(int tilawah) {
                     // Calculate the percentage and limit the decimal places to 2
                     return double.parse(
@@ -380,12 +360,7 @@ class ShaumListTile extends StatelessWidget {
             ? BlocBuilder<YaumiBloc, YaumiState>(
                 builder: (context, state) {
                   final yaumi = state.allYaumis
-                      .where((element) =>
-                          element.date ==
-                          DateTime(DateTime.now().year, DateTime.now().month,
-                              DateTime.now().day))
-                      .first;
-
+                      .firstWhere((e) => e.date == viewModel.selectedDateTime);
                   return ListTile(
                     onTap: () {
                       viewModel.showShaumDialog();
@@ -439,11 +414,7 @@ class DzikirListTile extends StatelessWidget {
             ? BlocBuilder<YaumiBloc, YaumiState>(
                 builder: (context, state) {
                   final yaumi = state.allYaumis
-                      .where((element) =>
-                          element.date ==
-                          DateTime(DateTime.now().year, DateTime.now().month,
-                              DateTime.now().day))
-                      .first;
+                      .firstWhere((e) => e.date == viewModel.selectedDateTime);
                   final todayDzikirScore = [
                     yaumi.dzikirPagi,
                     yaumi.dzikirPetang,
@@ -504,11 +475,7 @@ class TaklimListTile extends StatelessWidget {
             ? BlocBuilder<YaumiBloc, YaumiState>(
                 builder: (context, state) {
                   final yaumi = state.allYaumis
-                      .where((element) =>
-                          element.date ==
-                          DateTime(DateTime.now().year, DateTime.now().month,
-                              DateTime.now().day))
-                      .first;
+                      .firstWhere((e) => e.date == viewModel.selectedDateTime);
                   return ListTile(
                     onTap: () {
                       viewModel.showTaklimrDialog();
@@ -560,11 +527,7 @@ class IstighfarListTile extends StatelessWidget {
             ? BlocBuilder<YaumiBloc, YaumiState>(
                 builder: (context, state) {
                   final yaumi = state.allYaumis
-                      .where((element) =>
-                          element.date ==
-                          DateTime(DateTime.now().year, DateTime.now().month,
-                              DateTime.now().day))
-                      .first;
+                      .firstWhere((e) => e.date == viewModel.selectedDateTime);
                   return ListTile(
                     onTap: () {},
                     leading: Container(
@@ -617,11 +580,7 @@ class ShalawatListTile extends StatelessWidget {
             ? BlocBuilder<YaumiBloc, YaumiState>(
                 builder: (context, state) {
                   final yaumi = state.allYaumis
-                      .where((element) =>
-                          element.date ==
-                          DateTime(DateTime.now().year, DateTime.now().month,
-                              DateTime.now().day))
-                      .first;
+                      .firstWhere((e) => e.date == viewModel.selectedDateTime);
                   return ListTile(
                     onTap: () {},
                     leading: Container(

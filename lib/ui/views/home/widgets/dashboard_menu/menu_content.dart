@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:yaumi/ui/common/app_shared_style.dart';
-import 'package:yaumi/ui/views/home/home_view.dart';
 import 'package:yaumi/ui/views/home/home_viewmodel.dart';
 
 class YaumiMenuContent extends StatelessWidget {

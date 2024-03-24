@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:yaumi/blocs/bloc/yaumi_bloc.dart';
 import 'package:yaumi/models/yaumi.dart';
-import 'package:yaumi/ui/common/app_colors.dart';
 import 'package:yaumi/ui/common/app_shared_style.dart';
 import 'package:yaumi/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
@@ -34,12 +33,8 @@ class ShaumDialog extends StackedView<ShaumDialogModel> {
       backgroundColor: Colors.white,
       child: BlocBuilder<YaumiBloc, YaumiState>(
         builder: (context, state) {
-          final yaumi = state.allYaumis
-              .where((element) =>
-                  element.date ==
-                  DateTime(DateTime.now().year, DateTime.now().month,
-                      DateTime.now().day))
-              .first;
+          final yaumi =
+              state.allYaumis.firstWhere((e) => e.date == request.data);
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             child: Column(

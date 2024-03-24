@@ -8,4 +8,18 @@ class YaumiState extends Equatable {
 
   @override
   List<Object> get props => [allYaumis];
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'allYaumis': allYaumis.map((x) => x.toMap()).toList(),
+    };
+  }
+
+  factory YaumiState.fromMap(Map<String, dynamic> map) {
+    return YaumiState(
+      allYaumis: List<Yaumi>.from(
+        (map['allYaumis']?.map((x) => Yaumi.fromMap(x))),
+      ),
+    );
+  }
 }

@@ -25,5 +25,6 @@ class LoginApi {
     } catch (error) {
       print(error); // Handle the error as appropriate in your app
     }
+    return null;
   }
 }

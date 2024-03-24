@@ -1,11 +1,11 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:yaumi/models/yaumi.dart';
 
 part 'yaumi_event.dart';
 part 'yaumi_state.dart';
 
-class YaumiBloc extends Bloc<YaumiEvent, YaumiState> {
+class YaumiBloc extends HydratedBloc<YaumiEvent, YaumiState> {
   YaumiBloc() : super(const YaumiState()) {
     on<AddYaumi>(_onAddYaumi);
     on<UpdateYaumi>(_onUpdateYaumi);
@@ -26,4 +26,14 @@ class YaumiBloc extends Bloc<YaumiEvent, YaumiState> {
   }
 
   void _onDeleteYaumi(DeleteYaumi event, Emitter<YaumiState> emit) {}
+
+  @override
+  YaumiState? fromJson(Map<String, dynamic> json) {
+    return YaumiState.fromMap(json);
+  }
+
+  @override
+  Map<String, dynamic>? toJson(YaumiState state) {
+    return state.toMap();
+  }
 }

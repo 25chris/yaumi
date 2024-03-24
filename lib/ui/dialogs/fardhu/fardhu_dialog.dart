@@ -35,11 +35,7 @@ class FardhuDialog extends StackedView<FardhuDialogModel> {
         child: BlocBuilder<YaumiBloc, YaumiState>(
           builder: (context, state) {
             final yaumi = state.allYaumis
-                .where((element) =>
-                    element.date ==
-                    DateTime(DateTime.now().year, DateTime.now().month,
-                        DateTime.now().day))
-                .first;
+                .firstWhere((element) => element.date == request.data);
             final todayFardhuScore = [
               yaumi.shubuh,
               yaumi.dhuhur,
