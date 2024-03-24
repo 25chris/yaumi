@@ -11,6 +11,7 @@ class LoginViewModel extends BaseViewModel {
 
   Future<void> toHome() async {
     isLoading = true;
+    rebuildUi();
     await Future.delayed(const Duration(seconds: 3));
     GoogleSignInAccount? currentUser = _googleSignIn.currentUser;
     currentUser ??= await _googleSignIn.signInSilently();

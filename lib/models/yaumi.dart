@@ -44,6 +44,7 @@ class Yaumi extends Equatable {
   final int tilawah;
   final double poin;
   final ShaumSunnah shaumSunnah;
+  final bool sedekah;
   final bool dzikirPagi;
   final bool dzikirPetang;
   final Taklim taklim;
@@ -67,6 +68,7 @@ class Yaumi extends Equatable {
     required this.tilawah,
     required this.poin,
     required this.shaumSunnah,
+    required this.sedekah,
     required this.dzikirPagi,
     required this.dzikirPetang,
     required this.taklim,
@@ -91,6 +93,7 @@ class Yaumi extends Equatable {
     int? tilawah,
     double? poin,
     ShaumSunnah? shaumSunnah,
+    bool? sedekah,
     bool? dzikirPagi,
     bool? dzikirPetang,
     Taklim? taklim,
@@ -114,6 +117,7 @@ class Yaumi extends Equatable {
       tilawah: tilawah ?? this.tilawah,
       poin: poin ?? this.poin,
       shaumSunnah: shaumSunnah ?? this.shaumSunnah,
+      sedekah: sedekah ?? this.sedekah,
       dzikirPagi: dzikirPagi ?? this.dzikirPagi,
       dzikirPetang: dzikirPetang ?? this.dzikirPetang,
       taklim: taklim ?? this.taklim,
@@ -140,6 +144,7 @@ class Yaumi extends Equatable {
         tilawah,
         poin,
         shaumSunnah,
+        sedekah,
         dzikirPagi,
         dzikirPetang,
         taklim,
@@ -165,6 +170,7 @@ class Yaumi extends Equatable {
       'tilawah': tilawah,
       'poin': poin,
       'shaumSunnah': shaumSunnah.index,
+      'sedekah': sedekah,
       'dzikirPagi': dzikirPagi,
       'dzikirPetang': dzikirPetang,
       'taklim': taklim.index,
@@ -191,6 +197,7 @@ class Yaumi extends Equatable {
       tilawah: map['tilawah'],
       poin: map['poin'],
       shaumSunnah: ShaumSunnah.values[map['shaumSunnah']],
+      sedekah: map['sedekah'],
       dzikirPagi: map['dzikirPagi'],
       dzikirPetang: map['dzikirPetang'],
       taklim: Taklim.values[map['taklim']],

@@ -18,6 +18,7 @@ import 'package:yaumi/ui/dialogs/tilawah/tilawah_dialog.dart';
 import 'package:yaumi/ui/dialogs/shaum/shaum_dialog.dart';
 import 'package:yaumi/ui/dialogs/dzikir/dzikir_dialog.dart';
 import 'package:yaumi/ui/dialogs/taklim/taklim_dialog.dart';
+import 'package:yaumi/services/http_service.dart';
 // @stacked-import
 
 @StackedApp(
@@ -35,7 +36,8 @@ import 'package:yaumi/ui/dialogs/taklim/taklim_dialog.dart';
     LazySingleton(classType: BottomSheetService),
     LazySingleton(classType: DialogService),
     LazySingleton(classType: NavigationService),
-    // @stacked-service
+    LazySingleton(classType: HttpService),
+// @stacked-service
   ],
   bottomsheets: [
     StackedBottomsheet(classType: NoticeSheet),

@@ -402,6 +402,59 @@ class ShaumListTile extends StatelessWidget {
   }
 }
 
+class SedekahListTile extends StatelessWidget {
+  final YaumiViewModel viewModel;
+  const SedekahListTile({super.key, required this.viewModel});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SettingsBloc, SettingsState>(
+      builder: (context, state) {
+        return state.sedekah
+            ? BlocBuilder<YaumiBloc, YaumiState>(
+                builder: (context, state) {
+                  final yaumi = state.allYaumis
+                      .firstWhere((e) => e.date == viewModel.selectedDateTime);
+                  return ListTile(
+                    onTap: () {},
+                    leading: Container(
+                      alignment: Alignment.center,
+                      width: 60,
+                      child: Text(
+                        yaumi.sedekah ? "100.00" : "-",
+                        style: ktsBodyRegular.copyWith(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w700,
+                            color: yaumi.sedekah ? Colors.green : Colors.red),
+                      ),
+                    ),
+                    title: Text(
+                      "Sedekah",
+                      style: ktsBodyLarge.copyWith(
+                          fontWeight: FontWeight.w700,
+                          fontFamily: "Montserrat",
+                          color: Colors.blueGrey[700]),
+                    ),
+                    subtitle: Text(
+                      "Sedekah harta di jalan Allah",
+                      style: ktsBodyRegular.copyWith(
+                          fontFamily: "Poppins", color: Colors.blueGrey[700]),
+                    ),
+                    trailing: Checkbox(
+                        value: yaumi.sedekah,
+                        onChanged: (val) {
+                          context.read<YaumiBloc>().add(
+                              UpdateYaumi(yaumi: yaumi.copyWith(sedekah: val)));
+                        }),
+                  );
+                },
+              )
+            : Container();
+      },
+    );
+  }
+}
+
 class DzikirListTile extends StatelessWidget {
   final YaumiViewModel viewModel;
   const DzikirListTile({super.key, required this.viewModel});

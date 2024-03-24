@@ -10,6 +10,7 @@ import 'package:yaumi/app/app.router.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:yaumi/blocs/bloc/settings_bloc.dart';
 import 'package:yaumi/blocs/bloc/yaumi_bloc.dart';
+import 'package:yaumi/models/yaumi.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

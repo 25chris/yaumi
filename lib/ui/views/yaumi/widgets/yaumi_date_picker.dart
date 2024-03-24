@@ -59,6 +59,7 @@ class _YaumiDatePickerState extends State<YaumiDatePicker> {
                       tilawah: 0,
                       poin: 0,
                       shaumSunnah: ShaumSunnah.tidakShaum,
+                      sedekah: false,
                       dzikirPagi: false,
                       dzikirPetang: false,
                       taklim: Taklim.tidakTaklim,

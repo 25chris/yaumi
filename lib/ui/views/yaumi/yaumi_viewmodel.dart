@@ -29,8 +29,8 @@ class YaumiViewModel extends BaseViewModel {
       required bool bmaghrib,
       required bool bisya,
       required int tilawah,
-      required double poin,
       required ShaumSunnah shaumSunnah,
+      required bool sedekah,
       required bool dzikirPagi,
       required bool dzikirPetang,
       required Taklim taklim,
@@ -71,6 +71,9 @@ class YaumiViewModel extends BaseViewModel {
     //shaum
     double shaumPoin = shaumSunnah != ShaumSunnah.tidakShaum ? 100.0 : 0.0;
 
+    //sedekah
+    double sedekahPoin = sedekah ? 100.0 : 0.0;
+
     //dzikir
     double dzikirPoin = [
       dzikirPagi,
@@ -93,6 +96,7 @@ class YaumiViewModel extends BaseViewModel {
           rawatibPoin,
           tilawahPoin,
           shaumPoin,
+          sedekahPoin,
           dzikirPoin,
           taklimPoin,
           istighfarPoin,
@@ -166,5 +170,75 @@ class YaumiViewModel extends BaseViewModel {
         title: "",
         description: '',
         data: selectedDateTime);
+  }
+
+  // Adjusted function to also return the previous period's percentage
+  Map<String, double> calculateAndComparePercentage(
+      List<Yaumi> allYaumis, double maxPointsPerPeriod) {
+    // Initialize the map to store the sum of points for each period
+    Map<String, double> periodSums = {};
+
+    // Calculate today's date and determine the current and previous period keys
+    DateTime today = DateTime.now();
+    String currentPeriodKey = getPeriodKey(today);
+    String previousPeriodKey = getPreviousPeriodKey(today);
+
+    // Initialize sums for current and previous periods
+    periodSums[currentPeriodKey] = 0.0;
+    periodSums[previousPeriodKey] = 0.0;
+
+    // Iterate through all Yaumi instances to sum up points for the current and previous periods
+    for (var yaumi in allYaumis) {
+      String yaumiPeriodKey = getPeriodKey(yaumi.date);
+
+      if (yaumiPeriodKey == currentPeriodKey ||
+          yaumiPeriodKey == previousPeriodKey) {
+        periodSums[yaumiPeriodKey] = periodSums[yaumiPeriodKey]! + yaumi.poin;
+      }
+    }
+
+    // Calculate the percentages for the current and previous periods
+    Map<String, double> periodPercentages = {
+      'currentPeriod':
+          (periodSums[currentPeriodKey]! / maxPointsPerPeriod) * 100,
+      'previousPeriod':
+          (periodSums[previousPeriodKey]! / maxPointsPerPeriod) * 100,
+    };
+
+    return periodPercentages;
+  }
+
+  String getPeriodKey(DateTime date) {
+    // If the date is from the 11th onwards, the period starts in the current month
+    if (date.day >= 11) {
+      return "${date.year}-${date.month}-11 to ${date.year}-${date.month + 1}-10";
+    } else {
+      // If the date is before the 11th, the period started in the previous month
+      int previousMonth = date.month - 1;
+      int year = date.year;
+      // Handle January (month 1) wrapping to December of the previous year
+      if (previousMonth == 0) {
+        previousMonth = 12;
+        year--;
+      }
+      return "${year}-${previousMonth}-11 to ${date.year}-${date.month}-10";
+    }
+  }
+
+  String getPreviousPeriodKey(DateTime date) {
+    // Calculate the start date of the current period
+    DateTime startDateOfCurrentPeriod;
+    if (date.day >= 11) {
+      startDateOfCurrentPeriod = DateTime(date.year, date.month, 11);
+    } else {
+      startDateOfCurrentPeriod = DateTime(date.year, date.month - 1, 11);
+    }
+
+    // Calculate the start date of the previous period by subtracting one month
+    DateTime startDateOfPreviousPeriod = DateTime(
+        startDateOfCurrentPeriod.year, startDateOfCurrentPeriod.month - 1, 11);
+
+    // Generate the period key for the previous period
+    return getPeriodKey(startDateOfPreviousPeriod);
   }
 }
