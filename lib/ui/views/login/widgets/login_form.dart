@@ -14,7 +14,7 @@ class LoginForm extends StatelessWidget {
             backgroundColor: MaterialStateProperty.all(Colors.white)),
         onPressed: () async {
           await LoginApi.login();
-          viewModel.toHome();
+          viewModel.login();
         },
         icon: Image.asset(
           "assets/images/search.png",

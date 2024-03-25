@@ -10,6 +10,7 @@ import 'package:flutter/material.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i3;
 import 'package:stacked_services/stacked_services.dart' as _i2;
+import 'package:yaumi/models/yaumi_user.dart' as _i8;
 import 'package:yaumi/services/http_service.dart' as _i7;
 
 // ignore_for_file: type=lint
@@ -675,4 +676,24 @@ class MockDialogService extends _i1.Mock implements _i2.DialogService {
 /// A class which mocks [HttpService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockHttpService extends _i1.Mock implements _i7.HttpService {}
+class MockHttpService extends _i1.Mock implements _i7.HttpService {
+  @override
+  _i5.Future<dynamic> getYaumi() => (super.noSuchMethod(
+        Invocation.method(
+          #getYaumi,
+          [],
+        ),
+        returnValue: _i5.Future<dynamic>.value(),
+        returnValueForMissingStub: _i5.Future<dynamic>.value(),
+      ) as _i5.Future<dynamic>);
+
+  @override
+  _i5.Future<_i8.YaumiUser?> getYaumiUser() => (super.noSuchMethod(
+        Invocation.method(
+          #getYaumiUser,
+          [],
+        ),
+        returnValue: _i5.Future<_i8.YaumiUser?>.value(),
+        returnValueForMissingStub: _i5.Future<_i8.YaumiUser?>.value(),
+      ) as _i5.Future<_i8.YaumiUser?>);
+}

@@ -19,6 +19,7 @@ import 'package:yaumi/ui/dialogs/shaum/shaum_dialog.dart';
 import 'package:yaumi/ui/dialogs/dzikir/dzikir_dialog.dart';
 import 'package:yaumi/ui/dialogs/taklim/taklim_dialog.dart';
 import 'package:yaumi/services/http_service.dart';
+import 'package:yaumi/ui/views/strapi_login/strapi_login_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -30,6 +31,7 @@ import 'package:yaumi/services/http_service.dart';
     MaterialRoute(page: AbsenView),
     MaterialRoute(page: GroupsView),
     MaterialRoute(page: SettingsView),
+    MaterialRoute(page: StrapiLoginView),
 // @stacked-route
   ],
   dependencies: [
