@@ -155,7 +155,7 @@ class HttpService {
                   "taklim": "Taklim Online",
                   "istighfar": istighfar,
                   "shalawat": shalawat,
-                  "date": "2024-03-25T17:00:00.000Z",
+                  "date": date,
                   "yaumi_user": user['id']
                 }
               }),
