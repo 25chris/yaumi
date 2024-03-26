@@ -3,8 +3,10 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:yaumi/app/app.dialogs.dart';
 import 'package:yaumi/app/app.locator.dart';
 import 'package:yaumi/models/yaumi.dart';
+import 'package:yaumi/services/http_service.dart';
 
 class YaumiViewModel extends BaseViewModel {
+  final _httpService = locator<HttpService>();
   final _dialogService = locator<DialogService>();
 
   DateTime selectedDateTime =
@@ -13,6 +15,10 @@ class YaumiViewModel extends BaseViewModel {
   void setDate(DateTime date) {
     selectedDateTime = date;
     rebuildUi();
+  }
+
+  void checkUser({required String email}) {
+    _httpService.checkUserRegistration(email: email);
   }
 
   String totalPoin(
@@ -106,6 +112,57 @@ class YaumiViewModel extends BaseViewModel {
 
     //return
     return myTotalPoin.toStringAsFixed(2);
+  }
+
+  Future<void> submitYaumiData(
+      {required String email,
+      required String date,
+      required double poin,
+      required bool shubuh,
+      required bool dhuhur,
+      required bool ashar,
+      required bool maghrib,
+      required bool isya,
+      required int tahajud,
+      required int dhuha,
+      required bool qshubuh,
+      required bool qdhuhur,
+      required bool bdhuhur,
+      required bool bmaghrib,
+      required bool bisya,
+      required int tilawah,
+      required ShaumSunnah shaumSunnah,
+      required bool sedekah,
+      required bool dzikirPagi,
+      required bool dzikirPetang,
+      required Taklim taklim,
+      required bool istighfar,
+      required bool shalawat}) async {
+    print('object');
+    return await _httpService.postYaumi(
+        email: email,
+        date: date,
+        shubuh: shubuh,
+        dhuhur: dhuhur,
+        ashar: ashar,
+        maghrib: maghrib,
+        isya: isya,
+        tahajud: tahajud,
+        dhuha: dhuha,
+        qshubuh: qshubuh,
+        qdhuhur: qdhuhur,
+        bdhuhur: bdhuhur,
+        bmaghrib: bmaghrib,
+        bisya: bisya,
+        tilawah: tilawah,
+        poin: poin,
+        shaumSunnah: shaumSunnah.name,
+        sedekah: sedekah,
+        dzikirPagi: dzikirPagi,
+        dzikirPetang: dzikirPetang,
+        taklim: taklim.name,
+        istighfar: istighfar,
+        shalawat: shalawat);
   }
 
   void showFardhuDialog() {

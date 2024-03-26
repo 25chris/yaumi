@@ -3,6 +3,7 @@ import 'package:mockito/mockito.dart';
 import 'package:yaumi/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:yaumi/services/http_service.dart';
+import 'package:yaumi/services/snacked_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -12,6 +13,8 @@ import 'test_helpers.mocks.dart';
   MockSpec<BottomSheetService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<DialogService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<HttpService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<SnackbarService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<SnackedService>(onMissingStub: OnMissingStub.returnDefault),
 // @stacked-mock-spec
 ])
 void registerServices() {
@@ -19,6 +22,7 @@ void registerServices() {
   getAndRegisterBottomSheetService();
   getAndRegisterDialogService();
   getAndRegisterHttpService();
+  getAndRegisterSnackedService();
 // @stacked-mock-register
 }
 
@@ -76,6 +80,13 @@ MockHttpService getAndRegisterHttpService() {
   _removeRegistrationIfExists<HttpService>();
   final service = MockHttpService();
   locator.registerSingleton<HttpService>(service);
+  return service;
+}
+
+MockSnackedService getAndRegisterSnackedService() {
+  _removeRegistrationIfExists<SnackedService>();
+  final service = MockSnackedService();
+  locator.registerSingleton<SnackedService>(service);
   return service;
 }
 // @stacked-mock-create

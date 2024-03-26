@@ -134,7 +134,10 @@ class YaumiView extends StackedView<YaumiViewModel> {
                             )
                           ])),
                           IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                viewModel.checkUser(
+                                    email: 'zatunur.badar@gmail.com');
+                              },
                               icon: const Icon(
                                 Icons.settings,
                                 color: Colors.green,
@@ -260,10 +263,35 @@ class YaumiView extends StackedView<YaumiViewModel> {
                           padding: const EdgeInsets.all(8),
                           width: MediaQuery.of(context).size.width,
                           child: ElevatedButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 context.read<YaumiBloc>().add(UpdateYaumi(
                                     yaumi: yaumi.copyWith(
                                         poin: double.parse(todayPoin))));
+
+                                await viewModel.submitYaumiData(
+                                    email: 'zatunur.badar@gmail.com',
+                                    date: viewModel.selectedDateTime.toString(),
+                                    poin: yaumi.poin,
+                                    shubuh: yaumi.shubuh,
+                                    dhuhur: yaumi.dhuhur,
+                                    ashar: yaumi.ashar,
+                                    maghrib: yaumi.maghrib,
+                                    isya: yaumi.isya,
+                                    tahajud: yaumi.tahajud,
+                                    dhuha: yaumi.dhuha,
+                                    qshubuh: yaumi.qshubuh,
+                                    qdhuhur: yaumi.qdhuhur,
+                                    bdhuhur: yaumi.bdhuhur,
+                                    bmaghrib: yaumi.bmaghrib,
+                                    bisya: yaumi.bisya,
+                                    tilawah: yaumi.tilawah,
+                                    shaumSunnah: yaumi.shaumSunnah,
+                                    sedekah: yaumi.sedekah,
+                                    dzikirPagi: yaumi.dzikirPagi,
+                                    dzikirPetang: yaumi.dzikirPetang,
+                                    taklim: yaumi.taklim,
+                                    istighfar: yaumi.istighfar,
+                                    shalawat: yaumi.shalawat);
                               },
                               child: Text("SUBMIT $todayPoin Poin")))
                     ],

@@ -30,8 +30,13 @@ class LoginViewModel extends BaseViewModel {
         if (userExists) {
           _navigationService.replaceWithHomeView(currentUser: currentUser);
         } else {
-          _navigationService.replaceWithStrapiLoginView(
-              currentUser: currentUser);
+          await _httpService.registerToStrapi(
+              nama: currentUser.displayName!,
+              email: currentUser.email,
+              uid: currentUser.id,
+              namaGroup: '',
+              gid: '');
+          _navigationService.replaceWithHomeView(currentUser: currentUser);
         }
       } catch (e) {
         // Handle error, maybe navigate to an error view?
