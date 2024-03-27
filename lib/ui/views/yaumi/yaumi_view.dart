@@ -6,6 +6,7 @@ import 'package:yaumi/blocs/bloc/settings_bloc.dart';
 import 'package:yaumi/blocs/bloc/settings_state.dart';
 import 'package:yaumi/blocs/bloc/yaumi_bloc.dart';
 import 'package:yaumi/models/yaumi.dart';
+import 'package:yaumi/services/http_service.dart';
 import 'package:yaumi/ui/common/app_shared_style.dart';
 import 'package:yaumi/ui/common/ui_helpers.dart';
 import 'package:yaumi/ui/views/yaumi/widgets/yaumi_date_picker.dart';
@@ -133,15 +134,29 @@ class YaumiView extends StackedView<YaumiViewModel> {
                                   fontWeight: FontWeight.w800),
                             )
                           ])),
-                          IconButton(
-                              onPressed: () {
-                                viewModel.checkUser(
-                                    email: 'zatunur.badar@gmail.com');
-                              },
-                              icon: const Icon(
-                                Icons.settings,
-                                color: Colors.green,
-                              ))
+                          FutureBuilder(
+                              future: HttpService().getYaumiByDateAndMail(
+                                  email: 'zatunur.badar@gmail.com',
+                                  date: '2024-03-27'),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return CircularProgressIndicator();
+                                } else if (snapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  return IconButton(
+                                      onPressed: () {
+                                        viewModel.checkUser(
+                                            email: 'zatunur.badar@gmail.com');
+                                      },
+                                      icon: const Icon(
+                                        Icons.settings,
+                                        color: Colors.green,
+                                      ));
+                                } else {
+                                  return Container();
+                                }
+                              }),
                         ],
                       ),
                       verticalSpaceSmall,

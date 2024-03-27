@@ -1,18 +1,23 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:yaumi/app/app.locator.dart';
+import 'package:yaumi/models/strapi/yaumi_strapi.dart' as strapi;
 import 'package:yaumi/models/yaumi_user.dart';
 import 'package:yaumi/services/snacked_service.dart';
 
 class HttpService {
-  Future getYaumi() async {
+  Future<strapi.YaumiStrapi?> getYaumiByDateAndMail(
+      {required String email, required String date}) async {
     var request = http.Request(
-        'GET', Uri.parse('https://amala-api.online/api/yaumis?populate=*'));
+        'GET',
+        Uri.parse(
+            'https://amala-api.online/api/yaumis?filters[yaumi_user][email][\$eq]=$email&filters[date][\$eq]=$date'));
 
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
+      String responseBody = await response.stream.bytesToString();
+      return strapi.YaumiStrapi.fromJson(json.decode(responseBody));
     } else {
       print(response.reasonPhrase);
     }
