@@ -14,7 +14,51 @@ enum ShaumSunnah {
   shaumTasuA,
   shaumSyaBan,
   shaumBulanHaram,
-  shaumRamadhan,
+  shaumRamadhan;
+
+  String get name {
+    switch (this) {
+      case ShaumSunnah.tidakShaum:
+        return "tidak Shaum";
+      case ShaumSunnah.shaumKafarat:
+        return "Shaum Kafarat";
+      case ShaumSunnah.shaumNazar:
+        return "Shaum Nazar";
+      case ShaumSunnah.shaumQadha:
+        return "Shaum Qadha";
+      case ShaumSunnah.shaumDaud:
+        return "Shaum Daud";
+      case ShaumSunnah.shaumSeninKamis:
+        return "Shaum SeninKamis";
+      case ShaumSunnah.shaumAyyamulBidh:
+        return "Shaum AyyamulBidh";
+      case ShaumSunnah.shaumSyawal:
+        return "Shaum Syawal";
+      case ShaumSunnah.shaumArafah:
+        return "Shaum Arafah";
+      case ShaumSunnah.shaumAsyura:
+        return "Shaum Asyura";
+      case ShaumSunnah.shaumTasuA:
+        return "Shaum TasuA";
+      case ShaumSunnah.shaumSyaBan:
+        return "Shaum SyaBan";
+      case ShaumSunnah.shaumBulanHaram:
+        return "Shaum BulanHaram";
+      case ShaumSunnah.shaumRamadhan:
+        return "Shaum Ramadhan";
+      default:
+        return "Tidak Shaum";
+    }
+  }
+
+  static ShaumSunnah fromName(String name) {
+    for (ShaumSunnah value in ShaumSunnah.values) {
+      if (value.name == name) {
+        return value;
+      }
+    }
+    throw ArgumentError('No matching ShaumSunnah for name $name');
+  }
 }
 
 enum Taklim {
@@ -24,7 +68,37 @@ enum Taklim {
   kultumApelPagi,
   marifatullah,
   bacaBuku,
-  taklimOnline,
+  taklimOnline;
+
+  String get name {
+    switch (this) {
+      case Taklim.tidakTaklim:
+        return "Tidak Taklim";
+      case Taklim.tausiyahJumat:
+        return "Taushiyah Jum'at";
+      case Taklim.mqPagi:
+        return "MQ Pagi";
+      case Taklim.kultumApelPagi:
+        return "Kultum Apel Pagi";
+      case Taklim.marifatullah:
+        return "Ma'rifatullah";
+      case Taklim.bacaBuku:
+        return "Baca Buku";
+      case Taklim.taklimOnline:
+        return "Taklim Online";
+      default:
+        return "Tidak Taklim";
+    }
+  }
+
+  static Taklim fromName(String name) {
+    for (Taklim value in Taklim.values) {
+      if (value.name == name) {
+        return value;
+      }
+    }
+    throw ArgumentError('No matching Taklim for name $name');
+  }
 }
 
 class Yaumi extends Equatable {
@@ -169,11 +243,11 @@ class Yaumi extends Equatable {
       'bisya': bisya,
       'tilawah': tilawah,
       'poin': poin,
-      'shaumSunnah': shaumSunnah.index,
+      'shaumSunnah': shaumSunnah.name,
       'sedekah': sedekah,
       'dzikirPagi': dzikirPagi,
       'dzikirPetang': dzikirPetang,
-      'taklim': taklim.index,
+      'taklim': taklim.name,
       'istighfar': istighfar,
       'shalawat': shalawat,
     };
@@ -196,11 +270,11 @@ class Yaumi extends Equatable {
       bisya: map['bisya'],
       tilawah: map['tilawah'],
       poin: map['poin'],
-      shaumSunnah: ShaumSunnah.values[map['shaumSunnah']],
+      shaumSunnah: ShaumSunnah.fromName(map['shaumSunnah']),
       sedekah: map['sedekah'],
       dzikirPagi: map['dzikirPagi'],
       dzikirPetang: map['dzikirPetang'],
-      taklim: Taklim.values[map['taklim']],
+      taklim: Taklim.fromName(map['taklim']),
       istighfar: map['istighfar'],
       shalawat: map['shalawat'],
     );

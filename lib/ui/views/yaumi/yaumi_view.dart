@@ -11,6 +11,8 @@ import 'package:yaumi/ui/common/app_shared_style.dart';
 import 'package:yaumi/ui/common/ui_helpers.dart';
 import 'package:yaumi/ui/views/yaumi/widgets/yaumi_date_picker.dart';
 import 'package:yaumi/ui/views/yaumi/widgets/yaumi_list_tiles.dart';
+import 'package:yaumi/ui/views/yaumi/widgets/yaumi_submission_form.dart';
+import 'package:yaumi/widgets/loading_screen.dart';
 
 import 'yaumi_viewmodel.dart';
 
@@ -134,29 +136,15 @@ class YaumiView extends StackedView<YaumiViewModel> {
                                   fontWeight: FontWeight.w800),
                             )
                           ])),
-                          FutureBuilder(
-                              future: HttpService().getYaumiByDateAndMail(
-                                  email: 'zatunur.badar@gmail.com',
-                                  date: '2024-03-27'),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return CircularProgressIndicator();
-                                } else if (snapshot.connectionState ==
-                                    ConnectionState.done) {
-                                  return IconButton(
-                                      onPressed: () {
-                                        viewModel.checkUser(
-                                            email: 'zatunur.badar@gmail.com');
-                                      },
-                                      icon: const Icon(
-                                        Icons.settings,
-                                        color: Colors.green,
-                                      ));
-                                } else {
-                                  return Container();
-                                }
-                              }),
+                          IconButton(
+                              onPressed: () {
+                                viewModel.checkUser(
+                                    email: 'zatunur.badar@gmail.com');
+                              },
+                              icon: const Icon(
+                                Icons.settings,
+                                color: Colors.green,
+                              )),
                         ],
                       ),
                       verticalSpaceSmall,
@@ -245,68 +233,26 @@ class YaumiView extends StackedView<YaumiViewModel> {
                           // ),
                         ],
                       ),
-                      Expanded(
-                          child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              FardhuListTile(
+                      viewModel.isLoading
+                          ? Expanded(child: YaumiSubmissionLoadingScreen())
+                          : Expanded(
+                              child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SingleChildScrollView(
+                                  child: YaumiSubmissionForm(
                                 viewModel: viewModel,
-                              ),
-                              TahajudListTile(
-                                viewModel: viewModel,
-                              ),
-                              DhuhaListTile(viewModel: viewModel),
-                              RawatibListTile(viewModel: viewModel),
-                              TilawahListTile(
-                                viewModel: viewModel,
-                              ),
-                              ShaumListTile(viewModel: viewModel),
-                              SedekahListTile(viewModel: viewModel),
-                              DzikirListTile(viewModel: viewModel),
-                              TaklimListTile(
-                                viewModel: viewModel,
-                              ),
-                              IstighfarListTile(viewModel: viewModel),
-                              ShalawatListTile(viewModel: viewModel),
-                            ],
-                          ),
-                        ),
-                      )),
+                              )),
+                            )),
                       Container(
                           padding: const EdgeInsets.all(8),
                           width: MediaQuery.of(context).size.width,
                           child: ElevatedButton(
                               onPressed: () async {
-                                context.read<YaumiBloc>().add(UpdateYaumi(
-                                    yaumi: yaumi.copyWith(
-                                        poin: double.parse(todayPoin))));
-
-                                await viewModel.submitYaumiData(
+                                viewModel.submitYaumi(
+                                    context: context,
                                     email: 'zatunur.badar@gmail.com',
-                                    date: viewModel.selectedDateTime.toString(),
-                                    poin: yaumi.poin,
-                                    shubuh: yaumi.shubuh,
-                                    dhuhur: yaumi.dhuhur,
-                                    ashar: yaumi.ashar,
-                                    maghrib: yaumi.maghrib,
-                                    isya: yaumi.isya,
-                                    tahajud: yaumi.tahajud,
-                                    dhuha: yaumi.dhuha,
-                                    qshubuh: yaumi.qshubuh,
-                                    qdhuhur: yaumi.qdhuhur,
-                                    bdhuhur: yaumi.bdhuhur,
-                                    bmaghrib: yaumi.bmaghrib,
-                                    bisya: yaumi.bisya,
-                                    tilawah: yaumi.tilawah,
-                                    shaumSunnah: yaumi.shaumSunnah,
-                                    sedekah: yaumi.sedekah,
-                                    dzikirPagi: yaumi.dzikirPagi,
-                                    dzikirPetang: yaumi.dzikirPetang,
-                                    taklim: yaumi.taklim,
-                                    istighfar: yaumi.istighfar,
-                                    shalawat: yaumi.shalawat);
+                                    todayPoin: todayPoin,
+                                    yaumi: yaumi);
                               },
                               child: Text("SUBMIT $todayPoin Poin")))
                     ],

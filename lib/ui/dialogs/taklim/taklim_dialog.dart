@@ -102,15 +102,12 @@ class TaklimDialog extends StackedView<TaklimDialogModel> {
                                 context.read<YaumiBloc>().add(UpdateYaumi(
                                     yaumi: yaumi.copyWith(taklim: val)));
                               },
-                              items: Taklim.values.map((Taklim classType) {
+                              items: Taklim.values
+                                  .map<DropdownMenuItem<Taklim>>(
+                                      (Taklim value) {
                                 return DropdownMenuItem<Taklim>(
-                                  value: classType,
-                                  child: Text(classType
-                                      .toString()
-                                      .split('.')
-                                      .last
-                                      .replaceAll('taklim', ' Taklim ')
-                                      .trim()), // Beautify the enum name
+                                  value: value,
+                                  child: Text(value.name),
                                 );
                               }).toList(),
                             ),

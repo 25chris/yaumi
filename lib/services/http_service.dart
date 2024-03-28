@@ -1,11 +1,14 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:stacked_services/stacked_services.dart';
+import 'package:yaumi/app/app.dialogs.dart';
 import 'package:yaumi/app/app.locator.dart';
 import 'package:yaumi/models/strapi/yaumi_strapi.dart' as strapi;
 import 'package:yaumi/models/yaumi_user.dart';
 import 'package:yaumi/services/snacked_service.dart';
 
 class HttpService {
+  final _dialogService = locator<DialogService>();
   Future<strapi.YaumiStrapi?> getYaumiByDateAndMail(
       {required String email, required String date}) async {
     var request = http.Request(
@@ -155,12 +158,13 @@ class HttpService {
                   "bmaghrib": bmaghrib,
                   "bisya": bisya,
                   "tilawah": tilawah,
-                  "shaum": "Ramadhan",
+                  "shaum": shaumSunnah,
                   "sedekah": sedekah,
-                  "taklim": "Taklim Online",
+                  "taklim": taklim,
                   "istighfar": istighfar,
                   "shalawat": shalawat,
                   "date": date,
+                  "poin": poin,
                   "yaumi_user": user['id']
                 }
               }),
@@ -168,7 +172,11 @@ class HttpService {
             if (postResponse.statusCode == 200) {
               print('submitted');
             } else {
-              print('submit fail with ${postResponse.statusCode}');
+              _dialogService.showCustomDialog(
+                  variant: DialogType.infoAlert,
+                  title: "Submit Fail",
+                  description:
+                      "Code ${postResponse.statusCode}, Bad Request!!");
             }
           } else {
             print('user not registered');
@@ -177,6 +185,11 @@ class HttpService {
           print('response unexpected');
         }
       } else {
+        _dialogService.showCustomDialog(
+            variant: DialogType.infoAlert,
+            title: "No User",
+            description:
+                "User anda tidak dapat ditemukan, coba logout dahulu atau hubungi Administrasi PT. GSP");
         print('no user');
       }
     } catch (e) {

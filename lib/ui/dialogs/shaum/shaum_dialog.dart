@@ -104,15 +104,11 @@ class ShaumDialog extends StackedView<ShaumDialogModel> {
                                     yaumi: yaumi.copyWith(shaumSunnah: val)));
                               },
                               items: ShaumSunnah.values
-                                  .map((ShaumSunnah classType) {
+                                  .map<DropdownMenuItem<ShaumSunnah>>(
+                                      (ShaumSunnah value) {
                                 return DropdownMenuItem<ShaumSunnah>(
-                                  value: classType,
-                                  child: Text(classType
-                                      .toString()
-                                      .split('.')
-                                      .last
-                                      .replaceAll('shaum', ' Shaum ')
-                                      .trim()), // Beautify the enum name
+                                  value: value,
+                                  child: Text(value.name),
                                 );
                               }).toList(),
                             ),

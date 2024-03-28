@@ -1,7 +1,11 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:yaumi/app/app.dialogs.dart';
 import 'package:yaumi/app/app.locator.dart';
+import 'package:yaumi/blocs/bloc/yaumi_bloc.dart';
 import 'package:yaumi/models/yaumi.dart';
 import 'package:yaumi/services/http_service.dart';
 
@@ -9,8 +13,63 @@ class YaumiViewModel extends BaseViewModel {
   final _httpService = locator<HttpService>();
   final _dialogService = locator<DialogService>();
 
+  bool isLoading = false;
+
   DateTime selectedDateTime =
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+
+  void submitYaumi(
+      {required BuildContext context,
+      required String email,
+      required Yaumi yaumi,
+      required String todayPoin}) async {
+    isLoading = true;
+    rebuildUi();
+
+    await Future.delayed(const Duration(seconds: 3));
+
+    context
+        .read<YaumiBloc>()
+        .add(UpdateYaumi(yaumi: yaumi.copyWith(poin: double.parse(todayPoin))));
+
+    try {
+      await submitYaumiData(
+          email: email,
+          date: DateFormat("yyyy-MM-dd").format(yaumi.date),
+          poin: double.parse(todayPoin),
+          shubuh: yaumi.shubuh,
+          dhuhur: yaumi.dhuhur,
+          ashar: yaumi.ashar,
+          maghrib: yaumi.maghrib,
+          isya: yaumi.isya,
+          tahajud: yaumi.tahajud,
+          dhuha: yaumi.dhuha,
+          qshubuh: yaumi.qshubuh,
+          qdhuhur: yaumi.qdhuhur,
+          bdhuhur: yaumi.bdhuhur,
+          bmaghrib: yaumi.bmaghrib,
+          bisya: yaumi.bisya,
+          tilawah: yaumi.tilawah,
+          shaumSunnah: yaumi.shaumSunnah,
+          sedekah: yaumi.sedekah,
+          dzikirPagi: yaumi.dzikirPagi,
+          dzikirPetang: yaumi.dzikirPetang,
+          taklim: yaumi.taklim,
+          istighfar: yaumi.istighfar,
+          shalawat: yaumi.shalawat);
+
+      isLoading = false;
+      rebuildUi();
+    } catch (e) {
+      _dialogService.showCustomDialog(
+          variant: DialogType.infoAlert,
+          title: "Yaumi Tidak Bisa Disimpan",
+          description:
+              "Periksa koneksi internet anda, lalu coba beberapa saat lagi");
+      isLoading = false;
+      rebuildUi();
+    }
+  }
 
   void setDate(DateTime date) {
     selectedDateTime = date;
@@ -138,31 +197,34 @@ class YaumiViewModel extends BaseViewModel {
       required Taklim taklim,
       required bool istighfar,
       required bool shalawat}) async {
-    print('object');
-    return await _httpService.postYaumi(
-        email: email,
-        date: date,
-        shubuh: shubuh,
-        dhuhur: dhuhur,
-        ashar: ashar,
-        maghrib: maghrib,
-        isya: isya,
-        tahajud: tahajud,
-        dhuha: dhuha,
-        qshubuh: qshubuh,
-        qdhuhur: qdhuhur,
-        bdhuhur: bdhuhur,
-        bmaghrib: bmaghrib,
-        bisya: bisya,
-        tilawah: tilawah,
-        poin: poin,
-        shaumSunnah: shaumSunnah.name,
-        sedekah: sedekah,
-        dzikirPagi: dzikirPagi,
-        dzikirPetang: dzikirPetang,
-        taklim: taklim.name,
-        istighfar: istighfar,
-        shalawat: shalawat);
+    try {
+      return await _httpService.postYaumi(
+          email: email,
+          date: date,
+          shubuh: shubuh,
+          dhuhur: dhuhur,
+          ashar: ashar,
+          maghrib: maghrib,
+          isya: isya,
+          tahajud: tahajud,
+          dhuha: dhuha,
+          qshubuh: qshubuh,
+          qdhuhur: qdhuhur,
+          bdhuhur: bdhuhur,
+          bmaghrib: bmaghrib,
+          bisya: bisya,
+          tilawah: tilawah,
+          poin: poin,
+          shaumSunnah: shaumSunnah.name,
+          sedekah: sedekah,
+          dzikirPagi: dzikirPagi,
+          dzikirPetang: dzikirPetang,
+          taklim: taklim.name,
+          istighfar: istighfar,
+          shalawat: shalawat);
+    } catch (e) {
+      print('error');
+    }
   }
 
   void showFardhuDialog() {

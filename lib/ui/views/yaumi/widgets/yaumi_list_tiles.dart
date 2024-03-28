@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yaumi/blocs/bloc/settings_bloc.dart';
 import 'package:yaumi/blocs/bloc/settings_state.dart';
 import 'package:yaumi/blocs/bloc/yaumi_bloc.dart';
+import 'package:yaumi/models/strapi/yaumi_strapi.dart';
 import 'package:yaumi/models/yaumi.dart';
 import 'package:yaumi/ui/common/app_shared_style.dart';
 import 'package:yaumi/ui/views/yaumi/yaumi_viewmodel.dart';
@@ -24,7 +25,9 @@ class _YaumiListTilesState extends State<YaumiListTiles> {
 
 class FardhuListTile extends StatelessWidget {
   final YaumiViewModel viewModel;
-  const FardhuListTile({super.key, required this.viewModel});
+  final Datum? datum;
+  const FardhuListTile(
+      {super.key, required this.viewModel, required this.datum});
 
   @override
   Widget build(BuildContext context) {
@@ -37,16 +40,32 @@ class FardhuListTile extends StatelessWidget {
                     builder: (context, state) {
                       final yaumi = state.allYaumis.firstWhere(
                           (e) => e.date == viewModel.selectedDateTime);
-                      final todayFardhuScore = [
-                        yaumi.shubuh,
-                        yaumi.dhuhur,
-                        yaumi.ashar,
-                        yaumi.maghrib,
-                        yaumi.isya,
-                      ].fold(
-                          0,
-                          (previousValue, element) =>
-                              previousValue + (element ? 20 : 0));
+
+                      var todayFardhuScore = 0.0;
+
+                      if (datum != null) {
+                        todayFardhuScore = [
+                          datum!.attributes!.shubuh,
+                          datum!.attributes!.dhuhur,
+                          datum!.attributes!.ashar,
+                          datum!.attributes!.maghrib,
+                          datum!.attributes!.isya,
+                        ].fold(
+                            0,
+                            (previousValue, element) =>
+                                previousValue + (element! ? 20 : 0));
+                      } else {
+                        todayFardhuScore = [
+                          yaumi.shubuh,
+                          yaumi.dhuhur,
+                          yaumi.ashar,
+                          yaumi.maghrib,
+                          yaumi.isya,
+                        ].fold(
+                            0,
+                            (previousValue, element) =>
+                                previousValue + (element ? 20 : 0));
+                      }
                       return ListTile(
                         onTap: () => viewModel.showFardhuDialog(),
                         leading: Container(
