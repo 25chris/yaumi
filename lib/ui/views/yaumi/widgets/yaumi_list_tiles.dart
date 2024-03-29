@@ -26,8 +26,7 @@ class _YaumiListTilesState extends State<YaumiListTiles> {
 class FardhuListTile extends StatelessWidget {
   final YaumiViewModel viewModel;
   final Datum? datum;
-  const FardhuListTile(
-      {super.key, required this.viewModel, required this.datum});
+  const FardhuListTile({super.key, required this.viewModel, this.datum});
 
   @override
   Widget build(BuildContext context) {

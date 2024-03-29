@@ -137,10 +137,7 @@ class YaumiView extends StackedView<YaumiViewModel> {
                             )
                           ])),
                           IconButton(
-                              onPressed: () {
-                                viewModel.checkUser(
-                                    email: 'zatunur.badar@gmail.com');
-                              },
+                              onPressed: () {},
                               icon: const Icon(
                                 Icons.settings,
                                 color: Colors.green,
