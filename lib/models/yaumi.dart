@@ -19,7 +19,7 @@ enum ShaumSunnah {
   String get name {
     switch (this) {
       case ShaumSunnah.tidakShaum:
-        return "tidak Shaum";
+        return "Tidak Shaum";
       case ShaumSunnah.shaumKafarat:
         return "Shaum Kafarat";
       case ShaumSunnah.shaumNazar:

@@ -99,6 +99,7 @@ class TaklimDialog extends StackedView<TaklimDialogModel> {
                               value: yaumi.taklim,
                               hint: Text('Select Taklim'),
                               onChanged: (Taklim? val) {
+                                print(val);
                                 context.read<YaumiBloc>().add(UpdateYaumi(
                                     yaumi: yaumi.copyWith(taklim: val)));
                               },

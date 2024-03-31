@@ -6,11 +6,10 @@ import 'package:yaumi/blocs/bloc/settings_bloc.dart';
 import 'package:yaumi/blocs/bloc/settings_state.dart';
 import 'package:yaumi/blocs/bloc/yaumi_bloc.dart';
 import 'package:yaumi/models/yaumi.dart';
-import 'package:yaumi/services/http_service.dart';
 import 'package:yaumi/ui/common/app_shared_style.dart';
 import 'package:yaumi/ui/common/ui_helpers.dart';
 import 'package:yaumi/ui/views/yaumi/widgets/yaumi_date_picker.dart';
-import 'package:yaumi/ui/views/yaumi/widgets/yaumi_list_tiles.dart';
+import 'package:yaumi/ui/views/yaumi/widgets/yaumi_header.dart';
 import 'package:yaumi/ui/views/yaumi/widgets/yaumi_submission_form.dart';
 import 'package:yaumi/widgets/loading_screen.dart';
 
@@ -18,9 +17,6 @@ import 'yaumi_viewmodel.dart';
 
 class YaumiView extends StackedView<YaumiViewModel> {
   const YaumiView({Key? key}) : super(key: key);
-
-  get context => this.context;
-
   @override
   Widget builder(
     BuildContext context,
@@ -103,13 +99,13 @@ class YaumiView extends StackedView<YaumiViewModel> {
                     istighfar: yaumi.istighfar,
                     shalawat: yaumi.shalawat,
                     activedYaumi: activedYaumi);
-                var lengthOfYaumis =
-                    state.allYaumis.where((element) => element.poin > 0).length;
-                var poinSums = state.allYaumis.map((e) => e.poin).toList().fold(
-                    0.0, (previousValue, element) => previousValue + element);
-                var dailyAveragePoin = poinSums / lengthOfYaumis;
-                Map<String, double> percentages = viewModel
-                    .calculateAndComparePercentage(state.allYaumis, 1000.0);
+                // var lengthOfYaumis =
+                //     state.allYaumis.where((element) => element.poin > 0).length;
+                // var poinSums = state.allYaumis.map((e) => e.poin).toList().fold(
+                //     0.0, (previousValue, element) => previousValue + element);
+                // var dailyAveragePoin = poinSums / lengthOfYaumis;
+                // Map<String, double> percentages = viewModel
+                //     .calculateAndComparePercentage(state.allYaumis, 1000.0);
                 return SafeArea(
                   child: Column(
                     children: [
@@ -150,72 +146,27 @@ class YaumiView extends StackedView<YaumiViewModel> {
                         mainAxisSpacing: 2,
                         crossAxisSpacing: 2,
                         children: [
-                          StaggeredGridTile.count(
-                              crossAxisCellCount: 3,
-                              mainAxisCellCount: 1.5,
-                              child: Container(
-                                alignment: Alignment.center,
-                                padding: const EdgeInsets.all(8),
-                                child: Text.rich(TextSpan(children: [
-                                  TextSpan(
-                                      text: "Pencapaian periode sebelumnya:\n",
-                                      style: ktsBodyLarge.copyWith(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w800,
-                                          color: Colors.blue)),
-                                  TextSpan(
-                                      text:
-                                          "${percentages.values.last.toStringAsFixed(2)} %",
-                                      style: ktsBodyLarge.copyWith(
-                                          fontSize: 20.0,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.blueGrey[800]))
-                                ])),
-                              )),
-                          StaggeredGridTile.count(
-                              crossAxisCellCount: 3,
-                              mainAxisCellCount: 1.5,
-                              child: Container(
-                                alignment: Alignment.center,
-                                padding: const EdgeInsets.all(8),
-                                child: Text.rich(TextSpan(children: [
-                                  TextSpan(
-                                      text: "Pencapaian periode sekarang:\n",
-                                      style: ktsBodyLarge.copyWith(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w800,
-                                          color: Colors.blue)),
-                                  TextSpan(
-                                      text:
-                                          "${percentages.values.first.toStringAsFixed(2)} %",
-                                      style: ktsBodyLarge.copyWith(
-                                          fontSize: 20.0,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.blueGrey[800]))
-                                ])),
-                              )),
-                          StaggeredGridTile.count(
-                              crossAxisCellCount: 6,
-                              mainAxisCellCount: 1,
-                              child: Container(
-                                alignment: Alignment.center,
-                                padding: const EdgeInsets.all(8),
-                                child: Text.rich(TextSpan(children: [
-                                  TextSpan(
-                                      text: "Rata-rata pencapaian harian: ",
-                                      style: ktsBodyLarge.copyWith(
-                                          fontSize: 13,
-                                          fontFamily: "Montserrat",
-                                          fontWeight: FontWeight.w800,
-                                          color: Colors.blueGrey[500])),
-                                  TextSpan(
-                                      text: dailyAveragePoin.toStringAsFixed(2),
-                                      style: ktsBodyLarge.copyWith(
-                                          fontSize: 20.0,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.blueGrey[800]))
-                                ])),
-                              )),
+                          YaumiLastPeriode(
+                            previousTotalPoin: viewModel
+                                .calculateAndComparePercentage(
+                                    state.allYaumis, 1000)
+                                .entries
+                                .last
+                                .value
+                                .toStringAsFixed(2),
+                          ),
+                          YaumiCurrentPeriode(
+                            currentTotalPoin: viewModel
+                                .calculateAndComparePercentage(
+                                    state.allYaumis, 1000)
+                                .entries
+                                .first
+                                .value
+                                .toStringAsFixed(2),
+                          ),
+                          YaumiDailyAverage(
+                            todayPoin: todayPoin,
+                          ),
                           StaggeredGridTile.count(
                             crossAxisCellCount: 6,
                             mainAxisCellCount: 1.5,
@@ -231,7 +182,8 @@ class YaumiView extends StackedView<YaumiViewModel> {
                         ],
                       ),
                       viewModel.isLoading
-                          ? Expanded(child: YaumiSubmissionLoadingScreen())
+                          ? const Expanded(
+                              child: YaumiSubmissionLoadingScreen())
                           : Expanded(
                               child: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -271,7 +223,6 @@ class YaumiView extends StackedView<YaumiViewModel> {
 
   @override
   void onViewModelReady(YaumiViewModel viewModel) {
-    // TODO: implement onViewModelReady
     super.onViewModelReady(viewModel);
   }
 }
