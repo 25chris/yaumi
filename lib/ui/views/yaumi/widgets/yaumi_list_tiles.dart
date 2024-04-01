@@ -434,7 +434,6 @@ class SedekahListTile extends StatelessWidget {
                   final yaumi = state.allYaumis
                       .firstWhere((e) => e.date == viewModel.selectedDateTime);
                   return ListTile(
-                    onTap: () {},
                     leading: Container(
                       alignment: Alignment.center,
                       width: 60,
@@ -600,7 +599,6 @@ class IstighfarListTile extends StatelessWidget {
                   final yaumi = state.allYaumis
                       .firstWhere((e) => e.date == viewModel.selectedDateTime);
                   return ListTile(
-                    onTap: () {},
                     leading: Container(
                       alignment: Alignment.center,
                       width: 60,
@@ -653,7 +651,6 @@ class ShalawatListTile extends StatelessWidget {
                   final yaumi = state.allYaumis
                       .firstWhere((e) => e.date == viewModel.selectedDateTime);
                   return ListTile(
-                    onTap: () {},
                     leading: Container(
                       alignment: Alignment.center,
                       width: 60,

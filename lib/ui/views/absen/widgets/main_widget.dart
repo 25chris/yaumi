@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:yaumi/ui/common/app_shared_style.dart';
 import 'package:yaumi/ui/common/ui_helpers.dart';
+import 'package:yaumi/ui/views/absen/absen_viewmodel.dart';
 import 'package:yaumi/ui/views/absen/widgets/button_row_widget.dart';
 import 'package:yaumi/ui/views/absen/widgets/upload_button.dart';
 import 'package:yaumi/ui/views/absen/widgets/work_photo_button.dart';
 
 class MainWidget extends StatefulWidget {
+  final AbsenViewModel viewModel;
+
+  const MainWidget({super.key, required this.viewModel});
   @override
   _MainWidgetState createState() => _MainWidgetState();
 }
@@ -73,7 +77,11 @@ class _MainWidgetState extends State<MainWidget> {
         ),
         SizedBox(
           width: MediaQuery.of(context).size.width,
-          child: ElevatedButton(onPressed: () {}, child: Text("SUBMIT")),
+          child: ElevatedButton(
+              onPressed: () {
+                widget.viewModel.submitAbsen();
+              },
+              child: Text("SUBMIT")),
         ),
         verticalSpaceSmall
       ],

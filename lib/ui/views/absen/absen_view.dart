@@ -71,7 +71,9 @@ class AbsenView extends StackedView<AbsenViewModel> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Card(
-                    child: MainWidget(),
+                    child: MainWidget(
+                      viewModel: viewModel,
+                    ),
                   ),
                 )),
           ],

@@ -9,12 +9,30 @@ import 'package:yaumi/services/snacked_service.dart';
 
 class HttpService {
   final _dialogService = locator<DialogService>();
+
+  //===YAUMI====GET
   Future<strapi.YaumiStrapi?> getYaumiByDateAndMail(
       {required String email, required String date}) async {
     var request = http.Request(
         'GET',
         Uri.parse(
             'https://amala-api.online/api/yaumis?filters[yaumi_user][email][\$eq]=$email&filters[date][\$eq]=$date'));
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      String responseBody = await response.stream.bytesToString();
+      return strapi.YaumiStrapi.fromJson(json.decode(responseBody));
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
+
+  Future<strapi.YaumiStrapi?> getYaumiByMail({required String email}) async {
+    var request = http.Request(
+        'GET',
+        Uri.parse(
+            'https://amala-api.online/api/yaumis?filters[yaumi_user][email][\$eq]=$email'));
 
     http.StreamedResponse response = await request.send();
 
@@ -40,6 +58,67 @@ class HttpService {
     } else {
       print(response.reasonPhrase);
       return null;
+    }
+  }
+
+  //======YAUMI======PUT
+  Future putYaumi(
+      {required String id,
+      required bool shubuh,
+      required bool dhuhur,
+      required bool ashar,
+      required bool maghrib,
+      required bool isya,
+      required int tahajud,
+      required int dhuha,
+      required bool qshubuh,
+      required bool qdhuhur,
+      required bool bdhuhur,
+      required bool bmaghrib,
+      required bool bisya,
+      required int tilawah,
+      required double poin,
+      required String shaumSunnah,
+      required bool sedekah,
+      required bool dzikirPagi,
+      required bool dzikirPetang,
+      required String taklim,
+      required bool istighfar,
+      required bool shalawat}) async {
+    var headers = {'Content-Type': 'application/json'};
+    var request = http.Request(
+        'PUT', Uri.parse('https://amala-api.online/api/yaumis/$id'));
+    request.body = json.encode({
+      "data": {
+        "shubuh": shubuh,
+        "dhuhur": dhuhur,
+        "ashar": ashar,
+        "maghrib": maghrib,
+        "isya": isya,
+        "tahajud": tahajud,
+        "dhuha": dhuha,
+        "qshubuh": qshubuh,
+        "qdhuhur": qdhuhur,
+        "bdhuhur": bdhuhur,
+        "bmaghrib": bmaghrib,
+        "bisya": bisya,
+        "tilawah": tilawah,
+        "shaum": shaumSunnah,
+        "sedekah": sedekah,
+        "taklim": taklim,
+        "istighfar": istighfar,
+        "shalawat": shalawat,
+        "poin": poin
+      }
+    });
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
     }
   }
 

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
 import 'package:yaumi/blocs/bloc/settings_bloc.dart';
 import 'package:yaumi/blocs/bloc/settings_state.dart';
 import 'package:yaumi/blocs/bloc/yaumi_bloc.dart';
 import 'package:yaumi/models/yaumi.dart';
+import 'package:yaumi/services/http_service.dart';
 import 'package:yaumi/ui/common/app_shared_style.dart';
 import 'package:yaumi/ui/common/ui_helpers.dart';
 import 'package:yaumi/ui/views/yaumi/widgets/yaumi_date_picker.dart';
@@ -132,10 +134,13 @@ class YaumiView extends StackedView<YaumiViewModel> {
                                   fontWeight: FontWeight.w800),
                             )
                           ])),
-                          IconButton(
-                              onPressed: () {},
+                          TextButton.icon(
+                              label: const Text("Log"),
+                              onPressed: () {
+                                viewModel.toYaumiLog();
+                              },
                               icon: const Icon(
-                                Icons.settings,
+                                Icons.list_alt,
                                 color: Colors.green,
                               )),
                         ],
@@ -167,6 +172,10 @@ class YaumiView extends StackedView<YaumiViewModel> {
                           YaumiDailyAverage(
                             todayPoin: todayPoin,
                           ),
+                          YaumiSavedPoin(
+                            todayPoin: todayPoin,
+                            viewModel: viewModel,
+                          ),
                           StaggeredGridTile.count(
                             crossAxisCellCount: 6,
                             mainAxisCellCount: 1.5,
@@ -192,18 +201,59 @@ class YaumiView extends StackedView<YaumiViewModel> {
                                 viewModel: viewModel,
                               )),
                             )),
-                      Container(
-                          padding: const EdgeInsets.all(8),
-                          width: MediaQuery.of(context).size.width,
-                          child: ElevatedButton(
-                              onPressed: () async {
-                                viewModel.submitYaumi(
-                                    context: context,
-                                    email: 'zatunur.badar@gmail.com',
-                                    todayPoin: todayPoin,
-                                    yaumi: yaumi);
-                              },
-                              child: Text("SUBMIT $todayPoin Poin")))
+                      FutureBuilder(
+                          future: HttpService().getYaumiByDateAndMail(
+                              email: 'zatunur.badar@gmail.com',
+                              date: DateFormat("yyyy-MM-dd")
+                                  .format(viewModel.selectedDateTime)),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.black,
+                                  strokeWidth: 6,
+                                ),
+                              );
+                            } else if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              final poinData = snapshot.data!.data!;
+                              if (poinData.isEmpty) {
+                                return Container(
+                                    padding: const EdgeInsets.all(8),
+                                    width: MediaQuery.of(context).size.width,
+                                    child: ElevatedButton(
+                                        onPressed: () async {
+                                          viewModel.submitYaumi(
+                                              context: context,
+                                              email: 'zatunur.badar@gmail.com',
+                                              todayPoin: todayPoin,
+                                              yaumi: yaumi);
+                                        },
+                                        child: Text("SUBMIT $todayPoin Poin")));
+                              } else {
+                                return Container(
+                                    padding: const EdgeInsets.all(8),
+                                    width: MediaQuery.of(context).size.width,
+                                    child: ElevatedButton(
+                                        style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all(
+                                                    Colors.green)),
+                                        onPressed: () async {
+                                          viewModel.updateYaumi(
+                                              id: poinData.first.id!.toString(),
+                                              context: context,
+                                              todayPoin: todayPoin,
+                                              yaumi: yaumi);
+                                        },
+                                        child: Text(
+                                            "UPDATE ${poinData.first.attributes!.poin} Poin")));
+                              }
+                            } else {
+                              return Container();
+                            }
+                          })
                     ],
                   ),
                 );

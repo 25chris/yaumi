@@ -10,9 +10,10 @@ import 'package:flutter/material.dart' as _i1;
 import 'package:mockito/mockito.dart' as _i2;
 import 'package:mockito/src/dummies.dart' as _i4;
 import 'package:stacked_services/stacked_services.dart' as _i3;
-import 'package:yaumi/models/yaumi_user.dart' as _i8;
+import 'package:yaumi/models/strapi/yaumi_strapi.dart' as _i8;
+import 'package:yaumi/models/yaumi_user.dart' as _i9;
 import 'package:yaumi/services/http_service.dart' as _i7;
-import 'package:yaumi/services/snacked_service.dart' as _i9;
+import 'package:yaumi/services/snacked_service.dart' as _i10;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -690,24 +691,90 @@ class MockDialogService extends _i2.Mock implements _i3.DialogService {
 /// See the documentation for Mockito's code generation for more information.
 class MockHttpService extends _i2.Mock implements _i7.HttpService {
   @override
-  _i5.Future<dynamic> getYaumi() => (super.noSuchMethod(
+  _i5.Future<_i8.YaumiStrapi?> getYaumiByDateAndMail({
+    required String? email,
+    required String? date,
+  }) =>
+      (super.noSuchMethod(
         Invocation.method(
-          #getYaumi,
+          #getYaumiByDateAndMail,
           [],
+          {
+            #email: email,
+            #date: date,
+          },
         ),
-        returnValue: _i5.Future<dynamic>.value(),
-        returnValueForMissingStub: _i5.Future<dynamic>.value(),
-      ) as _i5.Future<dynamic>);
+        returnValue: _i5.Future<_i8.YaumiStrapi?>.value(),
+        returnValueForMissingStub: _i5.Future<_i8.YaumiStrapi?>.value(),
+      ) as _i5.Future<_i8.YaumiStrapi?>);
 
   @override
-  _i5.Future<_i8.YaumiUser?> getYaumiUser() => (super.noSuchMethod(
+  _i5.Future<_i9.YaumiUser?> getYaumiUser() => (super.noSuchMethod(
         Invocation.method(
           #getYaumiUser,
           [],
         ),
-        returnValue: _i5.Future<_i8.YaumiUser?>.value(),
-        returnValueForMissingStub: _i5.Future<_i8.YaumiUser?>.value(),
-      ) as _i5.Future<_i8.YaumiUser?>);
+        returnValue: _i5.Future<_i9.YaumiUser?>.value(),
+        returnValueForMissingStub: _i5.Future<_i9.YaumiUser?>.value(),
+      ) as _i5.Future<_i9.YaumiUser?>);
+
+  @override
+  _i5.Future<dynamic> putYaumi({
+    required String? id,
+    required bool? shubuh,
+    required bool? dhuhur,
+    required bool? ashar,
+    required bool? maghrib,
+    required bool? isya,
+    required int? tahajud,
+    required int? dhuha,
+    required bool? qshubuh,
+    required bool? qdhuhur,
+    required bool? bdhuhur,
+    required bool? bmaghrib,
+    required bool? bisya,
+    required int? tilawah,
+    required double? poin,
+    required String? shaumSunnah,
+    required bool? sedekah,
+    required bool? dzikirPagi,
+    required bool? dzikirPetang,
+    required String? taklim,
+    required bool? istighfar,
+    required bool? shalawat,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #putYaumi,
+          [],
+          {
+            #id: id,
+            #shubuh: shubuh,
+            #dhuhur: dhuhur,
+            #ashar: ashar,
+            #maghrib: maghrib,
+            #isya: isya,
+            #tahajud: tahajud,
+            #dhuha: dhuha,
+            #qshubuh: qshubuh,
+            #qdhuhur: qdhuhur,
+            #bdhuhur: bdhuhur,
+            #bmaghrib: bmaghrib,
+            #bisya: bisya,
+            #tilawah: tilawah,
+            #poin: poin,
+            #shaumSunnah: shaumSunnah,
+            #sedekah: sedekah,
+            #dzikirPagi: dzikirPagi,
+            #dzikirPetang: dzikirPetang,
+            #taklim: taklim,
+            #istighfar: istighfar,
+            #shalawat: shalawat,
+          },
+        ),
+        returnValue: _i5.Future<dynamic>.value(),
+        returnValueForMissingStub: _i5.Future<dynamic>.value(),
+      ) as _i5.Future<dynamic>);
 
   @override
   _i5.Future<dynamic> registerToStrapi({
@@ -937,7 +1004,7 @@ class MockSnackbarService extends _i2.Mock implements _i3.SnackbarService {
 /// A class which mocks [SnackedService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSnackedService extends _i2.Mock implements _i9.SnackedService {
+class MockSnackedService extends _i2.Mock implements _i10.SnackedService {
   @override
   _i1.GlobalKey<_i1.ScaffoldMessengerState> get scaffoldMessengerKey =>
       (super.noSuchMethod(

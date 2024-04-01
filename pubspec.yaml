@@ -7,6 +7,7 @@ environment:
   sdk: '>=3.0.3 <4.0.0'
 
 dependencies:
+  camera: ^0.10.5+9
   date_picker_timeline: ^1.2.5
   equatable: ^2.0.5
   flutter:
@@ -19,7 +20,9 @@ dependencies:
   hydrated_bloc: ^9.1.4
   intl: ^0.18.0
   path_provider: ^2.1.2
+  path: ^1.8.3
   shared_preferences: ^2.2.2
+  shimmer: ^3.0.0
   stacked: ^3.4.0
   stacked_services: ^1.1.0
 
