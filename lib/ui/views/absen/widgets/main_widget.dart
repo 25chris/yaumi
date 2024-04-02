@@ -72,7 +72,7 @@ class _MainWidgetState extends State<MainWidget> {
         ),
         Expanded(
           child: Container(
-            child: _getCorrespondingWidget(_activeButton),
+            child: _getCorrespondingWidget(_activeButton, widget.viewModel),
           ),
         ),
         SizedBox(
@@ -88,10 +88,12 @@ class _MainWidgetState extends State<MainWidget> {
     );
   }
 
-  Widget _getCorrespondingWidget(int index) {
+  Widget _getCorrespondingWidget(int index, AbsenViewModel viewModel) {
     switch (index) {
       case 0:
-        return WorkPhotoButtons();
+        return WorkPhotoButtons(
+          viewModel: viewModel,
+        );
       case 1:
       case 2:
       case 3:

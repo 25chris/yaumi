@@ -18,9 +18,10 @@ dependencies:
   google_sign_in: ^5.0.0-nullsafety
   http: ^0.13.0
   hydrated_bloc: ^9.1.4
+  image: ^4.1.7
   intl: ^0.18.0
-  path_provider: ^2.1.2
   path: ^1.8.3
+  path_provider: ^2.1.2
   shared_preferences: ^2.2.2
   shimmer: ^3.0.0
   stacked: ^3.4.0

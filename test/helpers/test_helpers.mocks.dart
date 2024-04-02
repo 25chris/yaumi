@@ -709,6 +709,18 @@ class MockHttpService extends _i2.Mock implements _i7.HttpService {
       ) as _i5.Future<_i8.YaumiStrapi?>);
 
   @override
+  _i5.Future<_i8.YaumiStrapi?> getYaumiByMail({required String? email}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getYaumiByMail,
+          [],
+          {#email: email},
+        ),
+        returnValue: _i5.Future<_i8.YaumiStrapi?>.value(),
+        returnValueForMissingStub: _i5.Future<_i8.YaumiStrapi?>.value(),
+      ) as _i5.Future<_i8.YaumiStrapi?>);
+
+  @override
   _i5.Future<_i9.YaumiUser?> getYaumiUser() => (super.noSuchMethod(
         Invocation.method(
           #getYaumiUser,
