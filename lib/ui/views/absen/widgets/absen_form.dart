@@ -216,17 +216,19 @@ class _AbsenFormState extends State<AbsenForm> {
             Expanded(
                 child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(onPressed: () {}, child: Text("Sakit")),
+              child:
+                  ElevatedButton(onPressed: () {}, child: const Text("Sakit")),
             )),
             Expanded(
                 child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(onPressed: () {}, child: Text("Ijin")),
+              child:
+                  ElevatedButton(onPressed: () {}, child: const Text("Ijin")),
             )),
             Expanded(
                 child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(onPressed: () {}, child: Text("WFH")),
+              child: ElevatedButton(onPressed: () {}, child: const Text("WFH")),
             ))
           ],
         )
