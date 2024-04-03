@@ -162,8 +162,10 @@ class StackedRouter extends _i1.RouterBase {
       );
     },
     _i11.AbsenSelfieView: (data) {
+      final args = data.getArgs<AbsenSelfieViewArguments>(nullOk: false);
       return _i12.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i11.AbsenSelfieView(),
+        builder: (context) => _i11.AbsenSelfieView(
+            key: args.key, selectedDatetime: args.selectedDatetime),
         settings: data,
       );
     },
@@ -254,6 +256,33 @@ class StrapiLoginViewArguments {
   @override
   int get hashCode {
     return key.hashCode ^ currentUser.hashCode;
+  }
+}
+
+class AbsenSelfieViewArguments {
+  const AbsenSelfieViewArguments({
+    this.key,
+    required this.selectedDatetime,
+  });
+
+  final _i12.Key? key;
+
+  final DateTime selectedDatetime;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "selectedDatetime": "$selectedDatetime"}';
+  }
+
+  @override
+  bool operator ==(covariant AbsenSelfieViewArguments other) {
+    if (identical(this, other)) return true;
+    return other.key == key && other.selectedDatetime == selectedDatetime;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode ^ selectedDatetime.hashCode;
   }
 }
 
@@ -393,14 +422,18 @@ extension NavigatorStateExtension on _i14.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> navigateToAbsenSelfieView([
+  Future<dynamic> navigateToAbsenSelfieView({
+    _i12.Key? key,
+    required DateTime selectedDatetime,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return navigateTo<dynamic>(Routes.absenSelfieView,
+        arguments: AbsenSelfieViewArguments(
+            key: key, selectedDatetime: selectedDatetime),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -542,14 +575,18 @@ extension NavigatorStateExtension on _i14.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> replaceWithAbsenSelfieView([
+  Future<dynamic> replaceWithAbsenSelfieView({
+    _i12.Key? key,
+    required DateTime selectedDatetime,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return replaceWith<dynamic>(Routes.absenSelfieView,
+        arguments: AbsenSelfieViewArguments(
+            key: key, selectedDatetime: selectedDatetime),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

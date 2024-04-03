@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:yaumi/models/absen.dart';
 import 'package:yaumi/ui/common/app_shared_style.dart';
 import 'package:yaumi/ui/common/ui_helpers.dart';
 import 'package:yaumi/ui/views/absen/absen_viewmodel.dart';
@@ -10,7 +12,8 @@ bool done = false;
 
 class AbsenForm extends StatefulWidget {
   final AbsenViewModel viewModel;
-  const AbsenForm({super.key, required this.viewModel});
+  final Absen absen;
+  const AbsenForm({super.key, required this.viewModel, required this.absen});
 
   @override
   State<AbsenForm> createState() => _AbsenFormState();
@@ -193,7 +196,9 @@ class _AbsenFormState extends State<AbsenForm> {
                               padding: const EdgeInsets.all(8),
                               backgroundColor: Colors.blue[800]),
                           onPressed: () {
-                            widget.viewModel.toAbsenSelfie();
+                            widget.viewModel.toAbsenSelfie(
+                                selectedDatetime:
+                                    widget.viewModel.selectedDateTime);
                           },
                           icon: const Icon(Icons.login),
                           label: Text(
@@ -205,6 +210,12 @@ class _AbsenFormState extends State<AbsenForm> {
               ),
             ),
           ),
+        ),
+        verticalSpaceSmall,
+        SizedBox(
+          child: widget.absen.selfieMasuk != ''
+              ? Image.file(File(widget.absen.selfieMasuk))
+              : Container(),
         )
       ],
     );

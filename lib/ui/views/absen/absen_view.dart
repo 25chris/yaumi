@@ -48,6 +48,8 @@ class AbsenView extends StackedView<AbsenViewModel> {
               return Container();
             } else {
               print('absen: $absen');
+              final selectedAbsen = absen.firstWhere(
+                  (element) => element.date == viewModel.selectedDateTime);
               return SafeArea(
                 child: Column(
                   children: [
@@ -104,6 +106,7 @@ class AbsenView extends StackedView<AbsenViewModel> {
                     Expanded(
                         child: AbsenWidget(
                       viewModel: viewModel,
+                      absen: selectedAbsen,
                     ))
                   ],
                 ),

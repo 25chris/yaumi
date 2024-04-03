@@ -50,7 +50,8 @@ class AbsenViewModel extends BaseViewModel {
   }
 
   //==============NAVIGATION===================
-  Future<void> toAbsenSelfie() async {
-    _navigationService.navigateToAbsenSelfieView();
+  Future<void> toAbsenSelfie({required DateTime selectedDatetime}) async {
+    _navigationService.navigateToAbsenSelfieView(
+        selectedDatetime: selectedDatetime);
   }
 }

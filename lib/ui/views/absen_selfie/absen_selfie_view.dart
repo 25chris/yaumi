@@ -5,7 +5,9 @@ import 'package:yaumi/ui/views/absen_selfie/widgets/absen_selfie_main.dart';
 import 'absen_selfie_viewmodel.dart';
 
 class AbsenSelfieView extends StackedView<AbsenSelfieViewModel> {
-  const AbsenSelfieView({Key? key}) : super(key: key);
+  final DateTime selectedDatetime;
+  const AbsenSelfieView({Key? key, required this.selectedDatetime})
+      : super(key: key);
 
   @override
   Widget builder(
@@ -14,7 +16,9 @@ class AbsenSelfieView extends StackedView<AbsenSelfieViewModel> {
     Widget? child,
   ) {
     return Scaffold(
-      body: AbsenSelfieMain(),
+      body: AbsenSelfieMain(
+        selectedDate: selectedDatetime,
+      ),
     );
   }
 

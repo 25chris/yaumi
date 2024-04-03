@@ -10,10 +10,11 @@ import 'package:flutter/material.dart' as _i1;
 import 'package:mockito/mockito.dart' as _i2;
 import 'package:mockito/src/dummies.dart' as _i4;
 import 'package:stacked_services/stacked_services.dart' as _i3;
+import 'package:yaumi/models/strapi/absen_strapi.dart' as _i10;
 import 'package:yaumi/models/strapi/yaumi_strapi.dart' as _i8;
 import 'package:yaumi/models/yaumi_user.dart' as _i9;
 import 'package:yaumi/services/http_service.dart' as _i7;
-import 'package:yaumi/services/snacked_service.dart' as _i10;
+import 'package:yaumi/services/snacked_service.dart' as _i11;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -883,6 +884,24 @@ class MockHttpService extends _i2.Mock implements _i7.HttpService {
         returnValue: _i5.Future<void>.value(),
         returnValueForMissingStub: _i5.Future<void>.value(),
       ) as _i5.Future<void>);
+
+  @override
+  _i5.Future<_i10.AbsenStrapi?> getAbsenByDateAndMail({
+    required String? email,
+    required String? date,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAbsenByDateAndMail,
+          [],
+          {
+            #email: email,
+            #date: date,
+          },
+        ),
+        returnValue: _i5.Future<_i10.AbsenStrapi?>.value(),
+        returnValueForMissingStub: _i5.Future<_i10.AbsenStrapi?>.value(),
+      ) as _i5.Future<_i10.AbsenStrapi?>);
 }
 
 /// A class which mocks [SnackbarService].
@@ -1016,7 +1035,7 @@ class MockSnackbarService extends _i2.Mock implements _i3.SnackbarService {
 /// A class which mocks [SnackedService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSnackedService extends _i2.Mock implements _i10.SnackedService {
+class MockSnackedService extends _i2.Mock implements _i11.SnackedService {
   @override
   _i1.GlobalKey<_i1.ScaffoldMessengerState> get scaffoldMessengerKey =>
       (super.noSuchMethod(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:yaumi/models/absen.dart';
 import 'package:yaumi/models/strapi/absen_strapi.dart';
 import 'package:yaumi/services/http_service.dart';
 import 'package:yaumi/ui/views/absen/absen_viewmodel.dart';
@@ -7,7 +8,8 @@ import 'package:yaumi/ui/views/absen/widgets/absen_form.dart';
 
 class AbsenWidget extends StatelessWidget {
   final AbsenViewModel viewModel;
-  const AbsenWidget({super.key, required this.viewModel});
+  final Absen absen;
+  const AbsenWidget({super.key, required this.viewModel, required this.absen});
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,7 @@ class AbsenWidget extends StatelessWidget {
             return Center(
               child: AbsenForm(
                 viewModel: viewModel,
+                absen: absen,
               ),
             );
           } else {
