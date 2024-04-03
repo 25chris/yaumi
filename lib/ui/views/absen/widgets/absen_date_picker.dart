@@ -1,8 +1,10 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:yaumi/ui/views/absen/absen_viewmodel.dart';
 
 class AbsenDatePicker extends StatefulWidget {
-  const AbsenDatePicker({super.key});
+  final AbsenViewModel viewModel;
+  const AbsenDatePicker({super.key, required this.viewModel});
 
   @override
   State<AbsenDatePicker> createState() => _AbsenDatePickerState();
@@ -14,8 +16,8 @@ class _AbsenDatePickerState extends State<AbsenDatePicker> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => controller!.animateToDate(DateTime.now()));
+    WidgetsBinding.instance.addPostFrameCallback(
+        (_) => controller!.animateToDate(widget.viewModel.selectedDateTime));
   }
 
   @override
@@ -24,35 +26,14 @@ class _AbsenDatePickerState extends State<AbsenDatePicker> {
       DateTime.now().subtract(const Duration(days: 11)),
       controller: controller,
       locale: "id_ID",
-      initialSelectedDate: DateTime.now(),
+      initialSelectedDate: widget.viewModel.selectedDateTime,
       selectionColor: Colors.teal,
       selectedTextColor: Colors.white,
       activeDates: List.generate(
           10, (index) => DateTime.now().subtract(Duration(days: index))),
       daysCount: 14, // 10 days back, current day, 3 days forward
       onDateChange: (date) {
-        // Check if the selected date is within the inactive range
-        // if (date.isAfter(now) && date.isBefore(threeDaysAhead)) {
-        // Show dialog or toast to inform about inactive date selection
-        // showDialog(
-        // context: context,
-        // builder: (context) => AlertDialog(
-        // title: Text('Date Unavailable'),
-        // content: Text('This date is not available for selection.'),
-        // actions: [
-        // TextButton(
-        // onPressed: () => Navigator.of(context).pop(),
-        // child: Text('OK'),
-        // ),
-        // ],
-        // ),
-        // );
-        // } else {
-        // Update the state with the new date if it's within the active range
-        // setState(() {
-        // _selectedDate = date;
-        // });
-        // }
+        widget.viewModel.selectDate(date: date);
       },
     );
   }

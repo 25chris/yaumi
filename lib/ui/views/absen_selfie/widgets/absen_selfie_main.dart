@@ -1,8 +1,11 @@
 import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
+import 'package:yaumi/blocs/bloc/absen_bloc.dart';
+import 'package:yaumi/ui/common/ui_helpers.dart';
 import 'package:yaumi/ui/common/yaumi_temp.dart';
 
 class AbsenSelfieMain extends StatefulWidget {
@@ -66,28 +69,67 @@ class _AbsenSelfieMainState extends State<AbsenSelfieMain> {
           return SafeArea(
             child: Scaffold(
               body: imagePath == null
-                  ? Center(
+                  ? SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
                       child: CameraPreview(controller),
                     )
-                  : Center(
-                      // Display the captured image
-                      child: Image.file(
-                        File(imagePath!),
-                        fit: BoxFit.cover,
+                  : SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            children: [
+                              Text("Nama Lengkap"),
+                              verticalSpaceSmall,
+                              Text("email.mail@gmail.com"),
+                            ],
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * .50,
+                            height: MediaQuery.of(context).size.height * .50,
+                            child: Image.file(
+                              File(imagePath!),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          Column(
+                            children: [
+                              Text("Jam Masuk"),
+                              verticalSpaceSmall,
+                              Text("08:58:56"),
+                              verticalSpaceSmall,
+                              Text("Gegerkalong Girang Baru, Bandung"),
+                              verticalSpaceSmall,
+                              Text("Lokasi tidak tepat?  Perbaharui lokasi"),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: ElevatedButton(
+                                  onPressed: () {}, child: Text("SUBMIT")),
+                            ),
+                          )
+                        ],
                       ),
                     ),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () async {
-                  try {
-                    await captureAndSaveImage(controller);
-                  } catch (e) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Error: $e')),
-                    );
-                  }
-                },
-                child: Icon(Icons.camera),
-              ),
+              floatingActionButton: imagePath == null
+                  ? FloatingActionButton(
+                      onPressed: () async {
+                        try {
+                          await captureAndSaveImage(controller);
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Error: $e')),
+                          );
+                        }
+                      },
+                      child: Icon(Icons.camera),
+                    )
+                  : null,
             ),
           );
         } else {

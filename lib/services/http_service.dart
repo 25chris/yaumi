@@ -3,7 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:stacked_services/stacked_services.dart';
 import 'package:yaumi/app/app.dialogs.dart';
 import 'package:yaumi/app/app.locator.dart';
-import 'package:yaumi/models/strapi/yaumi_strapi.dart' as strapi;
+import 'package:yaumi/models/strapi/absen_strapi.dart';
+import 'package:yaumi/models/strapi/yaumi_strapi.dart' as yaumiStrapi;
 import 'package:yaumi/models/yaumi_user.dart';
 import 'package:yaumi/services/snacked_service.dart';
 
@@ -11,7 +12,7 @@ class HttpService {
   final _dialogService = locator<DialogService>();
 
   //===YAUMI====GET
-  Future<strapi.YaumiStrapi?> getYaumiByDateAndMail(
+  Future<yaumiStrapi.YaumiStrapi?> getYaumiByDateAndMail(
       {required String email, required String date}) async {
     var request = http.Request(
         'GET',
@@ -22,13 +23,14 @@ class HttpService {
 
     if (response.statusCode == 200) {
       String responseBody = await response.stream.bytesToString();
-      return strapi.YaumiStrapi.fromJson(json.decode(responseBody));
+      return yaumiStrapi.YaumiStrapi.fromJson(json.decode(responseBody));
     } else {
       print(response.reasonPhrase);
     }
   }
 
-  Future<strapi.YaumiStrapi?> getYaumiByMail({required String email}) async {
+  Future<yaumiStrapi.YaumiStrapi?> getYaumiByMail(
+      {required String email}) async {
     var request = http.Request(
         'GET',
         Uri.parse(
@@ -38,7 +40,7 @@ class HttpService {
 
     if (response.statusCode == 200) {
       String responseBody = await response.stream.bytesToString();
-      return strapi.YaumiStrapi.fromJson(json.decode(responseBody));
+      return yaumiStrapi.YaumiStrapi.fromJson(json.decode(responseBody));
     } else {
       print(response.reasonPhrase);
     }
@@ -273,6 +275,31 @@ class HttpService {
       }
     } catch (e) {
       print('internet');
+    }
+  }
+
+// ░█████╗░██████╗░░██████╗███████╗███╗░░██╗
+// ██╔══██╗██╔══██╗██╔════╝██╔════╝████╗░██║
+// ███████║██████╦╝╚█████╗░█████╗░░██╔██╗██║
+// ██╔══██║██╔══██╗░╚═══██╗██╔══╝░░██║╚████║
+// ██║░░██║██████╦╝██████╔╝███████╗██║░╚███║
+// ╚═╝░░╚═╝╚═════╝░╚═════╝░╚══════╝╚═╝░░╚══╝
+
+  Future<AbsenStrapi?> getAbsenByDateAndMail(
+      {required String email, required String date}) async {
+    var request = http.Request(
+        'GET',
+        Uri.parse(
+            'https://amala-api.online/api/absens?filters[yaumi_user][email][\$eq]=$email&filters[date][\$eq]=$date'));
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      String responseBody = await response.stream.bytesToString();
+      print(responseBody);
+      return AbsenStrapi.fromJson(json.decode(responseBody));
+    } else {
+      print(response.reasonPhrase);
     }
   }
 }

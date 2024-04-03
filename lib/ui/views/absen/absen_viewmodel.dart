@@ -24,6 +24,11 @@ class AbsenViewModel extends BaseViewModel {
   DateTime selectedDateTime =
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
+  void selectDate({required DateTime date}) {
+    selectedDateTime = date;
+    rebuildUi();
+  }
+
   //submitAbsen
   void submitAbsen() async {
     isLoading = true;
