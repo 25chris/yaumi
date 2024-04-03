@@ -211,11 +211,24 @@ class _AbsenFormState extends State<AbsenForm> {
             ),
           ),
         ),
-        verticalSpaceSmall,
-        SizedBox(
-          child: widget.absen.selfieMasuk != ''
-              ? Image.file(File(widget.absen.selfieMasuk))
-              : Container(),
+        Row(
+          children: [
+            Expanded(
+                child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(onPressed: () {}, child: Text("Sakit")),
+            )),
+            Expanded(
+                child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(onPressed: () {}, child: Text("Ijin")),
+            )),
+            Expanded(
+                child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(onPressed: () {}, child: Text("WFH")),
+            ))
+          ],
         )
       ],
     );
