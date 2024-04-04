@@ -5,12 +5,14 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:flutter/material.dart' as _i12;
+import 'package:flutter/material.dart' as _i13;
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart' as _i13;
+import 'package:google_sign_in/google_sign_in.dart' as _i14;
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i14;
+import 'package:stacked_services/stacked_services.dart' as _i15;
 import 'package:yaumi/ui/views/absen/absen_view.dart' as _i6;
+import 'package:yaumi/ui/views/absen_ijin_cuti/absen_ijin_cuti_view.dart'
+    as _i12;
 import 'package:yaumi/ui/views/absen_selfie/absen_selfie_view.dart' as _i11;
 import 'package:yaumi/ui/views/groups/groups_view.dart' as _i7;
 import 'package:yaumi/ui/views/home/home_view.dart' as _i3;
@@ -42,6 +44,8 @@ class Routes {
 
   static const absenSelfieView = '/absen-selfie-view';
 
+  static const absenIjinCutiView = '/absen-ijin-cuti-view';
+
   static const all = <String>{
     loginView,
     homeView,
@@ -53,6 +57,7 @@ class Routes {
     strapiLoginView,
     yaumiLogView,
     absenSelfieView,
+    absenIjinCutiView,
   };
 }
 
@@ -98,50 +103,54 @@ class StackedRouter extends _i1.RouterBase {
       Routes.absenSelfieView,
       page: _i11.AbsenSelfieView,
     ),
+    _i1.RouteDef(
+      Routes.absenIjinCutiView,
+      page: _i12.AbsenIjinCutiView,
+    ),
   ];
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
     _i2.LoginView: (data) {
-      return _i12.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.LoginView(),
         settings: data,
       );
     },
     _i3.HomeView: (data) {
       final args = data.getArgs<HomeViewArguments>(nullOk: false);
-      return _i12.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) =>
             _i3.HomeView(key: args.key, currentUser: args.currentUser),
         settings: data,
       );
     },
     _i4.StartupView: (data) {
-      return _i12.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => const _i4.StartupView(),
         settings: data,
       );
     },
     _i5.YaumiView: (data) {
-      return _i12.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => const _i5.YaumiView(),
         settings: data,
       );
     },
     _i6.AbsenView: (data) {
-      return _i12.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => const _i6.AbsenView(),
         settings: data,
       );
     },
     _i7.GroupsView: (data) {
-      return _i12.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => const _i7.GroupsView(),
         settings: data,
       );
     },
     _i8.SettingsView: (data) {
       final args = data.getArgs<SettingsViewArguments>(nullOk: false);
-      return _i12.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) =>
             _i8.SettingsView(key: args.key, currentUser: args.currentUser),
         settings: data,
@@ -149,23 +158,29 @@ class StackedRouter extends _i1.RouterBase {
     },
     _i9.StrapiLoginView: (data) {
       final args = data.getArgs<StrapiLoginViewArguments>(nullOk: false);
-      return _i12.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) =>
             _i9.StrapiLoginView(key: args.key, currentUser: args.currentUser),
         settings: data,
       );
     },
     _i10.YaumiLogView: (data) {
-      return _i12.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => const _i10.YaumiLogView(),
         settings: data,
       );
     },
     _i11.AbsenSelfieView: (data) {
       final args = data.getArgs<AbsenSelfieViewArguments>(nullOk: false);
-      return _i12.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => _i11.AbsenSelfieView(
             key: args.key, selectedDatetime: args.selectedDatetime),
+        settings: data,
+      );
+    },
+    _i12.AbsenIjinCutiView: (data) {
+      return _i13.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i12.AbsenIjinCutiView(),
         settings: data,
       );
     },
@@ -184,9 +199,9 @@ class HomeViewArguments {
     required this.currentUser,
   });
 
-  final _i12.Key? key;
+  final _i13.Key? key;
 
-  final _i13.GoogleSignInAccount? currentUser;
+  final _i14.GoogleSignInAccount? currentUser;
 
   @override
   String toString() {
@@ -211,9 +226,9 @@ class SettingsViewArguments {
     required this.currentUser,
   });
 
-  final _i12.Key? key;
+  final _i13.Key? key;
 
-  final _i13.GoogleSignInAccount? currentUser;
+  final _i14.GoogleSignInAccount? currentUser;
 
   @override
   String toString() {
@@ -238,9 +253,9 @@ class StrapiLoginViewArguments {
     required this.currentUser,
   });
 
-  final _i12.Key? key;
+  final _i13.Key? key;
 
-  final _i13.GoogleSignInAccount? currentUser;
+  final _i14.GoogleSignInAccount? currentUser;
 
   @override
   String toString() {
@@ -265,7 +280,7 @@ class AbsenSelfieViewArguments {
     required this.selectedDatetime,
   });
 
-  final _i12.Key? key;
+  final _i13.Key? key;
 
   final DateTime selectedDatetime;
 
@@ -286,7 +301,7 @@ class AbsenSelfieViewArguments {
   }
 }
 
-extension NavigatorStateExtension on _i14.NavigationService {
+extension NavigatorStateExtension on _i15.NavigationService {
   Future<dynamic> navigateToLoginView([
     int? routerId,
     bool preventDuplicates = true,
@@ -302,8 +317,8 @@ extension NavigatorStateExtension on _i14.NavigationService {
   }
 
   Future<dynamic> navigateToHomeView({
-    _i12.Key? key,
-    required _i13.GoogleSignInAccount? currentUser,
+    _i13.Key? key,
+    required _i14.GoogleSignInAccount? currentUser,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -375,8 +390,8 @@ extension NavigatorStateExtension on _i14.NavigationService {
   }
 
   Future<dynamic> navigateToSettingsView({
-    _i12.Key? key,
-    required _i13.GoogleSignInAccount? currentUser,
+    _i13.Key? key,
+    required _i14.GoogleSignInAccount? currentUser,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -392,8 +407,8 @@ extension NavigatorStateExtension on _i14.NavigationService {
   }
 
   Future<dynamic> navigateToStrapiLoginView({
-    _i12.Key? key,
-    required _i13.GoogleSignInAccount? currentUser,
+    _i13.Key? key,
+    required _i14.GoogleSignInAccount? currentUser,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -423,7 +438,7 @@ extension NavigatorStateExtension on _i14.NavigationService {
   }
 
   Future<dynamic> navigateToAbsenSelfieView({
-    _i12.Key? key,
+    _i13.Key? key,
     required DateTime selectedDatetime,
     int? routerId,
     bool preventDuplicates = true,
@@ -434,6 +449,20 @@ extension NavigatorStateExtension on _i14.NavigationService {
     return navigateTo<dynamic>(Routes.absenSelfieView,
         arguments: AbsenSelfieViewArguments(
             key: key, selectedDatetime: selectedDatetime),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToAbsenIjinCutiView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.absenIjinCutiView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -455,8 +484,8 @@ extension NavigatorStateExtension on _i14.NavigationService {
   }
 
   Future<dynamic> replaceWithHomeView({
-    _i12.Key? key,
-    required _i13.GoogleSignInAccount? currentUser,
+    _i13.Key? key,
+    required _i14.GoogleSignInAccount? currentUser,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -528,8 +557,8 @@ extension NavigatorStateExtension on _i14.NavigationService {
   }
 
   Future<dynamic> replaceWithSettingsView({
-    _i12.Key? key,
-    required _i13.GoogleSignInAccount? currentUser,
+    _i13.Key? key,
+    required _i14.GoogleSignInAccount? currentUser,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -545,8 +574,8 @@ extension NavigatorStateExtension on _i14.NavigationService {
   }
 
   Future<dynamic> replaceWithStrapiLoginView({
-    _i12.Key? key,
-    required _i13.GoogleSignInAccount? currentUser,
+    _i13.Key? key,
+    required _i14.GoogleSignInAccount? currentUser,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -576,7 +605,7 @@ extension NavigatorStateExtension on _i14.NavigationService {
   }
 
   Future<dynamic> replaceWithAbsenSelfieView({
-    _i12.Key? key,
+    _i13.Key? key,
     required DateTime selectedDatetime,
     int? routerId,
     bool preventDuplicates = true,
@@ -587,6 +616,20 @@ extension NavigatorStateExtension on _i14.NavigationService {
     return replaceWith<dynamic>(Routes.absenSelfieView,
         arguments: AbsenSelfieViewArguments(
             key: key, selectedDatetime: selectedDatetime),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithAbsenIjinCutiView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.absenIjinCutiView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

@@ -10,6 +10,7 @@ dependencies:
   camera: ^0.10.5+9
   date_picker_timeline: ^1.2.5
   equatable: ^2.0.5
+  fdottedline_nullsafety: ^2.0.1
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.4
@@ -19,6 +20,7 @@ dependencies:
   http: ^0.13.0
   hydrated_bloc: ^9.1.4
   image: ^4.1.7
+  #image_picker: ^1.0.7
   intl: ^0.18.0
   path: ^1.8.3
   path_provider: ^2.1.2

@@ -23,6 +23,7 @@ import 'package:yaumi/ui/views/strapi_login/strapi_login_view.dart';
 import 'package:yaumi/services/snacked_service.dart';
 import 'package:yaumi/ui/views/yaumi_log/yaumi_log_view.dart';
 import 'package:yaumi/ui/views/absen_selfie/absen_selfie_view.dart';
+import 'package:yaumi/ui/views/absen_ijin_cuti/absen_ijin_cuti_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -37,6 +38,7 @@ import 'package:yaumi/ui/views/absen_selfie/absen_selfie_view.dart';
     MaterialRoute(page: StrapiLoginView),
     MaterialRoute(page: YaumiLogView),
     MaterialRoute(page: AbsenSelfieView),
+    MaterialRoute(page: AbsenIjinCutiView),
 // @stacked-route
   ],
   dependencies: [
