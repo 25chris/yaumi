@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:stacked/stacked.dart';
 import 'package:yaumi/blocs/bloc/absen_bloc.dart';
 import 'package:yaumi/models/absen.dart';
@@ -14,7 +15,8 @@ import 'package:yaumi/ui/views/absen/widgets/wfo_pulang_card.dart';
 import 'absen_viewmodel.dart';
 
 class AbsenView extends StackedView<AbsenViewModel> {
-  const AbsenView({Key? key}) : super(key: key);
+  final GoogleSignInAccount userAccount;
+  const AbsenView({Key? key, required this.userAccount}) : super(key: key);
 
   @override
   Widget builder(
@@ -107,6 +109,7 @@ class AbsenView extends StackedView<AbsenViewModel> {
                         child: AbsenWidget(
                       viewModel: viewModel,
                       absen: selectedAbsen,
+                      userAccount: userAccount,
                     ))
                   ],
                 ),

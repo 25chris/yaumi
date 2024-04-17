@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:yaumi/ui/common/app_shared_style.dart';
 import 'package:yaumi/ui/views/home/home_viewmodel.dart';
 
 class YaumiMenuContent extends StatelessWidget {
   final HomeViewModel viewModel;
-  const YaumiMenuContent({super.key, required this.viewModel});
+  final GoogleSignInAccount userAccount;
+  const YaumiMenuContent(
+      {super.key, required this.viewModel, required this.userAccount});
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +82,9 @@ class YaumiMenuContent extends StatelessWidget {
 
 class AbsenMenuContent extends StatelessWidget {
   final HomeViewModel viewModel;
-  const AbsenMenuContent({super.key, required this.viewModel});
+  final GoogleSignInAccount userAccount;
+  const AbsenMenuContent(
+      {super.key, required this.viewModel, required this.userAccount});
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +92,7 @@ class AbsenMenuContent extends StatelessWidget {
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0))),
       child: InkWell(
-        onTap: () => viewModel.toAbsen(),
+        onTap: () => viewModel.toAbsen(userAccount: userAccount),
         child: Container(
           decoration: BoxDecoration(
               color: Colors.blue[800],

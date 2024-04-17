@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 import 'package:yaumi/ui/common/app_shared_style.dart';
 import 'package:yaumi/ui/common/ui_helpers.dart';
@@ -9,8 +10,9 @@ import 'package:yaumi/ui/views/absen/widgets/work_photo_button.dart';
 
 class MainWidget extends StatefulWidget {
   final AbsenViewModel viewModel;
-
-  const MainWidget({super.key, required this.viewModel});
+  final GoogleSignInAccount userAccount;
+  const MainWidget(
+      {super.key, required this.viewModel, required this.userAccount});
   @override
   _MainWidgetState createState() => _MainWidgetState();
 }
@@ -93,6 +95,7 @@ class _MainWidgetState extends State<MainWidget> {
       case 0:
         return WorkPhotoButtons(
           viewModel: viewModel,
+          userAccount: widget.userAccount,
         );
       case 1:
       case 2:

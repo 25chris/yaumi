@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:yaumi/ui/common/ui_helpers.dart';
 import 'package:yaumi/ui/common/yaumi_temp.dart';
 
@@ -6,7 +7,9 @@ import 'package:yaumi/ui/views/absen/absen_viewmodel.dart';
 
 class WorkPhotoButtons extends StatelessWidget {
   final AbsenViewModel viewModel;
-  const WorkPhotoButtons({super.key, required this.viewModel});
+  final GoogleSignInAccount userAccount;
+  const WorkPhotoButtons(
+      {super.key, required this.viewModel, required this.userAccount});
   @override
   Widget build(BuildContext context) {
     print('imageFilePath: $imageFilePath');
@@ -25,7 +28,8 @@ class WorkPhotoButtons extends StatelessWidget {
             ElevatedButton.icon(
               onPressed: () {
                 viewModel.toAbsenSelfie(
-                    selectedDatetime: viewModel.selectedDateTime);
+                    selectedDatetime: viewModel.selectedDateTime,
+                    userAccount: userAccount);
               },
               icon: Icon(Icons.camera_alt),
               label: Text('Selfie Masuk'),

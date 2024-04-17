@@ -137,8 +137,10 @@ class StackedRouter extends _i1.RouterBase {
       );
     },
     _i6.AbsenView: (data) {
+      final args = data.getArgs<AbsenViewArguments>(nullOk: false);
       return _i13.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i6.AbsenView(),
+        builder: (context) =>
+            _i6.AbsenView(key: args.key, userAccount: args.userAccount),
         settings: data,
       );
     },
@@ -174,7 +176,9 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<AbsenSelfieViewArguments>(nullOk: false);
       return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => _i11.AbsenSelfieView(
-            key: args.key, selectedDatetime: args.selectedDatetime),
+            key: args.key,
+            selectedDatetime: args.selectedDatetime,
+            userAccount: args.userAccount),
         settings: data,
       );
     },
@@ -217,6 +221,33 @@ class HomeViewArguments {
   @override
   int get hashCode {
     return key.hashCode ^ currentUser.hashCode;
+  }
+}
+
+class AbsenViewArguments {
+  const AbsenViewArguments({
+    this.key,
+    required this.userAccount,
+  });
+
+  final _i13.Key? key;
+
+  final _i14.GoogleSignInAccount userAccount;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "userAccount": "$userAccount"}';
+  }
+
+  @override
+  bool operator ==(covariant AbsenViewArguments other) {
+    if (identical(this, other)) return true;
+    return other.key == key && other.userAccount == userAccount;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode ^ userAccount.hashCode;
   }
 }
 
@@ -278,26 +309,31 @@ class AbsenSelfieViewArguments {
   const AbsenSelfieViewArguments({
     this.key,
     required this.selectedDatetime,
+    required this.userAccount,
   });
 
   final _i13.Key? key;
 
   final DateTime selectedDatetime;
 
+  final _i14.GoogleSignInAccount userAccount;
+
   @override
   String toString() {
-    return '{"key": "$key", "selectedDatetime": "$selectedDatetime"}';
+    return '{"key": "$key", "selectedDatetime": "$selectedDatetime", "userAccount": "$userAccount"}';
   }
 
   @override
   bool operator ==(covariant AbsenSelfieViewArguments other) {
     if (identical(this, other)) return true;
-    return other.key == key && other.selectedDatetime == selectedDatetime;
+    return other.key == key &&
+        other.selectedDatetime == selectedDatetime &&
+        other.userAccount == userAccount;
   }
 
   @override
   int get hashCode {
-    return key.hashCode ^ selectedDatetime.hashCode;
+    return key.hashCode ^ selectedDatetime.hashCode ^ userAccount.hashCode;
   }
 }
 
@@ -361,14 +397,17 @@ extension NavigatorStateExtension on _i15.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> navigateToAbsenView([
+  Future<dynamic> navigateToAbsenView({
+    _i13.Key? key,
+    required _i14.GoogleSignInAccount userAccount,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return navigateTo<dynamic>(Routes.absenView,
+        arguments: AbsenViewArguments(key: key, userAccount: userAccount),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -440,6 +479,7 @@ extension NavigatorStateExtension on _i15.NavigationService {
   Future<dynamic> navigateToAbsenSelfieView({
     _i13.Key? key,
     required DateTime selectedDatetime,
+    required _i14.GoogleSignInAccount userAccount,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -448,7 +488,9 @@ extension NavigatorStateExtension on _i15.NavigationService {
   }) async {
     return navigateTo<dynamic>(Routes.absenSelfieView,
         arguments: AbsenSelfieViewArguments(
-            key: key, selectedDatetime: selectedDatetime),
+            key: key,
+            selectedDatetime: selectedDatetime,
+            userAccount: userAccount),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -528,14 +570,17 @@ extension NavigatorStateExtension on _i15.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> replaceWithAbsenView([
+  Future<dynamic> replaceWithAbsenView({
+    _i13.Key? key,
+    required _i14.GoogleSignInAccount userAccount,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return replaceWith<dynamic>(Routes.absenView,
+        arguments: AbsenViewArguments(key: key, userAccount: userAccount),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -607,6 +652,7 @@ extension NavigatorStateExtension on _i15.NavigationService {
   Future<dynamic> replaceWithAbsenSelfieView({
     _i13.Key? key,
     required DateTime selectedDatetime,
+    required _i14.GoogleSignInAccount userAccount,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -615,7 +661,9 @@ extension NavigatorStateExtension on _i15.NavigationService {
   }) async {
     return replaceWith<dynamic>(Routes.absenSelfieView,
         arguments: AbsenSelfieViewArguments(
-            key: key, selectedDatetime: selectedDatetime),
+            key: key,
+            selectedDatetime: selectedDatetime,
+            userAccount: userAccount),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

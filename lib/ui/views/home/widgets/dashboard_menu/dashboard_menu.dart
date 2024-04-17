@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:yaumi/ui/common/app_shared_style.dart';
 import 'package:yaumi/ui/common/ui_helpers.dart';
 import 'package:yaumi/ui/views/home/home_viewmodel.dart';
@@ -7,7 +8,9 @@ import 'package:yaumi/ui/views/home/widgets/dashboard_menu/menu_content.dart';
 
 class DashboardMenu extends StatelessWidget {
   final HomeViewModel viewModel;
-  const DashboardMenu({super.key, required this.viewModel});
+  final GoogleSignInAccount userAccount;
+  const DashboardMenu(
+      {super.key, required this.viewModel, required this.userAccount});
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +46,7 @@ class DashboardMenu extends StatelessWidget {
               mainAxisCellCount: .65,
               child: YaumiMenuContent(
                 viewModel: viewModel,
+                userAccount: userAccount,
               ),
             ),
             StaggeredGridTile.count(
@@ -50,6 +54,7 @@ class DashboardMenu extends StatelessWidget {
                 mainAxisCellCount: .65,
                 child: AbsenMenuContent(
                   viewModel: viewModel,
+                  userAccount: userAccount,
                 )),
             StaggeredGridTile.count(
                 crossAxisCellCount: 1,

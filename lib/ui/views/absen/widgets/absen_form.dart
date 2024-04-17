@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:fdottedline_nullsafety/fdottedline__nullsafety.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 import 'package:yaumi/models/absen.dart';
 import 'package:yaumi/ui/common/app_shared_style.dart';
@@ -14,7 +15,12 @@ bool done = false;
 class AbsenForm extends StatefulWidget {
   final AbsenViewModel viewModel;
   final Absen absen;
-  const AbsenForm({super.key, required this.viewModel, required this.absen});
+  final GoogleSignInAccount userAccount;
+  const AbsenForm(
+      {super.key,
+      required this.viewModel,
+      required this.absen,
+      required this.userAccount});
 
   @override
   State<AbsenForm> createState() => _AbsenFormState();
@@ -198,7 +204,8 @@ class _AbsenFormState extends State<AbsenForm> {
                           onPressed: () {
                             widget.viewModel.toAbsenSelfie(
                                 selectedDatetime:
-                                    widget.viewModel.selectedDateTime);
+                                    widget.viewModel.selectedDateTime,
+                                userAccount: widget.userAccount);
                           },
                           icon: const Icon(Icons.login),
                           label: Text(

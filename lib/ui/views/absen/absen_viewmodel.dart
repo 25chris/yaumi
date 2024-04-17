@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:yaumi/app/app.dialogs.dart';
@@ -50,9 +51,11 @@ class AbsenViewModel extends BaseViewModel {
   }
 
   //==============NAVIGATION===================
-  Future<void> toAbsenSelfie({required DateTime selectedDatetime}) async {
+  Future<void> toAbsenSelfie(
+      {required DateTime selectedDatetime,
+      required GoogleSignInAccount userAccount}) async {
     _navigationService.navigateToAbsenSelfieView(
-        selectedDatetime: selectedDatetime);
+        selectedDatetime: selectedDatetime, userAccount: userAccount);
   }
 
   Future<void> toAbsenIjinCuti() async {

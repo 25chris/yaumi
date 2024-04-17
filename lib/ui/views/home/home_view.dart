@@ -30,6 +30,7 @@ class HomeView extends StackedView<HomeViewModel> {
             ),
             DashboardMenu(
               viewModel: viewModel,
+              userAccount: currentUser!,
             )
           ],
         ),

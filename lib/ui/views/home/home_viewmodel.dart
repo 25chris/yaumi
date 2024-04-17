@@ -22,8 +22,8 @@ class HomeViewModel extends BaseViewModel {
     _navigationService.navigateToYaumiView();
   }
 
-  Future<void> toAbsen() async {
-    _navigationService.navigateToAbsenView();
+  Future<void> toAbsen({required GoogleSignInAccount userAccount}) async {
+    _navigationService.navigateToAbsenView(userAccount: userAccount);
   }
 
   Future<void> toGroups() async {
