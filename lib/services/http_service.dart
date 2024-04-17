@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:stacked_services/stacked_services.dart';
 import 'package:yaumi/app/app.dialogs.dart';
 import 'package:yaumi/app/app.locator.dart';
+import 'package:yaumi/models/absen.dart';
 import 'package:yaumi/models/strapi/absen_strapi.dart';
 import 'package:yaumi/models/strapi/yaumi_strapi.dart' as yaumiStrapi;
 import 'package:yaumi/models/yaumi_user.dart';
@@ -300,6 +302,126 @@ class HttpService {
       return AbsenStrapi.fromJson(json.decode(responseBody));
     } else {
       print(response.reasonPhrase);
+    }
+  }
+
+  Future postAbsenMasukData(
+      {required String date,
+      required String timestamp,
+      String? jamMasuk,
+      String? jamPulang,
+      String? statusKehadiran,
+      String? lokasi,
+      String? udzurKeterlambatan,
+      String? udzurIjin,
+      String? namaPenyakit,
+      String? udzurWfh,
+      bool? approval,
+      String? udzurPulangAwal,
+      required String pathToImage,
+      required int yaumiUser}) async {
+    var imagePath = pathToImage;
+    var uri = Uri.parse('https://amala-api.online/api/absens');
+
+// Create a new multipart request
+    var request = http.MultipartRequest('POST', uri);
+
+// Add text fields
+    request.fields['data'] = json.encode({
+      "date": date,
+      "timeStamp": timestamp,
+      "jamMasuk": jamMasuk,
+      "jamPulang": null,
+      "statusKehadiran": StatusKehadiran.wfo.name,
+      "lokasi": lokasi,
+      "udzurKeterlambatan": udzurKeterlambatan,
+      "udzurIjin": udzurIjin,
+      "namaPenyakit": namaPenyakit,
+      "udzurWfh": udzurWfh,
+      "approval": approval,
+      "udzurPulangAwal": udzurPulangAwal,
+      "yaumi_user": yaumiUser
+    });
+
+// Add the image file to the request
+    var file =
+        await http.MultipartFile.fromPath('files.selfieMasuk', imagePath);
+    request.files.add(file);
+
+// Send the request
+    http.StreamedResponse response = await request.send();
+
+// Handle the response
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      print('Error: ${response.reasonPhrase}');
+      // To debug, read the response body for more details.
+      String responseBody = await response.stream.bytesToString();
+      print('Response body: $responseBody');
+    }
+  }
+
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Check if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    return await Geolocator.getCurrentPosition();
+  }
+
+  Future<String> getAddressFromLatLng(double latitude, double longitude) async {
+    final apiKey = 'AIzaSyB-GOvaf_jtS1cIPAVpD5V0FVv_m25tVu4';
+    final url =
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=$apiKey';
+
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      if (data['results'].isNotEmpty) {
+        // This will give you full address.
+        String formattedAddress = data['results'][0]['formatted_address'];
+        // Extract more specific parts based on your needs:
+        var addressComponents = data['results'][0]['address_components'];
+        String localPlace = addressComponents[0]['long_name'];
+        String city = addressComponents[2]['long_name'];
+        return '$localPlace, $city';
+      } else {
+        return 'No address available';
+      }
+    } else {
+      throw Exception('Failed to fetch address');
+    }
+  }
+
+  Future<String> showAddress() async {
+    try {
+      Position position = await _determinePosition();
+      String address =
+          await getAddressFromLatLng(position.latitude, position.longitude);
+      print('Address: $address');
+      return address;
+    } catch (e) {
+      print('Error occurred: $e');
+      return '';
     }
   }
 }

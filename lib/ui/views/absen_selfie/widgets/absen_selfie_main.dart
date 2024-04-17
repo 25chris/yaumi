@@ -4,10 +4,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:intl/intl.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
 import 'package:yaumi/blocs/bloc/absen_bloc.dart';
 import 'package:yaumi/models/absen.dart';
+import 'package:yaumi/services/http_service.dart';
 import 'package:yaumi/ui/common/app_shared_style.dart';
 import 'package:yaumi/ui/common/ui_helpers.dart';
 import 'package:yaumi/ui/common/yaumi_temp.dart';
@@ -62,6 +64,15 @@ class _AbsenSelfieMainState extends State<AbsenSelfieMain> {
       imagePath = filePath;
       imageFilePath = filePath;
     });
+  }
+
+  var location;
+
+  @override
+  void initState() {
+    HttpService().showAddress().then((value) => location = value);
+    print('location is $location');
+    super.initState();
   }
 
   @override
@@ -128,7 +139,9 @@ class _AbsenSelfieMainState extends State<AbsenSelfieMain> {
                                         fontWeight: FontWeight.w400,
                                         fontFamily: "Poppins")),
                                 verticalSpaceSmall,
-                                Text("08:58:56",
+                                Text(
+                                    DateFormat("HH:MM:ss")
+                                        .format(DateTime.now()),
                                     style: ktsBodyRegular.copyWith(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w800,
@@ -147,8 +160,7 @@ class _AbsenSelfieMainState extends State<AbsenSelfieMain> {
                                       children: [
                                         Icon(Icons.pin_drop),
                                         Flexible(
-                                          child: Text(
-                                              "Gegerkalong Girang Baru, Bandung",
+                                          child: Text(location,
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 2,
                                               textAlign: TextAlign.center,
@@ -173,7 +185,12 @@ class _AbsenSelfieMainState extends State<AbsenSelfieMain> {
                                           fontFamily: "Poppins")),
                                   TextSpan(
                                       recognizer: TapGestureRecognizer()
-                                        ..onTap = () => print('object'),
+                                        ..onTap = () {
+                                          setState(() {
+                                            HttpService().showAddress().then(
+                                                (value) => location = value);
+                                          });
+                                        },
                                       text: "Perbaharui lokasi",
                                       style: ktsBodyRegular.copyWith(
                                           fontSize: 13,
@@ -190,7 +207,19 @@ class _AbsenSelfieMainState extends State<AbsenSelfieMain> {
                                 width: MediaQuery.of(context).size.width,
                                 child: ElevatedButton.icon(
                                     icon: Icon(Icons.login),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      print(absen.selfieMasuk);
+                                      HttpService().postAbsenMasukData(
+                                          date: DateFormat("yyyy-MM-dd")
+                                              .format(widget.selectedDate),
+                                          timestamp: DateFormat(
+                                                  "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+                                              .format(widget.selectedDate),
+                                          jamMasuk: DateFormat("HH:MM:ss")
+                                              .format(DateTime.now()),
+                                          pathToImage: absen.selfieMasuk,
+                                          yaumiUser: 7);
+                                    },
                                     label: Text("Catat Jam Masuk")),
                               ),
                             )
