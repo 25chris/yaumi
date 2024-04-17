@@ -6,6 +6,8 @@ import 'package:yaumi/models/strapi/absen_strapi.dart';
 import 'package:yaumi/services/http_service.dart';
 import 'package:yaumi/ui/views/absen/absen_viewmodel.dart';
 import 'package:yaumi/ui/views/absen/widgets/absen_form.dart';
+import 'package:yaumi/ui/views/absen/widgets/wfo_card.dart';
+import 'package:yaumi/ui/views/absen/widgets/wfo_masuk_card.dart';
 
 class AbsenWidget extends StatelessWidget {
   final AbsenViewModel viewModel;
@@ -21,7 +23,7 @@ class AbsenWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: HttpService().getAbsenByDateAndMail(
-          email: 'zatunur.badar@gmail.com',
+          email: userAccount.email,
           date: DateFormat("yyyy-MM-dd").format(viewModel.selectedDateTime)),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -41,8 +43,15 @@ class AbsenWidget extends StatelessWidget {
               );
             } else {
               Datum datum = result.first;
-              return Center(
-                child: Text('data loaded as: ${datum.attributes!.approval}'),
+              return Column(
+                children: [
+                  WfoCard(
+                    viewModel: viewModel,
+                    userAccount: userAccount,
+                    datum: datum,
+                  ),
+                  WfoMasukCard(viewModel: viewModel)
+                ],
               );
             }
           } catch (e) {

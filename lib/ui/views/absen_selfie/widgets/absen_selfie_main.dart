@@ -13,6 +13,7 @@ import 'package:yaumi/services/http_service.dart';
 import 'package:yaumi/ui/common/app_shared_style.dart';
 import 'package:yaumi/ui/common/ui_helpers.dart';
 import 'package:yaumi/ui/common/yaumi_temp.dart';
+import 'package:yaumi/ui/views/absen_selfie/widgets/absen_masuk_prompt.dart';
 
 class AbsenSelfieMain extends StatefulWidget {
   final GoogleSignInAccount userAccount;
@@ -98,134 +99,11 @@ class _AbsenSelfieMainState extends State<AbsenSelfieMain> {
                     ? SizedBox(
                         child: CameraPreview(controller),
                       )
-                    : SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              children: [
-                                verticalSpaceLarge,
-                                Text(
-                                  widget.userAccount.displayName!,
-                                  style: ktsBodyRegular.copyWith(
-                                      fontSize: 17.5,
-                                      fontWeight: FontWeight.w800,
-                                      fontFamily: "Poppins"),
-                                ),
-                                verticalSpaceTiny,
-                                Text(widget.userAccount.email,
-                                    style: ktsBodyRegular.copyWith(
-                                        fontSize: 13,
-                                        color: Colors.blueGrey,
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily: "Poppins")),
-                              ],
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * .50,
-                              height: MediaQuery.of(context).size.height * .50,
-                              child: Image.file(
-                                File(imagePath!),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Column(
-                              children: [
-                                Text("Jam Masuk",
-                                    style: ktsBodyRegular.copyWith(
-                                        fontSize: 13,
-                                        color: Colors.blueGrey,
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily: "Poppins")),
-                                verticalSpaceSmall,
-                                Text(
-                                    DateFormat("HH:MM:ss")
-                                        .format(DateTime.now()),
-                                    style: ktsBodyRegular.copyWith(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w800,
-                                        fontFamily: "Poppins")),
-                                verticalSpaceSmall,
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: Colors.grey[200]),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.pin_drop),
-                                        Flexible(
-                                          child: Text(location,
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 2,
-                                              textAlign: TextAlign.center,
-                                              style: ktsBodyRegular.copyWith(
-                                                  fontSize: 13,
-                                                  color: Colors.blueGrey,
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: "Poppins")),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                verticalSpaceSmall,
-                                Text.rich(TextSpan(children: [
-                                  TextSpan(
-                                      text: "Lokasi tidak tepat? ",
-                                      style: ktsBodyRegular.copyWith(
-                                          fontSize: 13,
-                                          color: Colors.blueGrey,
-                                          fontWeight: FontWeight.w400,
-                                          fontFamily: "Poppins")),
-                                  TextSpan(
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {
-                                          setState(() {
-                                            HttpService().showAddress().then(
-                                                (value) => location = value);
-                                          });
-                                        },
-                                      text: "Perbaharui lokasi",
-                                      style: ktsBodyRegular.copyWith(
-                                          fontSize: 13,
-                                          decoration: TextDecoration.underline,
-                                          color: Colors.blue,
-                                          fontWeight: FontWeight.w400,
-                                          fontFamily: "Poppins"))
-                                ])),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width,
-                                child: ElevatedButton.icon(
-                                    icon: Icon(Icons.login),
-                                    onPressed: () {
-                                      print(absen.selfieMasuk);
-                                      HttpService().postAbsenMasukData(
-                                          date: DateFormat("yyyy-MM-dd")
-                                              .format(widget.selectedDate),
-                                          timestamp: DateFormat(
-                                                  "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-                                              .format(widget.selectedDate),
-                                          jamMasuk: DateFormat("HH:MM:ss")
-                                              .format(DateTime.now()),
-                                          pathToImage: absen.selfieMasuk,
-                                          yaumiUser: 7);
-                                    },
-                                    label: Text("Catat Jam Masuk")),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
+                    : AbsenMasukPrompt(
+                        userAccount: widget.userAccount,
+                        imagePath: imagePath,
+                        absen: absen,
+                        selectedDate: widget.selectedDate),
                 floatingActionButton: imagePath == null
                     ? Stack(
                         children: [
