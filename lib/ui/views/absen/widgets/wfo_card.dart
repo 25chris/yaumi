@@ -198,43 +198,47 @@ class _WfoCardState extends State<WfoCard> {
 
             //Tombol
             widget.datum != null
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ElevatedButton.icon(
-                          style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                              padding: const EdgeInsets.all(8),
-                              backgroundColor: Colors.white),
-                          onPressed: null,
-                          icon: const Icon(Icons.cases_outlined),
-                          label: Text(
-                            "Sedang Bekerja",
-                            style: ktsBodyRegular.copyWith(
-                                fontSize: 12.0, fontWeight: FontWeight.w800),
-                          )),
-                      ElevatedButton.icon(
-                          style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                              padding: const EdgeInsets.all(8),
-                              backgroundColor: Colors.red),
-                          onPressed: () {
-                            widget.viewModel.toAbsenPulang(
-                                selectedDatetime:
-                                    widget.viewModel.selectedDateTime,
-                                userAccount: widget.userAccount,
-                                datum: widget.datum!);
-                          },
-                          icon: const Icon(Icons.logout),
-                          label: Text(
-                            "Selesai bekerja",
-                            style: ktsBodyRegular.copyWith(
-                                fontSize: 12.0, fontWeight: FontWeight.w800),
-                          )),
-                    ],
-                  )
+                ? widget.datum!.attributes!.jamPulang == null
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  padding: const EdgeInsets.all(8),
+                                  backgroundColor: Colors.white),
+                              onPressed: null,
+                              icon: const Icon(Icons.cases_outlined),
+                              label: Text(
+                                "Sedang Bekerja",
+                                style: ktsBodyRegular.copyWith(
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.w800),
+                              )),
+                          ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  padding: const EdgeInsets.all(8),
+                                  backgroundColor: Colors.red),
+                              onPressed: () {
+                                widget.viewModel.toAbsenPulang(
+                                    selectedDatetime:
+                                        widget.viewModel.selectedDateTime,
+                                    userAccount: widget.userAccount,
+                                    datum: widget.datum!);
+                              },
+                              icon: const Icon(Icons.logout),
+                              label: Text(
+                                "Selesai bekerja",
+                                style: ktsBodyRegular.copyWith(
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.w800),
+                              )),
+                        ],
+                      )
+                    : Container()
                 : ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
