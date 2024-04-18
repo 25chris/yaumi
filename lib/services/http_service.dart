@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:yaumi/app/app.dialogs.dart';
 import 'package:yaumi/app/app.locator.dart';
@@ -346,6 +347,38 @@ class HttpService {
 // Add the image file to the request
     var file =
         await http.MultipartFile.fromPath('files.selfieMasuk', imagePath);
+    request.files.add(file);
+
+// Send the request
+    http.StreamedResponse response = await request.send();
+
+// Handle the response
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      print('Error: ${response.reasonPhrase}');
+      // To debug, read the response body for more details.
+      String responseBody = await response.stream.bytesToString();
+      print('Response body: $responseBody');
+    }
+  }
+
+  Future putAbsenKeluarData(
+      {required int id, required String pathToImage}) async {
+    var imagePath = pathToImage;
+    var uri = Uri.parse('https://amala-api.online/api/absens/$id');
+
+// Create a new multipart request
+    var request = http.MultipartRequest('PUT', uri);
+
+// Add text fields
+    request.fields['data'] = json.encode({
+      "jamPulang": DateFormat("HH:MM:ss.SSS").format(DateTime.now()),
+    });
+
+// Add the image file to the request
+    var file =
+        await http.MultipartFile.fromPath('files.selfiePulang', imagePath);
     request.files.add(file);
 
 // Send the request

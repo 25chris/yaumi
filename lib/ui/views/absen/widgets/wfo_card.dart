@@ -221,7 +221,11 @@ class _WfoCardState extends State<WfoCard> {
                               padding: const EdgeInsets.all(8),
                               backgroundColor: Colors.red),
                           onPressed: () {
-                            widget.viewModel.submitPulang();
+                            widget.viewModel.toAbsenPulang(
+                                selectedDatetime:
+                                    widget.viewModel.selectedDateTime,
+                                userAccount: widget.userAccount,
+                                datum: widget.datum!);
                           },
                           icon: const Icon(Icons.logout),
                           label: Text(
@@ -238,9 +242,10 @@ class _WfoCardState extends State<WfoCard> {
                         padding: const EdgeInsets.all(8),
                         backgroundColor: Colors.blue[800]),
                     onPressed: () {
-                      widget.viewModel.toAbsenSelfie(
-                          selectedDatetime: widget.viewModel.selectedDateTime,
-                          userAccount: widget.userAccount);
+                      widget.viewModel.toAbsenMasuk(
+                        selectedDatetime: widget.viewModel.selectedDateTime,
+                        userAccount: widget.userAccount,
+                      );
                     },
                     icon: const Icon(Icons.login),
                     label: Text(

@@ -5,6 +5,7 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:yaumi/app/app.dialogs.dart';
 import 'package:yaumi/app/app.locator.dart';
 import 'package:yaumi/app/app.router.dart';
+import 'package:yaumi/models/strapi/absen_strapi.dart';
 import 'package:yaumi/services/http_service.dart';
 
 class AbsenViewModel extends BaseViewModel {
@@ -66,11 +67,19 @@ class AbsenViewModel extends BaseViewModel {
   }
 
   //==============NAVIGATION===================
-  Future<void> toAbsenSelfie(
+  Future<void> toAbsenMasuk(
       {required DateTime selectedDatetime,
       required GoogleSignInAccount userAccount}) async {
-    _navigationService.navigateToAbsenSelfieView(
-        selectedDatetime: selectedDatetime, userAccount: userAccount);
+    _navigationService.navigateToAbsenMasukView(
+        selectedDate: selectedDatetime, userAccount: userAccount);
+  }
+
+  Future<void> toAbsenPulang(
+      {required DateTime selectedDatetime,
+      required GoogleSignInAccount userAccount,
+      required Datum datum}) async {
+    _navigationService.navigateToAbsenPulangView(
+        selectedDate: selectedDatetime, userAccount: userAccount, datum: datum);
   }
 
   Future<void> toAbsenIjinCuti() async {

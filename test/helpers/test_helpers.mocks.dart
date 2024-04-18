@@ -902,6 +902,125 @@ class MockHttpService extends _i2.Mock implements _i7.HttpService {
         returnValue: _i5.Future<_i10.AbsenStrapi?>.value(),
         returnValueForMissingStub: _i5.Future<_i10.AbsenStrapi?>.value(),
       ) as _i5.Future<_i10.AbsenStrapi?>);
+
+  @override
+  _i5.Future<dynamic> postAbsenMasukData({
+    required String? date,
+    required String? timestamp,
+    String? jamMasuk,
+    String? jamPulang,
+    String? statusKehadiran,
+    String? lokasi,
+    String? udzurKeterlambatan,
+    String? udzurIjin,
+    String? namaPenyakit,
+    String? udzurWfh,
+    bool? approval,
+    String? udzurPulangAwal,
+    required String? pathToImage,
+    required int? yaumiUser,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #postAbsenMasukData,
+          [],
+          {
+            #date: date,
+            #timestamp: timestamp,
+            #jamMasuk: jamMasuk,
+            #jamPulang: jamPulang,
+            #statusKehadiran: statusKehadiran,
+            #lokasi: lokasi,
+            #udzurKeterlambatan: udzurKeterlambatan,
+            #udzurIjin: udzurIjin,
+            #namaPenyakit: namaPenyakit,
+            #udzurWfh: udzurWfh,
+            #approval: approval,
+            #udzurPulangAwal: udzurPulangAwal,
+            #pathToImage: pathToImage,
+            #yaumiUser: yaumiUser,
+          },
+        ),
+        returnValue: _i5.Future<dynamic>.value(),
+        returnValueForMissingStub: _i5.Future<dynamic>.value(),
+      ) as _i5.Future<dynamic>);
+
+  @override
+  _i5.Future<dynamic> putAbsenKeluarData({
+    required int? id,
+    required String? pathToImage,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #putAbsenKeluarData,
+          [],
+          {
+            #id: id,
+            #pathToImage: pathToImage,
+          },
+        ),
+        returnValue: _i5.Future<dynamic>.value(),
+        returnValueForMissingStub: _i5.Future<dynamic>.value(),
+      ) as _i5.Future<dynamic>);
+
+  @override
+  _i5.Future<String> getAddressFromLatLng(
+    double? latitude,
+    double? longitude,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAddressFromLatLng,
+          [
+            latitude,
+            longitude,
+          ],
+        ),
+        returnValue: _i5.Future<String>.value(_i4.dummyValue<String>(
+          this,
+          Invocation.method(
+            #getAddressFromLatLng,
+            [
+              latitude,
+              longitude,
+            ],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<String>.value(_i4.dummyValue<String>(
+          this,
+          Invocation.method(
+            #getAddressFromLatLng,
+            [
+              latitude,
+              longitude,
+            ],
+          ),
+        )),
+      ) as _i5.Future<String>);
+
+  @override
+  _i5.Future<String> showAddress() => (super.noSuchMethod(
+        Invocation.method(
+          #showAddress,
+          [],
+        ),
+        returnValue: _i5.Future<String>.value(_i4.dummyValue<String>(
+          this,
+          Invocation.method(
+            #showAddress,
+            [],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<String>.value(_i4.dummyValue<String>(
+          this,
+          Invocation.method(
+            #showAddress,
+            [],
+          ),
+        )),
+      ) as _i5.Future<String>);
 }
 
 /// A class which mocks [SnackbarService].

@@ -26,11 +26,7 @@ class WorkPhotoButtons extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ElevatedButton.icon(
-              onPressed: () {
-                viewModel.toAbsenSelfie(
-                    selectedDatetime: viewModel.selectedDateTime,
-                    userAccount: userAccount);
-              },
+              onPressed: () {},
               icon: Icon(Icons.camera_alt),
               label: Text('Selfie Masuk'),
             ),
