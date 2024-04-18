@@ -137,12 +137,12 @@ class _AbsenMasukPromptState extends State<AbsenMasukPrompt> {
               child: ElevatedButton.icon(
                   icon: Icon(Icons.login),
                   onPressed: () {
-                    print(widget.absen.selfieMasuk);
+                    print(DateTime.now());
+
                     HttpService().postAbsenMasukData(
                         date: DateFormat("yyyy-MM-dd")
                             .format(widget.selectedDate),
-                        timestamp: DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-                            .format(widget.selectedDate),
+                        timestamp: DateTime.now().toString(),
                         jamMasuk: DateFormat("HH:MM:ss").format(DateTime.now()),
                         pathToImage: widget.absen.selfieMasuk,
                         yaumiUser: 7);

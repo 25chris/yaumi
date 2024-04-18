@@ -50,7 +50,7 @@ class AbsenWidget extends StatelessWidget {
                     userAccount: userAccount,
                     datum: datum,
                   ),
-                  WfoMasukCard(viewModel: viewModel)
+                  WfoMasukCard(viewModel: viewModel, datum: datum)
                 ],
               );
             }

@@ -45,6 +45,21 @@ class AbsenViewModel extends BaseViewModel {
     return;
   }
 
+  //submitAbsen
+  void submitPulang() async {
+    isLoading = true;
+    rebuildUi();
+
+    await _dialogService.showCustomDialog(
+        variant: DialogType.infoAlert,
+        title: "Chekcout jam kerja?",
+        description: "Apakah hari ini anda bekerja overtime?");
+
+    isLoading = false;
+    rebuildUi();
+    return;
+  }
+
   //UpdateAbsen
   void updateAbsen() async {
     return;

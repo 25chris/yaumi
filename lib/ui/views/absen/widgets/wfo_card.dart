@@ -32,27 +32,19 @@ class _WfoCardState extends State<WfoCard> {
 
   @override
   void initState() {
-    _loadStartTime(datetime: widget.datum!.attributes!.timeStamp.toString());
+    if (widget.datum != null) {
+      print(widget.datum!.attributes!.timeStamp.toString());
+      _loadStartTime(datetime: widget.datum!.attributes!.timeStamp.toString());
+    } else {
+      return;
+    }
+
     super.initState();
-  }
-
-  void _loadStartTime({String? datetime}) async {
-    DateTime startTime = DateTime.parse(datetime!);
-
-    final currentTime = DateTime.now();
-    final difference = currentTime.difference(startTime);
-
-    setState(() {
-      _hours = difference.inHours;
-      _minutes = difference.inMinutes % 60;
-      _seconds = difference.inSeconds % 60;
-    });
-
-    _startTimer();
   }
 
   void _startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      // Update the seconds and handle minute and hour incrementation
       setState(() {
         _seconds++;
         if (_seconds >= 60) {
@@ -63,8 +55,46 @@ class _WfoCardState extends State<WfoCard> {
           _minutes = 0;
           _hours++;
         }
+
+        // Check if the total hours have reached 8, then stop the timer
+        if (_hours >= 8) {
+          _hours = 8; // Ensure hours display stops at 8
+          _timer?.cancel(); // Stop the timer
+        }
       });
     });
+  }
+
+  void _loadStartTime({String? datetime}) async {
+    try {
+      // Parse the UTC datetime string
+      DateTime utcStartTime = DateTime.parse(datetime!);
+
+      // Convert UTC time to UTC+7
+      DateTime localStartTime = utcStartTime.subtract(Duration(hours: 7));
+
+      final currentTime = DateTime.now();
+      final difference = currentTime.difference(localStartTime);
+
+      int initialHours = difference.inHours;
+      if (initialHours >= 8) {
+        _hours = 8; // Stop the hours at 8
+        _minutes = 0;
+        _seconds = 0;
+        return; // Do not start the timer if already at or beyond 8 hours
+      } else {
+        setState(() {
+          _hours = initialHours;
+          _minutes = difference.inMinutes % 60;
+          _seconds = difference.inSeconds % 60;
+        });
+
+        _startTimer();
+      }
+    } catch (e) {
+      // Handle parsing error or show error message
+      print('Error parsing datetime: $e');
+    }
   }
 
   @override
@@ -145,16 +175,29 @@ class _WfoCardState extends State<WfoCard> {
               ),
             ),
 
-            //info waktu kerja ideal
-            Text(
-              "Jadwal kerja general hari ini dari jam 07.30 sampai 16.30",
-              style: ktsBodyRegular.copyWith(
-                fontSize: 12.0,
-              ),
-            ),
+            _hours == 8
+                ?
+                //info waktu kerja ideal
+                Text(
+                    "\nHari ini anda telah menunaikan 8 jam kerja.\n",
+                    textAlign: TextAlign.center,
+                    style: ktsBodyRegular.copyWith(
+                      fontSize: 12.0,
+                    ),
+                  )
+                :
+
+                //info waktu kerja ideal
+                Text(
+                    "\nGeneral hours dari jam 08.00 sampai 16.00, total 8 Jam\n",
+                    textAlign: TextAlign.center,
+                    style: ktsBodyRegular.copyWith(
+                      fontSize: 12.0,
+                    ),
+                  ),
 
             //Tombol
-            widget.datum!.attributes!.jamMasuk != null
+            widget.datum != null
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -177,10 +220,12 @@ class _WfoCardState extends State<WfoCard> {
                                   borderRadius: BorderRadius.circular(10)),
                               padding: const EdgeInsets.all(8),
                               backgroundColor: Colors.red),
-                          onPressed: () {},
+                          onPressed: () {
+                            widget.viewModel.submitPulang();
+                          },
                           icon: const Icon(Icons.logout),
                           label: Text(
-                            "Pulang Kerja",
+                            "Selesai bekerja",
                             style: ktsBodyRegular.copyWith(
                                 fontSize: 12.0, fontWeight: FontWeight.w800),
                           )),
