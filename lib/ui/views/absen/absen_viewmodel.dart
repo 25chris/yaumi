@@ -15,12 +15,12 @@ class AbsenViewModel extends BaseViewModel {
   bool isLoading = false;
 
   List<Color> tepatWaktyGradient = [
-    Color.fromARGB(255, 10, 123, 215),
-    Color.fromARGB(255, 127, 196, 252)
+    const Color.fromARGB(255, 10, 123, 215),
+    const Color.fromARGB(255, 127, 196, 252)
   ];
   List<Color> terlambatGradient = [
-    Color.fromARGB(255, 215, 10, 10),
-    Color.fromARGB(255, 252, 127, 127)
+    const Color.fromARGB(255, 215, 10, 10),
+    const Color.fromARGB(255, 252, 127, 127)
   ];
 
   DateTime selectedDateTime =
@@ -66,6 +66,8 @@ class AbsenViewModel extends BaseViewModel {
     return;
   }
 
+  //==============control function
+
   //==============NAVIGATION===================
   Future<void> toAbsenMasuk(
       {required DateTime selectedDatetime,
@@ -84,5 +86,15 @@ class AbsenViewModel extends BaseViewModel {
 
   Future<void> toAbsenIjinCuti() async {
     _navigationService.navigateToAbsenIjinCutiView();
+  }
+
+  Future replaceToAbsenView({required GoogleSignInAccount userAccount}) async {
+    _navigationService.replaceWithAbsenView(userAccount: userAccount);
+  }
+
+  Future toAbsenDetailView(
+      {required Datum datum, required bool isDetailMasuk}) async {
+    _navigationService.navigateToAbsenDetailView(
+        datum: datum, isDetailMasuk: isDetailMasuk);
   }
 }

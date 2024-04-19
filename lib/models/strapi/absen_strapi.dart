@@ -79,16 +79,16 @@ class DatumAttributes {
   final String? jamMasuk;
   final String? jamPulang;
   final String? statusKehadiran;
-  final String? lokasi;
-  final String? udzurKeterlambatan;
-  final String? udzurIjin;
-  final String? namaPenyakit;
+  final dynamic lokasi;
+  final dynamic udzurKeterlambatan;
+  final dynamic udzurIjin;
+  final dynamic namaPenyakit;
   final dynamic udzurWfh;
-  final bool? approval;
+  final dynamic approval;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final DateTime? publishedAt;
-  final String? udzurPulangAwal;
+  final dynamic udzurPulangAwal;
   final DokumenIjin? selfieMasuk;
   final DokumenIjin? selfiePulang;
   final DokumenIjin? dokumenIjin;
@@ -126,16 +126,16 @@ class DatumAttributes {
     String? jamMasuk,
     String? jamPulang,
     String? statusKehadiran,
-    String? lokasi,
-    String? udzurKeterlambatan,
-    String? udzurIjin,
-    String? namaPenyakit,
+    dynamic lokasi,
+    dynamic udzurKeterlambatan,
+    dynamic udzurIjin,
+    dynamic namaPenyakit,
     dynamic udzurWfh,
-    bool? approval,
+    dynamic approval,
     DateTime? createdAt,
     DateTime? updatedAt,
     DateTime? publishedAt,
-    String? udzurPulangAwal,
+    dynamic udzurPulangAwal,
     DokumenIjin? selfieMasuk,
     DokumenIjin? selfiePulang,
     DokumenIjin? dokumenIjin,
@@ -314,8 +314,8 @@ class DataAttributes {
   final int? height;
   final Formats? formats;
   final String? hash;
-  final Ext? ext;
-  final Mime? mime;
+  final String? ext;
+  final String? mime;
   final double? size;
   final String? url;
   final dynamic previewUrl;
@@ -363,8 +363,8 @@ class DataAttributes {
     int? height,
     Formats? formats,
     String? hash,
-    Ext? ext,
-    Mime? mime,
+    String? ext,
+    String? mime,
     double? size,
     String? url,
     dynamic previewUrl,
@@ -418,8 +418,8 @@ class DataAttributes {
         formats:
             json["formats"] == null ? null : Formats.fromJson(json["formats"]),
         hash: json["hash"],
-        ext: extValues.map[json["ext"]]!,
-        mime: mimeValues.map[json["mime"]]!,
+        ext: json["ext"],
+        mime: json["mime"],
         size: json["size"]?.toDouble(),
         url: json["url"],
         previewUrl: json["previewUrl"],
@@ -449,8 +449,8 @@ class DataAttributes {
         "height": height,
         "formats": formats?.toJson(),
         "hash": hash,
-        "ext": extValues.reverse[ext],
-        "mime": mimeValues.reverse[mime],
+        "ext": ext,
+        "mime": mime,
         "size": size,
         "url": url,
         "previewUrl": previewUrl,
@@ -467,34 +467,30 @@ class DataAttributes {
       };
 }
 
-enum Ext { PNG, WEBP }
-
-final extValues = EnumValues({".png": Ext.PNG, ".webp": Ext.WEBP});
-
 class Formats {
   final Large? thumbnail;
+  final Large? large;
   final Large? medium;
   final Large? small;
-  final Large? large;
 
   Formats({
     this.thumbnail,
+    this.large,
     this.medium,
     this.small,
-    this.large,
   });
 
   Formats copyWith({
     Large? thumbnail,
+    Large? large,
     Large? medium,
     Large? small,
-    Large? large,
   }) =>
       Formats(
         thumbnail: thumbnail ?? this.thumbnail,
+        large: large ?? this.large,
         medium: medium ?? this.medium,
         small: small ?? this.small,
-        large: large ?? this.large,
       );
 
   factory Formats.fromRawJson(String str) => Formats.fromJson(json.decode(str));
@@ -505,24 +501,24 @@ class Formats {
         thumbnail: json["thumbnail"] == null
             ? null
             : Large.fromJson(json["thumbnail"]),
+        large: json["large"] == null ? null : Large.fromJson(json["large"]),
         medium: json["medium"] == null ? null : Large.fromJson(json["medium"]),
         small: json["small"] == null ? null : Large.fromJson(json["small"]),
-        large: json["large"] == null ? null : Large.fromJson(json["large"]),
       );
 
   Map<String, dynamic> toJson() => {
         "thumbnail": thumbnail?.toJson(),
+        "large": large?.toJson(),
         "medium": medium?.toJson(),
         "small": small?.toJson(),
-        "large": large?.toJson(),
       };
 }
 
 class Large {
   final String? name;
   final String? hash;
-  final Ext? ext;
-  final Mime? mime;
+  final String? ext;
+  final String? mime;
   final dynamic path;
   final int? width;
   final int? height;
@@ -544,8 +540,8 @@ class Large {
   Large copyWith({
     String? name,
     String? hash,
-    Ext? ext,
-    Mime? mime,
+    String? ext,
+    String? mime,
     dynamic path,
     int? width,
     int? height,
@@ -571,8 +567,8 @@ class Large {
   factory Large.fromJson(Map<String, dynamic> json) => Large(
         name: json["name"],
         hash: json["hash"],
-        ext: extValues.map[json["ext"]]!,
-        mime: mimeValues.map[json["mime"]]!,
+        ext: json["ext"],
+        mime: json["mime"],
         path: json["path"],
         width: json["width"],
         height: json["height"],
@@ -583,8 +579,8 @@ class Large {
   Map<String, dynamic> toJson() => {
         "name": name,
         "hash": hash,
-        "ext": extValues.reverse[ext],
-        "mime": mimeValues.reverse[mime],
+        "ext": ext,
+        "mime": mime,
         "path": path,
         "width": width,
         "height": height,
@@ -592,11 +588,6 @@ class Large {
         "url": url,
       };
 }
-
-enum Mime { IMAGE_PNG, IMAGE_WEBP }
-
-final mimeValues =
-    EnumValues({"image/png": Mime.IMAGE_PNG, "image/webp": Mime.IMAGE_WEBP});
 
 class Meta {
   final Pagination? pagination;
@@ -671,16 +662,4 @@ class Pagination {
         "pageCount": pageCount,
         "total": total,
       };
-}
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }

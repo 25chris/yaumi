@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:yaumi/models/strapi/absen_strapi.dart';
 import 'package:yaumi/ui/common/app_shared_style.dart';
-import 'package:yaumi/ui/common/yaumi_temp.dart';
 import 'package:yaumi/ui/views/absen/absen_viewmodel.dart';
 
 class WfoMasukCard extends StatelessWidget {
@@ -15,18 +12,25 @@ class WfoMasukCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: ClipRRect(
-        child:
-            imageFilePath != "" ? Image.file(File(imageFilePath)) : SizedBox(),
+        child: datum.attributes!.selfieMasuk!.data!.attributes!.url! != ""
+            ? RotatedBox(
+                quarterTurns: 1,
+                child: Image.network(
+                    "https://amala-api.online${datum.attributes!.selfieMasuk!.data!.attributes!.url!}"),
+              )
+            : SizedBox(),
       ),
       title: checkTimeStatus(datum.attributes!.jamMasuk!),
       subtitle: Text(
-        datum.attributes!.jamMasuk!,
+        datum.attributes!.jamMasuk!.replaceRange(5, null, ""),
         style: ktsBodyRegular.copyWith(
             fontSize: 17.0,
             color: Colors.blueGrey[800],
             fontWeight: FontWeight.w700),
       ),
       trailing: Icon(Icons.chevron_right),
+      onTap: () =>
+          viewModel.toAbsenDetailView(datum: datum, isDetailMasuk: true),
     );
   }
 }
@@ -42,7 +46,7 @@ Widget checkTimeStatus(String time) {
   final inputTime = DateTime(0, 0, 0, hours, minutes, seconds);
 
   // Create a DateTime object for 08:00:00
-  final comparisonTime = DateTime(0, 0, 0, 8, 0, 0);
+  final comparisonTime = DateTime(0, 0, 0, 8, 15, 0);
 
   // Check if the input time is later than 08:00:00
   if (inputTime.isAfter(comparisonTime)) {

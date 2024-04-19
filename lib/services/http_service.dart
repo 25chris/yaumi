@@ -293,7 +293,7 @@ class HttpService {
     var request = http.Request(
         'GET',
         Uri.parse(
-            'https://amala-api.online/api/absens?filters[yaumi_user][email][\$eq]=$email&filters[date][\$eq]=$date'));
+            'https://amala-api.online/api/absens?filters[yaumi_user][email][\$eq]=$email&filters[date][\$eq]=$date&populate=*'));
 
     http.StreamedResponse response = await request.send();
 
@@ -373,7 +373,7 @@ class HttpService {
 
 // Add text fields
     request.fields['data'] = json.encode({
-      "jamPulang": DateFormat("HH:MM:ss.SSS").format(DateTime.now()),
+      "jamPulang": DateFormat("hh:mm:ss").format(DateTime.now()),
     });
 
 // Add the image file to the request

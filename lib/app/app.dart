@@ -26,6 +26,7 @@ import 'package:yaumi/ui/views/absen_selfie/absen_selfie_view.dart';
 import 'package:yaumi/ui/views/absen_ijin_cuti/absen_ijin_cuti_view.dart';
 import 'package:yaumi/ui/views/absen_masuk/absen_masuk_view.dart';
 import 'package:yaumi/ui/views/absen_pulang/absen_pulang_view.dart';
+import 'package:yaumi/ui/views/absen_detail/absen_detail_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -43,6 +44,7 @@ import 'package:yaumi/ui/views/absen_pulang/absen_pulang_view.dart';
     MaterialRoute(page: AbsenIjinCutiView),
     MaterialRoute(page: AbsenMasukView),
     MaterialRoute(page: AbsenPulangView),
+    MaterialRoute(page: AbsenDetailView),
 // @stacked-route
   ],
   dependencies: [

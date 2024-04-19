@@ -5,13 +5,14 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:flutter/material.dart' as _i15;
+import 'package:flutter/material.dart' as _i16;
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart' as _i16;
+import 'package:google_sign_in/google_sign_in.dart' as _i17;
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i18;
-import 'package:yaumi/models/strapi/absen_strapi.dart' as _i17;
+import 'package:stacked_services/stacked_services.dart' as _i19;
+import 'package:yaumi/models/strapi/absen_strapi.dart' as _i18;
 import 'package:yaumi/ui/views/absen/absen_view.dart' as _i6;
+import 'package:yaumi/ui/views/absen_detail/absen_detail_view.dart' as _i15;
 import 'package:yaumi/ui/views/absen_ijin_cuti/absen_ijin_cuti_view.dart'
     as _i12;
 import 'package:yaumi/ui/views/absen_masuk/absen_masuk_view.dart' as _i13;
@@ -53,6 +54,8 @@ class Routes {
 
   static const absenPulangView = '/absen-pulang-view';
 
+  static const absenDetailView = '/absen-detail-view';
+
   static const all = <String>{
     loginView,
     homeView,
@@ -67,6 +70,7 @@ class Routes {
     absenIjinCutiView,
     absenMasukView,
     absenPulangView,
+    absenDetailView,
   };
 }
 
@@ -124,52 +128,56 @@ class StackedRouter extends _i1.RouterBase {
       Routes.absenPulangView,
       page: _i14.AbsenPulangView,
     ),
+    _i1.RouteDef(
+      Routes.absenDetailView,
+      page: _i15.AbsenDetailView,
+    ),
   ];
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
     _i2.LoginView: (data) {
-      return _i15.MaterialPageRoute<dynamic>(
+      return _i16.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.LoginView(),
         settings: data,
       );
     },
     _i3.HomeView: (data) {
       final args = data.getArgs<HomeViewArguments>(nullOk: false);
-      return _i15.MaterialPageRoute<dynamic>(
+      return _i16.MaterialPageRoute<dynamic>(
         builder: (context) =>
             _i3.HomeView(key: args.key, currentUser: args.currentUser),
         settings: data,
       );
     },
     _i4.StartupView: (data) {
-      return _i15.MaterialPageRoute<dynamic>(
+      return _i16.MaterialPageRoute<dynamic>(
         builder: (context) => const _i4.StartupView(),
         settings: data,
       );
     },
     _i5.YaumiView: (data) {
-      return _i15.MaterialPageRoute<dynamic>(
+      return _i16.MaterialPageRoute<dynamic>(
         builder: (context) => const _i5.YaumiView(),
         settings: data,
       );
     },
     _i6.AbsenView: (data) {
       final args = data.getArgs<AbsenViewArguments>(nullOk: false);
-      return _i15.MaterialPageRoute<dynamic>(
+      return _i16.MaterialPageRoute<dynamic>(
         builder: (context) =>
             _i6.AbsenView(key: args.key, userAccount: args.userAccount),
         settings: data,
       );
     },
     _i7.GroupsView: (data) {
-      return _i15.MaterialPageRoute<dynamic>(
+      return _i16.MaterialPageRoute<dynamic>(
         builder: (context) => const _i7.GroupsView(),
         settings: data,
       );
     },
     _i8.SettingsView: (data) {
       final args = data.getArgs<SettingsViewArguments>(nullOk: false);
-      return _i15.MaterialPageRoute<dynamic>(
+      return _i16.MaterialPageRoute<dynamic>(
         builder: (context) =>
             _i8.SettingsView(key: args.key, currentUser: args.currentUser),
         settings: data,
@@ -177,21 +185,21 @@ class StackedRouter extends _i1.RouterBase {
     },
     _i9.StrapiLoginView: (data) {
       final args = data.getArgs<StrapiLoginViewArguments>(nullOk: false);
-      return _i15.MaterialPageRoute<dynamic>(
+      return _i16.MaterialPageRoute<dynamic>(
         builder: (context) =>
             _i9.StrapiLoginView(key: args.key, currentUser: args.currentUser),
         settings: data,
       );
     },
     _i10.YaumiLogView: (data) {
-      return _i15.MaterialPageRoute<dynamic>(
+      return _i16.MaterialPageRoute<dynamic>(
         builder: (context) => const _i10.YaumiLogView(),
         settings: data,
       );
     },
     _i11.AbsenSelfieView: (data) {
       final args = data.getArgs<AbsenSelfieViewArguments>(nullOk: false);
-      return _i15.MaterialPageRoute<dynamic>(
+      return _i16.MaterialPageRoute<dynamic>(
         builder: (context) => _i11.AbsenSelfieView(
             key: args.key,
             selectedDatetime: args.selectedDatetime,
@@ -202,14 +210,14 @@ class StackedRouter extends _i1.RouterBase {
       );
     },
     _i12.AbsenIjinCutiView: (data) {
-      return _i15.MaterialPageRoute<dynamic>(
+      return _i16.MaterialPageRoute<dynamic>(
         builder: (context) => const _i12.AbsenIjinCutiView(),
         settings: data,
       );
     },
     _i13.AbsenMasukView: (data) {
       final args = data.getArgs<AbsenMasukViewArguments>(nullOk: false);
-      return _i15.MaterialPageRoute<dynamic>(
+      return _i16.MaterialPageRoute<dynamic>(
         builder: (context) => _i13.AbsenMasukView(
             key: args.key,
             selectedDate: args.selectedDate,
@@ -219,12 +227,22 @@ class StackedRouter extends _i1.RouterBase {
     },
     _i14.AbsenPulangView: (data) {
       final args = data.getArgs<AbsenPulangViewArguments>(nullOk: false);
-      return _i15.MaterialPageRoute<dynamic>(
+      return _i16.MaterialPageRoute<dynamic>(
         builder: (context) => _i14.AbsenPulangView(
             key: args.key,
             selectedDate: args.selectedDate,
             userAccount: args.userAccount,
             datum: args.datum),
+        settings: data,
+      );
+    },
+    _i15.AbsenDetailView: (data) {
+      final args = data.getArgs<AbsenDetailViewArguments>(nullOk: false);
+      return _i16.MaterialPageRoute<dynamic>(
+        builder: (context) => _i15.AbsenDetailView(
+            key: args.key,
+            datum: args.datum,
+            isDetailMasuk: args.isDetailMasuk),
         settings: data,
       );
     },
@@ -243,9 +261,9 @@ class HomeViewArguments {
     required this.currentUser,
   });
 
-  final _i15.Key? key;
+  final _i16.Key? key;
 
-  final _i16.GoogleSignInAccount? currentUser;
+  final _i17.GoogleSignInAccount? currentUser;
 
   @override
   String toString() {
@@ -270,9 +288,9 @@ class AbsenViewArguments {
     required this.userAccount,
   });
 
-  final _i15.Key? key;
+  final _i16.Key? key;
 
-  final _i16.GoogleSignInAccount userAccount;
+  final _i17.GoogleSignInAccount userAccount;
 
   @override
   String toString() {
@@ -297,9 +315,9 @@ class SettingsViewArguments {
     required this.currentUser,
   });
 
-  final _i15.Key? key;
+  final _i16.Key? key;
 
-  final _i16.GoogleSignInAccount? currentUser;
+  final _i17.GoogleSignInAccount? currentUser;
 
   @override
   String toString() {
@@ -324,9 +342,9 @@ class StrapiLoginViewArguments {
     required this.currentUser,
   });
 
-  final _i15.Key? key;
+  final _i16.Key? key;
 
-  final _i16.GoogleSignInAccount? currentUser;
+  final _i17.GoogleSignInAccount? currentUser;
 
   @override
   String toString() {
@@ -354,13 +372,13 @@ class AbsenSelfieViewArguments {
     required this.isCheckIn,
   });
 
-  final _i15.Key? key;
+  final _i16.Key? key;
 
   final DateTime selectedDatetime;
 
-  final _i16.GoogleSignInAccount userAccount;
+  final _i17.GoogleSignInAccount userAccount;
 
-  final _i17.Datum? datum;
+  final _i18.Datum? datum;
 
   final bool isCheckIn;
 
@@ -396,11 +414,11 @@ class AbsenMasukViewArguments {
     required this.userAccount,
   });
 
-  final _i15.Key? key;
+  final _i16.Key? key;
 
   final DateTime selectedDate;
 
-  final _i16.GoogleSignInAccount userAccount;
+  final _i17.GoogleSignInAccount userAccount;
 
   @override
   String toString() {
@@ -429,13 +447,13 @@ class AbsenPulangViewArguments {
     required this.datum,
   });
 
-  final _i15.Key? key;
+  final _i16.Key? key;
 
   final DateTime selectedDate;
 
-  final _i16.GoogleSignInAccount userAccount;
+  final _i17.GoogleSignInAccount userAccount;
 
-  final _i17.Datum datum;
+  final _i18.Datum datum;
 
   @override
   String toString() {
@@ -460,7 +478,39 @@ class AbsenPulangViewArguments {
   }
 }
 
-extension NavigatorStateExtension on _i18.NavigationService {
+class AbsenDetailViewArguments {
+  const AbsenDetailViewArguments({
+    this.key,
+    required this.datum,
+    required this.isDetailMasuk,
+  });
+
+  final _i16.Key? key;
+
+  final _i18.Datum datum;
+
+  final bool isDetailMasuk;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "datum": "$datum", "isDetailMasuk": "$isDetailMasuk"}';
+  }
+
+  @override
+  bool operator ==(covariant AbsenDetailViewArguments other) {
+    if (identical(this, other)) return true;
+    return other.key == key &&
+        other.datum == datum &&
+        other.isDetailMasuk == isDetailMasuk;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode ^ datum.hashCode ^ isDetailMasuk.hashCode;
+  }
+}
+
+extension NavigatorStateExtension on _i19.NavigationService {
   Future<dynamic> navigateToLoginView([
     int? routerId,
     bool preventDuplicates = true,
@@ -476,8 +526,8 @@ extension NavigatorStateExtension on _i18.NavigationService {
   }
 
   Future<dynamic> navigateToHomeView({
-    _i15.Key? key,
-    required _i16.GoogleSignInAccount? currentUser,
+    _i16.Key? key,
+    required _i17.GoogleSignInAccount? currentUser,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -521,8 +571,8 @@ extension NavigatorStateExtension on _i18.NavigationService {
   }
 
   Future<dynamic> navigateToAbsenView({
-    _i15.Key? key,
-    required _i16.GoogleSignInAccount userAccount,
+    _i16.Key? key,
+    required _i17.GoogleSignInAccount userAccount,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -552,8 +602,8 @@ extension NavigatorStateExtension on _i18.NavigationService {
   }
 
   Future<dynamic> navigateToSettingsView({
-    _i15.Key? key,
-    required _i16.GoogleSignInAccount? currentUser,
+    _i16.Key? key,
+    required _i17.GoogleSignInAccount? currentUser,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -569,8 +619,8 @@ extension NavigatorStateExtension on _i18.NavigationService {
   }
 
   Future<dynamic> navigateToStrapiLoginView({
-    _i15.Key? key,
-    required _i16.GoogleSignInAccount? currentUser,
+    _i16.Key? key,
+    required _i17.GoogleSignInAccount? currentUser,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -600,10 +650,10 @@ extension NavigatorStateExtension on _i18.NavigationService {
   }
 
   Future<dynamic> navigateToAbsenSelfieView({
-    _i15.Key? key,
+    _i16.Key? key,
     required DateTime selectedDatetime,
-    required _i16.GoogleSignInAccount userAccount,
-    _i17.Datum? datum,
+    required _i17.GoogleSignInAccount userAccount,
+    _i18.Datum? datum,
     required bool isCheckIn,
     int? routerId,
     bool preventDuplicates = true,
@@ -639,9 +689,9 @@ extension NavigatorStateExtension on _i18.NavigationService {
   }
 
   Future<dynamic> navigateToAbsenMasukView({
-    _i15.Key? key,
+    _i16.Key? key,
     required DateTime selectedDate,
-    required _i16.GoogleSignInAccount userAccount,
+    required _i17.GoogleSignInAccount userAccount,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -658,10 +708,10 @@ extension NavigatorStateExtension on _i18.NavigationService {
   }
 
   Future<dynamic> navigateToAbsenPulangView({
-    _i15.Key? key,
+    _i16.Key? key,
     required DateTime selectedDate,
-    required _i16.GoogleSignInAccount userAccount,
-    required _i17.Datum datum,
+    required _i17.GoogleSignInAccount userAccount,
+    required _i18.Datum datum,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -674,6 +724,25 @@ extension NavigatorStateExtension on _i18.NavigationService {
             selectedDate: selectedDate,
             userAccount: userAccount,
             datum: datum),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToAbsenDetailView({
+    _i16.Key? key,
+    required _i18.Datum datum,
+    required bool isDetailMasuk,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return navigateTo<dynamic>(Routes.absenDetailView,
+        arguments: AbsenDetailViewArguments(
+            key: key, datum: datum, isDetailMasuk: isDetailMasuk),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -695,8 +764,8 @@ extension NavigatorStateExtension on _i18.NavigationService {
   }
 
   Future<dynamic> replaceWithHomeView({
-    _i15.Key? key,
-    required _i16.GoogleSignInAccount? currentUser,
+    _i16.Key? key,
+    required _i17.GoogleSignInAccount? currentUser,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -740,8 +809,8 @@ extension NavigatorStateExtension on _i18.NavigationService {
   }
 
   Future<dynamic> replaceWithAbsenView({
-    _i15.Key? key,
-    required _i16.GoogleSignInAccount userAccount,
+    _i16.Key? key,
+    required _i17.GoogleSignInAccount userAccount,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -771,8 +840,8 @@ extension NavigatorStateExtension on _i18.NavigationService {
   }
 
   Future<dynamic> replaceWithSettingsView({
-    _i15.Key? key,
-    required _i16.GoogleSignInAccount? currentUser,
+    _i16.Key? key,
+    required _i17.GoogleSignInAccount? currentUser,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -788,8 +857,8 @@ extension NavigatorStateExtension on _i18.NavigationService {
   }
 
   Future<dynamic> replaceWithStrapiLoginView({
-    _i15.Key? key,
-    required _i16.GoogleSignInAccount? currentUser,
+    _i16.Key? key,
+    required _i17.GoogleSignInAccount? currentUser,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -819,10 +888,10 @@ extension NavigatorStateExtension on _i18.NavigationService {
   }
 
   Future<dynamic> replaceWithAbsenSelfieView({
-    _i15.Key? key,
+    _i16.Key? key,
     required DateTime selectedDatetime,
-    required _i16.GoogleSignInAccount userAccount,
-    _i17.Datum? datum,
+    required _i17.GoogleSignInAccount userAccount,
+    _i18.Datum? datum,
     required bool isCheckIn,
     int? routerId,
     bool preventDuplicates = true,
@@ -858,9 +927,9 @@ extension NavigatorStateExtension on _i18.NavigationService {
   }
 
   Future<dynamic> replaceWithAbsenMasukView({
-    _i15.Key? key,
+    _i16.Key? key,
     required DateTime selectedDate,
-    required _i16.GoogleSignInAccount userAccount,
+    required _i17.GoogleSignInAccount userAccount,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -877,10 +946,10 @@ extension NavigatorStateExtension on _i18.NavigationService {
   }
 
   Future<dynamic> replaceWithAbsenPulangView({
-    _i15.Key? key,
+    _i16.Key? key,
     required DateTime selectedDate,
-    required _i16.GoogleSignInAccount userAccount,
-    required _i17.Datum datum,
+    required _i17.GoogleSignInAccount userAccount,
+    required _i18.Datum datum,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -893,6 +962,25 @@ extension NavigatorStateExtension on _i18.NavigationService {
             selectedDate: selectedDate,
             userAccount: userAccount,
             datum: datum),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithAbsenDetailView({
+    _i16.Key? key,
+    required _i18.Datum datum,
+    required bool isDetailMasuk,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return replaceWith<dynamic>(Routes.absenDetailView,
+        arguments: AbsenDetailViewArguments(
+            key: key, datum: datum, isDetailMasuk: isDetailMasuk),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

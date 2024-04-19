@@ -8,6 +8,7 @@ import 'package:yaumi/ui/views/absen/absen_viewmodel.dart';
 import 'package:yaumi/ui/views/absen/widgets/absen_form.dart';
 import 'package:yaumi/ui/views/absen/widgets/wfo_card.dart';
 import 'package:yaumi/ui/views/absen/widgets/wfo_masuk_card.dart';
+import 'package:yaumi/ui/views/absen/widgets/wfo_pulang_card.dart';
 
 class AbsenWidget extends StatelessWidget {
   final AbsenViewModel viewModel;
@@ -50,7 +51,13 @@ class AbsenWidget extends StatelessWidget {
                     userAccount: userAccount,
                     datum: datum,
                   ),
-                  WfoMasukCard(viewModel: viewModel, datum: datum)
+                  WfoMasukCard(viewModel: viewModel, datum: datum),
+                  datum.attributes!.jamPulang != null
+                      ? WfoPulangCard(
+                          viewModel: viewModel,
+                          datum: datum,
+                        )
+                      : Container()
                 ],
               );
             }

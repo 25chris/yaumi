@@ -27,6 +27,7 @@ class AbsenPulangView extends StackedView<AbsenPulangViewModel> {
       selectedDate: selectedDate,
       userAccount: userAccount,
       datum: datum,
+      viewModel: viewModel,
     );
   }
 

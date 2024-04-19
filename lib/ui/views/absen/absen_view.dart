@@ -49,7 +49,6 @@ class AbsenView extends StackedView<AbsenViewModel> {
                       dokumenWfh: '')));
               return Container();
             } else {
-              print('absen: $absen');
               final selectedAbsen = absen.firstWhere(
                   (element) => element.date == viewModel.selectedDateTime);
               return SafeArea(

@@ -18,7 +18,11 @@ class AbsenMasukView extends StackedView<AbsenMasukViewModel> {
     AbsenMasukViewModel viewModel,
     Widget? child,
   ) {
-    return CameraMasuk(selectedDate: selectedDate, userAccount: userAccount);
+    return CameraMasuk(
+      selectedDate: selectedDate,
+      userAccount: userAccount,
+      viewModel: viewModel,
+    );
   }
 
   @override

@@ -33,8 +33,14 @@ class _WfoCardState extends State<WfoCard> {
   @override
   void initState() {
     if (widget.datum != null) {
-      print(widget.datum!.attributes!.timeStamp.toString());
-      _loadStartTime(datetime: widget.datum!.attributes!.timeStamp.toString());
+      DateTime defaultDate = widget.datum!.attributes!.date!;
+      String baseDate =
+          "${defaultDate.year}-${defaultDate.month.toString().padLeft(2, '0')}-${defaultDate.day.toString().padLeft(2, '0')}";
+
+      // Parse the time strings using the corrected baseDate
+      DateTime jamMasuk =
+          DateTime.parse("$baseDate ${widget.datum!.attributes!.jamMasuk}");
+      _loadStartTime(datetime: jamMasuk.toString());
     } else {
       return;
     }
@@ -44,7 +50,6 @@ class _WfoCardState extends State<WfoCard> {
 
   void _startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      // Update the seconds and handle minute and hour incrementation
       setState(() {
         _seconds++;
         if (_seconds >= 60) {
@@ -56,10 +61,31 @@ class _WfoCardState extends State<WfoCard> {
           _hours++;
         }
 
-        // Check if the total hours have reached 8, then stop the timer
+        if (widget.datum!.attributes!.jamPulang != null) {
+          _timer!.cancel(); // Cancel the timer
+
+          // Ensure the month and day are zero-padded
+          DateTime defaultDate = widget.datum!.attributes!.date!;
+          String baseDate =
+              "${defaultDate.year}-${defaultDate.month.toString().padLeft(2, '0')}-${defaultDate.day.toString().padLeft(2, '0')}";
+
+          // Parse the time strings using the corrected baseDate
+          DateTime jamMasuk =
+              DateTime.parse("$baseDate ${widget.datum!.attributes!.jamMasuk}");
+          DateTime jamPulang = DateTime.parse(
+              "$baseDate ${widget.datum!.attributes!.jamPulang}");
+
+          Duration duration = jamPulang.difference(jamMasuk);
+
+          // Update hours, minutes, and seconds to display the difference
+          _hours = duration.inHours;
+          _minutes = duration.inMinutes % 60;
+          _seconds = duration.inSeconds % 60;
+        }
+
         if (_hours >= 8) {
-          _hours = 8; // Ensure hours display stops at 8
-          _timer?.cancel(); // Stop the timer
+          _hours = 8;
+          _timer?.cancel();
         }
       });
     });
@@ -71,10 +97,10 @@ class _WfoCardState extends State<WfoCard> {
       DateTime utcStartTime = DateTime.parse(datetime!);
 
       // Convert UTC time to UTC+7
-      DateTime localStartTime = utcStartTime.subtract(Duration(hours: 7));
+      DateTime localStartTime = utcStartTime.subtract(Duration(minutes: 308));
 
       final currentTime = DateTime.now();
-      final difference = currentTime.difference(localStartTime);
+      final difference = currentTime.difference(utcStartTime);
 
       int initialHours = difference.inHours;
       if (initialHours >= 8) {
