@@ -14,7 +14,7 @@ class WfoMasukCard extends StatelessWidget {
       leading: ClipRRect(
         child: datum.attributes!.selfieMasuk!.data!.attributes!.url! != ""
             ? RotatedBox(
-                quarterTurns: 1,
+                quarterTurns: 3,
                 child: Image.network(
                     "https://amala-api.online${datum.attributes!.selfieMasuk!.data!.attributes!.url!}"),
               )

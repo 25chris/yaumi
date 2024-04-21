@@ -907,16 +907,11 @@ class MockHttpService extends _i2.Mock implements _i7.HttpService {
   _i5.Future<dynamic> postAbsenMasukData({
     required String? date,
     required String? timestamp,
-    String? jamMasuk,
-    String? jamPulang,
-    String? statusKehadiran,
-    String? lokasi,
+    required String? jamMasuk,
+    required String? statusKehadiran,
+    required String? lokasi,
     String? udzurKeterlambatan,
-    String? udzurIjin,
-    String? namaPenyakit,
-    String? udzurWfh,
-    bool? approval,
-    String? udzurPulangAwal,
+    required int? checkInDifference,
     required String? pathToImage,
     required int? yaumiUser,
   }) =>
@@ -928,15 +923,10 @@ class MockHttpService extends _i2.Mock implements _i7.HttpService {
             #date: date,
             #timestamp: timestamp,
             #jamMasuk: jamMasuk,
-            #jamPulang: jamPulang,
             #statusKehadiran: statusKehadiran,
             #lokasi: lokasi,
             #udzurKeterlambatan: udzurKeterlambatan,
-            #udzurIjin: udzurIjin,
-            #namaPenyakit: namaPenyakit,
-            #udzurWfh: udzurWfh,
-            #approval: approval,
-            #udzurPulangAwal: udzurPulangAwal,
+            #checkInDifference: checkInDifference,
             #pathToImage: pathToImage,
             #yaumiUser: yaumiUser,
           },
@@ -949,6 +939,9 @@ class MockHttpService extends _i2.Mock implements _i7.HttpService {
   _i5.Future<dynamic> putAbsenKeluarData({
     required int? id,
     required String? pathToImage,
+    required int? calculateDuration,
+    String? pulangLebihAwal,
+    required int? calculateOvertime,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -957,6 +950,27 @@ class MockHttpService extends _i2.Mock implements _i7.HttpService {
           {
             #id: id,
             #pathToImage: pathToImage,
+            #calculateDuration: calculateDuration,
+            #pulangLebihAwal: pulangLebihAwal,
+            #calculateOvertime: calculateOvertime,
+          },
+        ),
+        returnValue: _i5.Future<dynamic>.value(),
+        returnValueForMissingStub: _i5.Future<dynamic>.value(),
+      ) as _i5.Future<dynamic>);
+
+  @override
+  _i5.Future<dynamic> putAlasanKeterlambatan({
+    required int? id,
+    required String? keterlambatan,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #putAlasanKeterlambatan,
+          [],
+          {
+            #id: id,
+            #keterlambatan: keterlambatan,
           },
         ),
         returnValue: _i5.Future<dynamic>.value(),

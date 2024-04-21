@@ -23,7 +23,10 @@ class AbsenDetailView extends StackedView<AbsenDetailViewModel> {
             datum: datum,
             viewModel: viewModel,
           )
-        : const DetailPulang();
+        : DetailPulang(
+            datum: datum,
+            viewModel: viewModel,
+          );
   }
 
   @override

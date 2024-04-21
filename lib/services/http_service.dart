@@ -309,16 +309,11 @@ class HttpService {
   Future postAbsenMasukData(
       {required String date,
       required String timestamp,
-      String? jamMasuk,
-      String? jamPulang,
-      String? statusKehadiran,
-      String? lokasi,
+      required String? jamMasuk,
+      required String? statusKehadiran,
+      required String? lokasi,
       String? udzurKeterlambatan,
-      String? udzurIjin,
-      String? namaPenyakit,
-      String? udzurWfh,
-      bool? approval,
-      String? udzurPulangAwal,
+      required int checkInDifference,
       required String pathToImage,
       required int yaumiUser}) async {
     var imagePath = pathToImage;
@@ -332,15 +327,11 @@ class HttpService {
       "date": date,
       "timeStamp": timestamp,
       "jamMasuk": jamMasuk,
-      "jamPulang": null,
-      "statusKehadiran": StatusKehadiran.wfo.name,
+      "statusKehadiran": statusKehadiran,
       "lokasi": lokasi,
       "udzurKeterlambatan": udzurKeterlambatan,
-      "udzurIjin": udzurIjin,
-      "namaPenyakit": namaPenyakit,
-      "udzurWfh": udzurWfh,
-      "approval": approval,
-      "udzurPulangAwal": udzurPulangAwal,
+      "approval": false,
+      "perbedaanWaktuMasuk": checkInDifference,
       "yaumi_user": yaumiUser
     });
 
@@ -364,7 +355,11 @@ class HttpService {
   }
 
   Future putAbsenKeluarData(
-      {required int id, required String pathToImage}) async {
+      {required int id,
+      required String pathToImage,
+      required int calculateDuration,
+      String? pulangLebihAwal,
+      required int calculateOvertime}) async {
     var imagePath = pathToImage;
     var uri = Uri.parse('https://amala-api.online/api/absens/$id');
 
@@ -373,7 +368,10 @@ class HttpService {
 
 // Add text fields
     request.fields['data'] = json.encode({
-      "jamPulang": DateFormat("hh:mm:ss").format(DateTime.now()),
+      "jamPulang": DateFormat("HH:mm:ss").format(DateTime.now()),
+      "durasiKerja": calculateDuration,
+      "perbedaanWaktuPulang": calculateOvertime,
+      "udzurPulangAwal": pulangLebihAwal
     });
 
 // Add the image file to the request
@@ -394,6 +392,40 @@ class HttpService {
       print('Response body: $responseBody');
     }
   }
+
+  Future putAlasanKeterlambatan(
+      {required int id, required String keterlambatan}) async {
+    var headers = {'Content-Type': 'application/json'};
+    var uri = Uri.parse('https://amala-api.online/api/absens/$id');
+
+// Create a new multipart request
+    var request = http.Request('PUT', uri);
+
+    request.body = json.encode({
+      "data": {"udzurKeterlambatan": keterlambatan}
+    });
+    request.headers.addAll(headers);
+
+// Send the request
+    http.StreamedResponse response = await request.send();
+
+// Handle the response
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      print('Error: ${response.reasonPhrase}');
+      // To debug, read the response body for more details.
+      String responseBody = await response.stream.bytesToString();
+      print('Response body: $responseBody');
+    }
+  }
+
+// ██╗░░░░░░█████╗░░█████╗░░█████╗░████████╗██╗░█████╗░███╗░░██╗
+// ██║░░░░░██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██║██╔══██╗████╗░██║
+// ██║░░░░░██║░░██║██║░░╚═╝███████║░░░██║░░░██║██║░░██║██╔██╗██║
+// ██║░░░░░██║░░██║██║░░██╗██╔══██║░░░██║░░░██║██║░░██║██║╚████║
+// ███████╗╚█████╔╝╚█████╔╝██║░░██║░░░██║░░░██║╚█████╔╝██║░╚███║
+// ╚══════╝░╚════╝░░╚════╝░╚═╝░░╚═╝░░░╚═╝░░░╚═╝░╚════╝░╚═╝░░╚══╝
 
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
@@ -422,21 +454,18 @@ class HttpService {
   }
 
   Future<String> getAddressFromLatLng(double latitude, double longitude) async {
-    final apiKey = 'AIzaSyB-GOvaf_jtS1cIPAVpD5V0FVv_m25tVu4';
+    const apiKey = 'AIzaSyB-GOvaf_jtS1cIPAVpD5V0FVv_m25tVu4';
     final url =
         'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=$apiKey';
 
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
+      print("location data: $data");
       if (data['results'].isNotEmpty) {
         // This will give you full address.
         String formattedAddress = data['results'][0]['formatted_address'];
-        // Extract more specific parts based on your needs:
-        var addressComponents = data['results'][0]['address_components'];
-        String localPlace = addressComponents[0]['long_name'];
-        String city = addressComponents[2]['long_name'];
-        return '$localPlace, $city';
+        return formattedAddress;
       } else {
         return 'No address available';
       }

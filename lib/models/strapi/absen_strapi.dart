@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 class AbsenStrapi {
-  final List<Datum>? data;
-  final Meta? meta;
+  List<Datum>? data;
+  Meta? meta;
 
   AbsenStrapi({
     this.data,
@@ -39,8 +39,8 @@ class AbsenStrapi {
 }
 
 class Datum {
-  final int? id;
-  final DatumAttributes? attributes;
+  int? id;
+  DatumAttributes? attributes;
 
   Datum({
     this.id,
@@ -74,27 +74,31 @@ class Datum {
 }
 
 class DatumAttributes {
-  final DateTime? date;
-  final DateTime? timeStamp;
-  final String? jamMasuk;
-  final String? jamPulang;
-  final String? statusKehadiran;
-  final dynamic lokasi;
-  final dynamic udzurKeterlambatan;
-  final dynamic udzurIjin;
-  final dynamic namaPenyakit;
-  final dynamic udzurWfh;
-  final dynamic approval;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  final DateTime? publishedAt;
-  final dynamic udzurPulangAwal;
-  final DokumenIjin? selfieMasuk;
-  final DokumenIjin? selfiePulang;
-  final DokumenIjin? dokumenIjin;
-  final DokumenIjin? dokumenSakit;
-  final DokumenIjin? dokumenWfh;
-  final DokumenIjin? yaumiUser;
+  DateTime? date;
+  DateTime? timeStamp;
+  String? jamMasuk;
+  String? jamPulang;
+  String? statusKehadiran;
+  String? lokasi;
+  String? udzurKeterlambatan;
+  dynamic udzurIjin;
+  dynamic namaPenyakit;
+  dynamic udzurWfh;
+  bool? approval;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  DateTime? publishedAt;
+  dynamic udzurPulangAwal;
+  dynamic lokasiPulang;
+  dynamic durasiKerja;
+  dynamic perbedaanWaktuMasuk;
+  dynamic perbedaanWaktuPulang;
+  DokumenIjin? selfieMasuk;
+  DokumenIjin? selfiePulang;
+  DokumenIjin? dokumenIjin;
+  DokumenIjin? dokumenSakit;
+  DokumenIjin? dokumenWfh;
+  DokumenIjin? yaumiUser;
 
   DatumAttributes({
     this.date,
@@ -112,6 +116,10 @@ class DatumAttributes {
     this.updatedAt,
     this.publishedAt,
     this.udzurPulangAwal,
+    this.lokasiPulang,
+    this.durasiKerja,
+    this.perbedaanWaktuMasuk,
+    this.perbedaanWaktuPulang,
     this.selfieMasuk,
     this.selfiePulang,
     this.dokumenIjin,
@@ -126,16 +134,20 @@ class DatumAttributes {
     String? jamMasuk,
     String? jamPulang,
     String? statusKehadiran,
-    dynamic lokasi,
-    dynamic udzurKeterlambatan,
+    String? lokasi,
+    String? udzurKeterlambatan,
     dynamic udzurIjin,
     dynamic namaPenyakit,
     dynamic udzurWfh,
-    dynamic approval,
+    bool? approval,
     DateTime? createdAt,
     DateTime? updatedAt,
     DateTime? publishedAt,
     dynamic udzurPulangAwal,
+    dynamic lokasiPulang,
+    dynamic durasiKerja,
+    dynamic perbedaanWaktuMasuk,
+    dynamic perbedaanWaktuPulang,
     DokumenIjin? selfieMasuk,
     DokumenIjin? selfiePulang,
     DokumenIjin? dokumenIjin,
@@ -159,6 +171,10 @@ class DatumAttributes {
         updatedAt: updatedAt ?? this.updatedAt,
         publishedAt: publishedAt ?? this.publishedAt,
         udzurPulangAwal: udzurPulangAwal ?? this.udzurPulangAwal,
+        lokasiPulang: lokasiPulang ?? this.lokasiPulang,
+        durasiKerja: durasiKerja ?? this.durasiKerja,
+        perbedaanWaktuMasuk: perbedaanWaktuMasuk ?? this.perbedaanWaktuMasuk,
+        perbedaanWaktuPulang: perbedaanWaktuPulang ?? this.perbedaanWaktuPulang,
         selfieMasuk: selfieMasuk ?? this.selfieMasuk,
         selfiePulang: selfiePulang ?? this.selfiePulang,
         dokumenIjin: dokumenIjin ?? this.dokumenIjin,
@@ -197,6 +213,10 @@ class DatumAttributes {
             ? null
             : DateTime.parse(json["publishedAt"]),
         udzurPulangAwal: json["udzurPulangAwal"],
+        lokasiPulang: json["lokasiPulang"],
+        durasiKerja: json["durasiKerja"],
+        perbedaanWaktuMasuk: json["perbedaanWaktuMasuk"],
+        perbedaanWaktuPulang: json["perbedaanWaktuPulang"],
         selfieMasuk: json["selfieMasuk"] == null
             ? null
             : DokumenIjin.fromJson(json["selfieMasuk"]),
@@ -234,6 +254,10 @@ class DatumAttributes {
         "updatedAt": updatedAt?.toIso8601String(),
         "publishedAt": publishedAt?.toIso8601String(),
         "udzurPulangAwal": udzurPulangAwal,
+        "lokasiPulang": lokasiPulang,
+        "durasiKerja": durasiKerja,
+        "perbedaanWaktuMasuk": perbedaanWaktuMasuk,
+        "perbedaanWaktuPulang": perbedaanWaktuPulang,
         "selfieMasuk": selfieMasuk?.toJson(),
         "selfiePulang": selfiePulang?.toJson(),
         "dokumenIjin": dokumenIjin?.toJson(),
@@ -244,7 +268,7 @@ class DatumAttributes {
 }
 
 class DokumenIjin {
-  final Data? data;
+  Data? data;
 
   DokumenIjin({
     this.data,
@@ -272,8 +296,8 @@ class DokumenIjin {
 }
 
 class Data {
-  final int? id;
-  final DataAttributes? attributes;
+  int? id;
+  DataAttributes? attributes;
 
   Data({
     this.id,
@@ -307,28 +331,28 @@ class Data {
 }
 
 class DataAttributes {
-  final String? name;
-  final dynamic alternativeText;
-  final dynamic caption;
-  final int? width;
-  final int? height;
-  final Formats? formats;
-  final String? hash;
-  final String? ext;
-  final String? mime;
-  final double? size;
-  final String? url;
-  final dynamic previewUrl;
-  final String? provider;
-  final dynamic providerMetadata;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  final String? nama;
-  final String? email;
-  final String? uid;
-  final String? group;
-  final DateTime? publishedAt;
-  final String? gid;
+  String? name;
+  dynamic alternativeText;
+  dynamic caption;
+  int? width;
+  int? height;
+  Formats? formats;
+  String? hash;
+  String? ext;
+  String? mime;
+  double? size;
+  String? url;
+  dynamic previewUrl;
+  String? provider;
+  dynamic providerMetadata;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  String? nama;
+  String? email;
+  String? uid;
+  String? group;
+  DateTime? publishedAt;
+  String? gid;
 
   DataAttributes({
     this.name,
@@ -468,10 +492,10 @@ class DataAttributes {
 }
 
 class Formats {
-  final Large? thumbnail;
-  final Large? large;
-  final Large? medium;
-  final Large? small;
+  Large? thumbnail;
+  Large? large;
+  Large? medium;
+  Large? small;
 
   Formats({
     this.thumbnail,
@@ -515,15 +539,15 @@ class Formats {
 }
 
 class Large {
-  final String? name;
-  final String? hash;
-  final String? ext;
-  final String? mime;
-  final dynamic path;
-  final int? width;
-  final int? height;
-  final double? size;
-  final String? url;
+  String? name;
+  String? hash;
+  String? ext;
+  String? mime;
+  dynamic path;
+  int? width;
+  int? height;
+  double? size;
+  String? url;
 
   Large({
     this.name,
@@ -590,7 +614,7 @@ class Large {
 }
 
 class Meta {
-  final Pagination? pagination;
+  Pagination? pagination;
 
   Meta({
     this.pagination,
@@ -619,10 +643,10 @@ class Meta {
 }
 
 class Pagination {
-  final int? page;
-  final int? pageSize;
-  final int? pageCount;
-  final int? total;
+  int? page;
+  int? pageSize;
+  int? pageCount;
+  int? total;
 
   Pagination({
     this.page,

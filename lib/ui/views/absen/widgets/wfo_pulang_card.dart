@@ -12,12 +12,14 @@ class WfoPulangCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: () =>
+          viewModel.toAbsenDetailView(datum: datum, isDetailMasuk: false),
       leading: ClipRRect(
         child: datum.attributes!.selfieMasuk!.data!.attributes!.url! != ""
             ? RotatedBox(
-                quarterTurns: 1,
+                quarterTurns: 3,
                 child: Image.network(
-                    "https://amala-api.online${datum.attributes!.selfieMasuk!.data!.attributes!.url!}"),
+                    "https://amala-api.online${datum.attributes!.selfiePulang!.data!.attributes!.url!}"),
               )
             : SizedBox(),
       ),

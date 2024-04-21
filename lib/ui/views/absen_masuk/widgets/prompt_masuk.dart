@@ -1,15 +1,20 @@
 import 'dart:io';
 
+import 'package:fdottedline_nullsafety/fdottedline__nullsafety.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
+import 'package:stacked/stacked_annotations.dart';
 import 'package:yaumi/models/absen.dart';
 import 'package:yaumi/services/http_service.dart';
 import 'package:yaumi/ui/common/app_shared_style.dart';
 import 'package:yaumi/ui/common/ui_helpers.dart';
 import 'package:yaumi/ui/views/absen_masuk/absen_masuk_viewmodel.dart';
+import 'package:yaumi/widgets/input_field.dart';
 
+@FormView(fields: [FormTextField(name: 'keterlambatan')])
 class PromptMasuk extends StatefulWidget {
   final GoogleSignInAccount userAccount;
   final String imagePath;
@@ -29,6 +34,9 @@ class PromptMasuk extends StatefulWidget {
 }
 
 class _PromptMasukState extends State<PromptMasuk> {
+  final TextEditingController keterlambatanController = TextEditingController();
+  final TextInputFormatter keterlambatanInputFormatter =
+      FilteringTextInputFormatter.allow(RegExp("[a-zA-Z0-9 ]"));
   @override
   Widget build(BuildContext context) {
     return widget.viewModel.isLoading
@@ -38,9 +46,8 @@ class _PromptMasukState extends State<PromptMasuk> {
               color: Colors.black,
             ),
           )
-        : SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: Column(
+        : ListView(children: [
+            Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
@@ -79,11 +86,16 @@ class _PromptMasukState extends State<PromptMasuk> {
                             fontWeight: FontWeight.w400,
                             fontFamily: "Poppins")),
                     verticalSpaceSmall,
-                    Text(DateFormat("hh:mm:ss").format(DateTime.now()),
+                    Text(DateFormat("HH:mm:ss").format(DateTime.now()),
                         style: ktsBodyRegular.copyWith(
                             fontSize: 15,
                             fontWeight: FontWeight.w800,
                             fontFamily: "Poppins")),
+                    verticalSpaceSmall,
+                    formKeterlambatan(
+                        checkInDifference: widget.viewModel.checkInDifference(
+                            DateFormat("yyyy-MM-dd")
+                                .format(widget.selectedDate))),
                     verticalSpaceSmall,
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -149,6 +161,8 @@ class _PromptMasukState extends State<PromptMasuk> {
                               selectedDate: widget.selectedDate,
                               userAccount: widget.userAccount,
                               absen: widget.absen,
+                              lokasi: widget.viewModel.location,
+                              keterlambatan: keterlambatanController.text,
                               yaumiUserId: 7);
                         },
                         label: const Text("Catat Jam Masuk")),
@@ -156,6 +170,50 @@ class _PromptMasukState extends State<PromptMasuk> {
                 )
               ],
             ),
-          );
+          ]);
+  }
+
+  Widget formKeterlambatan({
+    required int checkInDifference,
+  }) {
+    return checkInDifference < 0
+        ? Column(
+            children: [
+              Text(
+                "Poin keterlambatan sebesar: ${-checkInDifference} menit",
+                style: ktsBodyRegular.copyWith(
+                    fontSize: 12,
+                    color: Colors.red,
+                    fontWeight: FontWeight.w800),
+              ),
+              InputField(
+                  controller: keterlambatanController,
+                  hintText: "Rincian alasan keterlambatan",
+                  inputFormatters: [keterlambatanInputFormatter],
+                  textInputType: TextInputType.text,
+                  labelText: 'Alasan Keterlambatan'),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FDottedLine(
+                  color: Colors.red,
+                  height: 70.0,
+                  width: 70.0,
+                  strokeWidth: 2.0,
+                  dottedLength: 10.0,
+                  space: 2.0,
+                  corner: FDottedLineCorner.all(10),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Rinci alasan keterlambatan masuk kerja, jika alasan bisa diterima maka poin keterlambatan akan dihapus.",
+                      textAlign: TextAlign.center,
+                      style: ktsBodyRegular.copyWith(fontFamily: "Poppins"),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          )
+        : Container();
   }
 }

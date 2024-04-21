@@ -61,6 +61,8 @@ class AbsenMasukViewModel extends BaseViewModel {
       {required DateTime selectedDate,
       required GoogleSignInAccount userAccount,
       required Absen absen,
+      required String lokasi,
+      String? keterlambatan,
       required int yaumiUserId}) async {
     isLoading = true;
     rebuildUi();
@@ -68,9 +70,14 @@ class AbsenMasukViewModel extends BaseViewModel {
       await _httpService.postAbsenMasukData(
           date: DateFormat("yyyy-MM-dd").format(selectedDate),
           timestamp: DateFormat("yyyy-MM-ddTHH:MM").format(DateTime.now()),
-          jamMasuk: DateFormat("hh:mm:ss").format(DateTime.now()),
+          jamMasuk: DateFormat("HH:mm:ss").format(DateTime.now()),
           pathToImage: absen.selfieMasuk,
-          yaumiUser: yaumiUserId);
+          yaumiUser: yaumiUserId,
+          statusKehadiran: StatusKehadiran.wfo.name,
+          lokasi: lokasi,
+          udzurKeterlambatan: keterlambatan,
+          checkInDifference:
+              checkInDifference(DateFormat("yyyy-MM-dd").format(selectedDate)));
       isLoading = false;
       _navigationService.replaceWithAbsenView(userAccount: userAccount);
     } catch (e) {
@@ -82,5 +89,36 @@ class AbsenMasukViewModel extends BaseViewModel {
           description:
               "Periksa koneksi internet anda & coba lagi setelah beberapa saat!! Error: $e");
     }
+  }
+
+  int checkInDifference(String date) {
+    // Manually parse the date and jamMasuk to avoid locale/formatting issues
+    List<String> dateParts = date.split('-');
+
+    // Ensure only the day part is taken, avoiding any parsing of unintended characters
+    int day = int.parse(dateParts[2].split(' ')[0]);
+
+    // Construct DateTime objects for jamMasuk and the target time of 08:15
+    DateTime jamMasukTime = DateTime.now();
+    DateTime targetDateTime = DateTime(
+        int.parse(dateParts[0]),
+        int.parse(dateParts[1]),
+        day,
+        8, // Hour for 08:15
+        15, // Minute for 08:15
+        0 // Second for 08:15
+        );
+
+    // Calculate the difference
+    Duration duration = targetDateTime.difference(jamMasukTime);
+
+    // Debug prints to trace computation
+    print("Debug Info:");
+    print("Parsed JamMasuk Time: $jamMasukTime");
+    print("Parsed Target Time (08:15): $targetDateTime");
+    print("Calculated Duration: ${duration.inMinutes} minutes");
+
+    // Return the difference in minutes
+    return duration.inMinutes;
   }
 }
