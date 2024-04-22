@@ -51,10 +51,14 @@ class AbsenWidget extends StatelessWidget {
                     userAccount: userAccount,
                     datum: datum,
                   ),
-                  WfoMasukCard(viewModel: viewModel, datum: datum),
+                  WfoMasukCard(
+                      viewModel: viewModel,
+                      userAccount: userAccount,
+                      datum: datum),
                   datum.attributes!.jamPulang != null
                       ? WfoPulangCard(
                           viewModel: viewModel,
+                          userAccount: userAccount,
                           datum: datum,
                         )
                       : Container()

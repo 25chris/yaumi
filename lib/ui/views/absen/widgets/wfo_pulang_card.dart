@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:yaumi/models/strapi/absen_strapi.dart';
 import 'package:yaumi/ui/common/app_shared_style.dart';
 import 'package:yaumi/ui/views/absen/absen_viewmodel.dart';
@@ -6,14 +7,18 @@ import 'package:yaumi/ui/views/absen/absen_viewmodel.dart';
 class WfoPulangCard extends StatelessWidget {
   final AbsenViewModel viewModel;
   final Datum datum;
+  final GoogleSignInAccount userAccount;
   const WfoPulangCard(
-      {super.key, required this.viewModel, required this.datum});
+      {super.key,
+      required this.viewModel,
+      required this.datum,
+      required this.userAccount});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () =>
-          viewModel.toAbsenDetailView(datum: datum, isDetailMasuk: false),
+      onTap: () => viewModel.toAbsenDetailView(
+          datum: datum, userAccount: userAccount, isDetailMasuk: false),
       leading: ClipRRect(
         child: datum.attributes!.selfieMasuk!.data!.attributes!.url! != ""
             ? RotatedBox(

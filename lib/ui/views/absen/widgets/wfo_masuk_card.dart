@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:yaumi/models/strapi/absen_strapi.dart';
 import 'package:yaumi/ui/common/app_shared_style.dart';
 import 'package:yaumi/ui/views/absen/absen_viewmodel.dart';
@@ -6,7 +7,12 @@ import 'package:yaumi/ui/views/absen/absen_viewmodel.dart';
 class WfoMasukCard extends StatelessWidget {
   final AbsenViewModel viewModel;
   final Datum datum;
-  const WfoMasukCard({super.key, required this.viewModel, required this.datum});
+  final GoogleSignInAccount userAccount;
+  const WfoMasukCard(
+      {super.key,
+      required this.viewModel,
+      required this.datum,
+      required this.userAccount});
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +35,8 @@ class WfoMasukCard extends StatelessWidget {
             fontWeight: FontWeight.w700),
       ),
       trailing: Icon(Icons.chevron_right),
-      onTap: () =>
-          viewModel.toAbsenDetailView(datum: datum, isDetailMasuk: true),
+      onTap: () => viewModel.toAbsenDetailView(
+          datum: datum, userAccount: userAccount, isDetailMasuk: true),
     );
   }
 }

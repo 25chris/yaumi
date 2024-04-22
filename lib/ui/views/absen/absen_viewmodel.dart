@@ -93,8 +93,10 @@ class AbsenViewModel extends BaseViewModel {
   }
 
   Future toAbsenDetailView(
-      {required Datum datum, required bool isDetailMasuk}) async {
+      {required Datum datum,
+      required bool isDetailMasuk,
+      required GoogleSignInAccount userAccount}) async {
     _navigationService.navigateToAbsenDetailView(
-        datum: datum, isDetailMasuk: isDetailMasuk);
+        datum: datum, isDetailMasuk: isDetailMasuk, userAccount: userAccount);
   }
 }

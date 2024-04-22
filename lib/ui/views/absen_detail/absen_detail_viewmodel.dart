@@ -1,8 +1,10 @@
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:yaumi/app/app.dialogs.dart';
 import 'package:yaumi/app/app.locator.dart';
+import 'package:yaumi/app/app.router.dart';
 import 'package:yaumi/services/http_service.dart';
 
 class AbsenDetailViewModel extends BaseViewModel {
@@ -13,7 +15,9 @@ class AbsenDetailViewModel extends BaseViewModel {
   bool isLoading = false;
 
   Future putKeterlambatan(
-      {required int id, required String keterlambatan}) async {
+      {required int id,
+      required String keterlambatan,
+      required GoogleSignInAccount userAccount}) async {
     isLoading = true;
     rebuildUi();
     try {
@@ -21,10 +25,7 @@ class AbsenDetailViewModel extends BaseViewModel {
           id: id, keterlambatan: keterlambatan);
       isLoading = false;
       rebuildUi();
-      _dialogService.showCustomDialog(
-          variant: DialogType.infoAlert,
-          title: "Data Masuk",
-          description: "Data keterlambatan berhasil diinput, terima kasih.");
+      _navigationService.replaceWithAbsenView(userAccount: userAccount);
     } catch (e) {
       isLoading = false;
       rebuildUi();

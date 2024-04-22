@@ -2,6 +2,7 @@ import 'package:fdottedline_nullsafety/fdottedline__nullsafety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:yaumi/models/strapi/absen_strapi.dart';
@@ -14,8 +15,12 @@ import 'package:yaumi/widgets/input_field.dart';
 class DetailMasuk extends StatefulWidget {
   final Datum datum;
   final AbsenDetailViewModel viewModel;
-  const DetailMasuk({super.key, required this.datum, required this.viewModel});
-
+  final GoogleSignInAccount userAccount;
+  const DetailMasuk(
+      {super.key,
+      required this.datum,
+      required this.viewModel,
+      required this.userAccount});
   @override
   State<DetailMasuk> createState() => _DetailMasukState();
 }
@@ -146,6 +151,7 @@ class _DetailMasukState extends State<DetailMasuk> {
                               ),
                               TimeCheckService.checkTimeInput(
                                   time: widget.datum.attributes!.jamMasuk!,
+                                  userAccount: widget.userAccount,
                                   keterlambatanController:
                                       keterlambatanController,
                                   keterlambatanInputFormatter:
@@ -233,53 +239,58 @@ class TimeCheckService {
       required TextInputFormatter keterlambatanInputFormatter,
       required AbsenDetailViewModel viewModel,
       required Datum datum,
+      required GoogleSignInAccount userAccount,
       required BuildContext context}) {
+    print(time);
     if (isTimeAfter(time)) {
-      return datum.attributes!.udzurKeterlambatan != null
-          ? ListTile(
-              leading: Icon(Icons.abc),
-              title: Text("Alasan Keterlambatan"),
-              subtitle: Text(datum.attributes!.udzurKeterlambatan!),
-            )
-          : Column(
-              children: [
-                FDottedLine(
-                  color: Colors.red,
-                  height: 70.0,
-                  width: 70.0,
-                  strokeWidth: 2.0,
-                  dottedLength: 10.0,
-                  space: 2.0,
-                  corner: FDottedLineCorner.all(10),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Rinci alasan keterlambatan masuk kerja, jika alasan bisa diterima maka poin keterlambatan akan dihapus.",
-                      textAlign: TextAlign.center,
-                      style: ktsBodyRegular.copyWith(fontFamily: "Poppins"),
-                    ),
-                  ),
+      if (datum.attributes!.udzurKeterlambatan != null) {
+        return ListTile(
+          leading: Icon(Icons.abc),
+          title: Text("Alasan Keterlambatan"),
+          subtitle: Text(datum.attributes!.udzurKeterlambatan!),
+        );
+      } else {
+        return Column(
+          children: [
+            FDottedLine(
+              color: Colors.red,
+              height: 70.0,
+              width: 70.0,
+              strokeWidth: 2.0,
+              dottedLength: 10.0,
+              space: 2.0,
+              corner: FDottedLineCorner.all(10),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Rinci alasan keterlambatan masuk kerja, jika alasan bisa diterima maka poin keterlambatan akan dihapus.",
+                  textAlign: TextAlign.center,
+                  style: ktsBodyRegular.copyWith(fontFamily: "Poppins"),
                 ),
-                verticalSpaceSmall,
-                InputField(
-                    controller: keterlambatanController,
-                    hintText: "Rincian alasan",
-                    inputFormatters: [keterlambatanInputFormatter],
-                    textInputType: TextInputType.name,
-                    labelText: 'Alasan Keterlambatan'),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: ElevatedButton.icon(
-                      onPressed: () {
-                        viewModel.putKeterlambatan(
-                            id: datum.id!,
-                            keterlambatan: keterlambatanController.text);
-                      },
-                      icon: const Icon(Icons.work_history_outlined),
-                      label: const Text("Submit")),
-                )
-              ],
-            );
+              ),
+            ),
+            verticalSpaceSmall,
+            InputField(
+                controller: keterlambatanController,
+                hintText: "Rincian alasan",
+                inputFormatters: [keterlambatanInputFormatter],
+                textInputType: TextInputType.name,
+                labelText: 'Alasan Keterlambatan'),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: ElevatedButton.icon(
+                  onPressed: () {
+                    viewModel.putKeterlambatan(
+                        id: datum.id!,
+                        userAccount: userAccount,
+                        keterlambatan: keterlambatanController.text);
+                  },
+                  icon: const Icon(Icons.work_history_outlined),
+                  label: const Text("Submit")),
+            )
+          ],
+        );
+      }
     } else {
       return Container();
     }

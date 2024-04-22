@@ -54,19 +54,14 @@ class _PromptMasukState extends State<PromptMasuk> {
                   children: [
                     verticalSpaceLarge,
                     Text(
-                      widget.userAccount.displayName!,
+                      DateFormat("EEEE, dd MMMM yyyy", "id_ID")
+                          .format(widget.selectedDate),
                       style: ktsBodyRegular.copyWith(
                           fontSize: 17.5,
                           fontWeight: FontWeight.w800,
                           fontFamily: "Poppins"),
                     ),
                     verticalSpaceTiny,
-                    Text(widget.userAccount.email,
-                        style: ktsBodyRegular.copyWith(
-                            fontSize: 13,
-                            color: Colors.blueGrey,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: "Poppins")),
                   ],
                 ),
                 SizedBox(
@@ -75,6 +70,27 @@ class _PromptMasukState extends State<PromptMasuk> {
                   child: Image.file(
                     File(widget.imagePath),
                     fit: BoxFit.cover,
+                  ),
+                ),
+                verticalSpaceSmall,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: FDottedLine(
+                    color: Colors.blue,
+                    height: 70.0,
+                    width: 70.0,
+                    strokeWidth: 2.0,
+                    dottedLength: 10.0,
+                    space: 2.0,
+                    corner: FDottedLineCorner.all(10),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "Yakinkan bahwa foto selfie dengan latar belakang kantor GSP / Situs Proyek / Area Kerja.",
+                        textAlign: TextAlign.center,
+                        style: ktsBodyRegular.copyWith(fontFamily: "Poppins"),
+                      ),
+                    ),
                   ),
                 ),
                 Column(

@@ -29,98 +29,53 @@ class _WfoCardState extends State<WfoCard> {
   int _minutes = 0;
   int _seconds = 0;
   Timer? _timer;
+  DateTime? _jamPulang;
 
   @override
   void initState() {
-    if (widget.datum != null) {
+    super.initState();
+    if (widget.datum != null && widget.datum!.attributes != null) {
       DateTime defaultDate = widget.datum!.attributes!.date!;
       String baseDate =
           "${defaultDate.year}-${defaultDate.month.toString().padLeft(2, '0')}-${defaultDate.day.toString().padLeft(2, '0')}";
 
-      // Parse the time strings using the corrected baseDate
       DateTime jamMasuk =
           DateTime.parse("$baseDate ${widget.datum!.attributes!.jamMasuk}");
-      _loadStartTime(datetime: jamMasuk.toString());
-    } else {
-      return;
-    }
+      if (widget.datum!.attributes!.jamPulang != null) {
+        _jamPulang =
+            DateTime.parse("$baseDate ${widget.datum!.attributes!.jamPulang}");
+      }
 
-    super.initState();
+      _startTimer(jamMasuk);
+    }
   }
 
-  void _startTimer() {
+  void _startTimer(DateTime startTime) {
+    final maxDuration = Duration(hours: 8);
+
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
-        _seconds++;
-        if (_seconds >= 60) {
-          _seconds = 0;
-          _minutes++;
-        }
-        if (_minutes >= 60) {
-          _minutes = 0;
-          _hours++;
-        }
+        DateTime currentTime = DateTime.now();
+        Duration currentDuration = currentTime.difference(startTime);
 
-        if (widget.datum!.attributes!.jamPulang != null) {
-          _timer!.cancel(); // Cancel the timer
-
-          // Ensure the month and day are zero-padded
-          DateTime defaultDate = widget.datum!.attributes!.date!;
-          String baseDate =
-              "${defaultDate.year}-${defaultDate.month.toString().padLeft(2, '0')}-${defaultDate.day.toString().padLeft(2, '0')}";
-
-          // Parse the time strings using the corrected baseDate
-          DateTime jamMasuk =
-              DateTime.parse("$baseDate ${widget.datum!.attributes!.jamMasuk}");
-          DateTime jamPulang = DateTime.parse(
-              "$baseDate ${widget.datum!.attributes!.jamPulang}");
-
-          Duration duration = jamPulang.difference(jamMasuk);
-
-          // Update hours, minutes, and seconds to display the difference
-          _hours = duration.inHours;
-          _minutes = duration.inMinutes % 60;
-          _seconds = duration.inSeconds % 60;
+        if (_jamPulang != null) {
+          Duration endDuration = _jamPulang!.difference(startTime);
+          if (currentDuration >= endDuration) {
+            _timer?.cancel();
+            currentDuration = endDuration; // Cap the time at jamPulang
+          }
         }
 
-        if (_hours >= 8) {
-          _hours = 8;
+        if (currentDuration >= maxDuration) {
           _timer?.cancel();
+          currentDuration = maxDuration; // Cap the time at 8 hours
         }
+
+        _hours = currentDuration.inHours;
+        _minutes = currentDuration.inMinutes % 60;
+        _seconds = currentDuration.inSeconds % 60;
       });
     });
-  }
-
-  void _loadStartTime({String? datetime}) async {
-    try {
-      // Parse the UTC datetime string
-      DateTime utcStartTime = DateTime.parse(datetime!);
-
-      // Convert UTC time to UTC+7
-      DateTime localStartTime = utcStartTime.subtract(Duration(minutes: 308));
-
-      final currentTime = DateTime.now();
-      final difference = currentTime.difference(utcStartTime);
-
-      int initialHours = difference.inHours;
-      if (initialHours >= 8) {
-        _hours = 8; // Stop the hours at 8
-        _minutes = 0;
-        _seconds = 0;
-        return; // Do not start the timer if already at or beyond 8 hours
-      } else {
-        setState(() {
-          _hours = initialHours;
-          _minutes = difference.inMinutes % 60;
-          _seconds = difference.inSeconds % 60;
-        });
-
-        _startTimer();
-      }
-    } catch (e) {
-      // Handle parsing error or show error message
-      print('Error parsing datetime: $e');
-    }
   }
 
   @override
@@ -201,26 +156,13 @@ class _WfoCardState extends State<WfoCard> {
               ),
             ),
 
-            _hours == 8
-                ?
-                //info waktu kerja ideal
-                Text(
-                    "\nHari ini anda telah menunaikan 8 jam kerja.\n",
-                    textAlign: TextAlign.center,
-                    style: ktsBodyRegular.copyWith(
-                      fontSize: 12.0,
-                    ),
-                  )
-                :
-
-                //info waktu kerja ideal
-                Text(
-                    "\nGeneral hours dari jam 08.00 sampai 16.00, total 8 Jam\n",
-                    textAlign: TextAlign.center,
-                    style: ktsBodyRegular.copyWith(
-                      fontSize: 12.0,
-                    ),
-                  ),
+            Text(
+              _determineMessage(),
+              textAlign: TextAlign.center,
+              style: ktsBodyRegular.copyWith(
+                fontSize: 12.0,
+              ),
+            ),
 
             //Tombol
             widget.datum != null
@@ -287,5 +229,61 @@ class _WfoCardState extends State<WfoCard> {
         ),
       ),
     );
+  }
+
+  String _determineMessage() {
+    // Parse the times
+    DateTime startTime = DateTime.parse(
+        '${widget.viewModel.selectedDateTime.toIso8601String().split('T')[0]} ${widget.datum!.attributes!.jamMasuk!}');
+    DateTime endTime = widget.datum!.attributes!.jamPulang != null
+        ? DateTime.parse(
+            '${widget.viewModel.selectedDateTime.toIso8601String().split('T')[0]} ${widget.datum!.attributes!.jamPulang}')
+        : DateTime.now();
+
+    // Calculate the worked duration
+    Duration workedDuration = endTime.difference(startTime);
+    int workedHours = workedDuration.inHours;
+    int workedMinutes = workedDuration.inMinutes % 60;
+
+    // Home time range
+    DateTime homeStart = DateTime(
+        widget.viewModel.selectedDateTime.year,
+        widget.viewModel.selectedDateTime.month,
+        widget.viewModel.selectedDateTime.day,
+        16,
+        00);
+    DateTime homeEnd = DateTime(
+        widget.viewModel.selectedDateTime.year,
+        widget.viewModel.selectedDateTime.month,
+        widget.viewModel.selectedDateTime.day,
+        16,
+        15);
+
+    // Calculate overtime if applicable
+    Duration overtimeDuration;
+    int overtimeMinutes = 0;
+    if (endTime.isAfter(homeEnd)) {
+      overtimeDuration = endTime.difference(homeEnd);
+      overtimeMinutes = overtimeDuration.inMinutes;
+    }
+
+    // Determine the appropriate message
+    String message;
+    if (workedHours >= 8 && endTime.isBefore(homeStart)) {
+      message =
+          "Wait until home time you will have $overtimeMinutes minutes point.";
+    } else if (workedHours >= 8 &&
+        endTime.isAfter(homeStart) &&
+        endTime.isBefore(homeEnd)) {
+      message = "You have worked for 8 hours, it is time to go home";
+    } else if (workedHours >= 8 && endTime.isAfter(homeEnd)) {
+      message =
+          "You have worked for 8 hours, you have $overtimeMinutes minutes point. Great Job!!";
+    } else {
+      message =
+          "Working..."; // Default message if none of the conditions are met
+    }
+
+    return message;
   }
 }

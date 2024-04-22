@@ -222,7 +222,8 @@ class StackedRouter extends _i1.RouterBase {
         builder: (context) => _i14.AbsenDetailView(
             key: args.key,
             datum: args.datum,
-            isDetailMasuk: args.isDetailMasuk),
+            isDetailMasuk: args.isDetailMasuk,
+            userAccount: args.userAccount),
         settings: data,
       );
     },
@@ -419,6 +420,7 @@ class AbsenDetailViewArguments {
     this.key,
     required this.datum,
     required this.isDetailMasuk,
+    required this.userAccount,
   });
 
   final _i15.Key? key;
@@ -427,9 +429,11 @@ class AbsenDetailViewArguments {
 
   final bool isDetailMasuk;
 
+  final _i16.GoogleSignInAccount userAccount;
+
   @override
   String toString() {
-    return '{"key": "$key", "datum": "$datum", "isDetailMasuk": "$isDetailMasuk"}';
+    return '{"key": "$key", "datum": "$datum", "isDetailMasuk": "$isDetailMasuk", "userAccount": "$userAccount"}';
   }
 
   @override
@@ -437,12 +441,16 @@ class AbsenDetailViewArguments {
     if (identical(this, other)) return true;
     return other.key == key &&
         other.datum == datum &&
-        other.isDetailMasuk == isDetailMasuk;
+        other.isDetailMasuk == isDetailMasuk &&
+        other.userAccount == userAccount;
   }
 
   @override
   int get hashCode {
-    return key.hashCode ^ datum.hashCode ^ isDetailMasuk.hashCode;
+    return key.hashCode ^
+        datum.hashCode ^
+        isDetailMasuk.hashCode ^
+        userAccount.hashCode;
   }
 }
 
@@ -645,6 +653,7 @@ extension NavigatorStateExtension on _i18.NavigationService {
     _i15.Key? key,
     required _i17.Datum datum,
     required bool isDetailMasuk,
+    required _i16.GoogleSignInAccount userAccount,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -653,7 +662,10 @@ extension NavigatorStateExtension on _i18.NavigationService {
   }) async {
     return navigateTo<dynamic>(Routes.absenDetailView,
         arguments: AbsenDetailViewArguments(
-            key: key, datum: datum, isDetailMasuk: isDetailMasuk),
+            key: key,
+            datum: datum,
+            isDetailMasuk: isDetailMasuk,
+            userAccount: userAccount),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -858,6 +870,7 @@ extension NavigatorStateExtension on _i18.NavigationService {
     _i15.Key? key,
     required _i17.Datum datum,
     required bool isDetailMasuk,
+    required _i16.GoogleSignInAccount userAccount,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -866,7 +879,10 @@ extension NavigatorStateExtension on _i18.NavigationService {
   }) async {
     return replaceWith<dynamic>(Routes.absenDetailView,
         arguments: AbsenDetailViewArguments(
-            key: key, datum: datum, isDetailMasuk: isDetailMasuk),
+            key: key,
+            datum: datum,
+            isDetailMasuk: isDetailMasuk,
+            userAccount: userAccount),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
