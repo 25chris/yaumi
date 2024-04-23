@@ -239,12 +239,15 @@ class _WfoCardState extends State<WfoCard> {
   }
 
   String _determineMessage() {
+    String message =
+        "Working..."; // Default message if none of the conditions are met
+
     // Handle null jamMasuk or jamPulang
     if (widget.datum!.attributes!.jamMasuk == null &&
         widget.datum!.attributes!.jamPulang == null) {
-      return "2 null";
+      return "General jam kerja dari pukul 08:00 hingga 16:00 sekitar 8 jam.";
     } else if (widget.datum!.attributes!.jamPulang == null) {
-      return "1 null";
+      return "General jam kerja dari pukul 08:00 hingga 16:00 sekitar 8 jam.";
     }
 
     // Parse the times
@@ -256,9 +259,8 @@ class _WfoCardState extends State<WfoCard> {
     // Calculate the worked duration
     Duration workedDuration = endTime.difference(startTime);
     int workedHours = workedDuration.inHours;
-    int workedMinutes = workedDuration.inMinutes % 60;
 
-    // Home time range
+    // Define work and home time windows
     DateTime homeStart = DateTime(
         widget.viewModel.selectedDateTime.year,
         widget.viewModel.selectedDateTime.month,
@@ -270,31 +272,55 @@ class _WfoCardState extends State<WfoCard> {
         widget.viewModel.selectedDateTime.month,
         widget.viewModel.selectedDateTime.day,
         16,
+        30);
+    DateTime workStartGraceBegin = DateTime(
+        widget.viewModel.selectedDateTime.year,
+        widget.viewModel.selectedDateTime.month,
+        widget.viewModel.selectedDateTime.day,
+        8,
+        00);
+    DateTime workStartGraceEnd = DateTime(
+        widget.viewModel.selectedDateTime.year,
+        widget.viewModel.selectedDateTime.month,
+        widget.viewModel.selectedDateTime.day,
+        8,
         15);
 
-    // Calculate overtime if applicable
-    Duration overtimeDuration;
+    // Initialize overtime and late minutes
     int overtimeMinutes = 0;
+    int lateMinutes = 0;
+
+    // Calculate overtime for early start or late finish
+    if (startTime.isBefore(workStartGraceBegin)) {
+      overtimeMinutes += workStartGraceBegin.difference(startTime).inMinutes;
+    }
     if (endTime.isAfter(homeEnd)) {
-      overtimeDuration = endTime.difference(homeEnd);
-      overtimeMinutes = overtimeDuration.inMinutes;
+      overtimeMinutes += endTime.difference(homeEnd).inMinutes;
+    }
+
+    // Calculate late minutes for late start or early finish
+    if (startTime.isAfter(workStartGraceEnd)) {
+      lateMinutes += startTime.difference(workStartGraceEnd).inMinutes;
+    }
+    if (endTime.isBefore(homeStart)) {
+      lateMinutes += homeStart.difference(endTime).inMinutes;
     }
 
     // Determine the appropriate message
-    String message;
-    if (workedHours >= 8 && endTime.isBefore(homeStart)) {
-      message =
-          "Wait until home time you will have $overtimeMinutes minutes point.";
-    } else if (workedHours >= 8 &&
-        endTime.isAfter(homeStart) &&
-        endTime.isBefore(homeEnd)) {
-      message = "You have worked for 8 hours, it is time to go home";
-    } else if (workedHours >= 8 && endTime.isAfter(homeEnd)) {
-      message =
-          "You have worked for 8 hours, you have $overtimeMinutes minutes point. Great Job!!";
-    } else {
-      message =
-          "Working..."; // Default message if none of the conditions are met
+    if (workedHours >= 8) {
+      if (endTime.isBefore(homeStart)) {
+        message =
+            "Anda telah bekerja selama 8 jam, namun belum sampai jam pulang. Tunggu waktunya pulang.";
+      } else if (endTime.isAfter(homeStart) && endTime.isBefore(homeEnd)) {
+        message = "Anda telah bekerja selama 8 jam, Terima Kasih.";
+      } else if (endTime.isAfter(homeEnd)) {
+        message =
+            "Anda telah bekerja lebih dari 8 jam, anda memiliki overtime. Kerja baik!!";
+      }
+      if (overtimeMinutes > 0 || lateMinutes > 0) {
+        message +=
+            " Note: Anda memiliki $overtimeMinutes menit poin overtime dan terkena $lateMinutes menit poin keterlambatan.";
+      }
     }
 
     return message;

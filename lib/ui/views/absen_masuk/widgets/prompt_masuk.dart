@@ -166,24 +166,40 @@ class _PromptMasukState extends State<PromptMasuk> {
                     ])),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: ElevatedButton.icon(
-                        icon: const Icon(Icons.login),
-                        onPressed: () {
-                          widget.viewModel.postAbsenMasuk(
-                              selectedDate: widget.selectedDate,
-                              userAccount: widget.userAccount,
-                              absen: widget.absen,
-                              lokasi: widget.viewModel.location,
-                              keterlambatan: keterlambatanController.text,
-                              yaumiUserId: 7);
-                        },
-                        label: const Text("Catat Jam Masuk")),
-                  ),
-                )
+                widget.viewModel.location != ""
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: ElevatedButton.icon(
+                              icon: const Icon(Icons.login),
+                              onPressed: () {
+                                widget.viewModel.postAbsenMasuk(
+                                    selectedDate: widget.selectedDate,
+                                    userAccount: widget.userAccount,
+                                    absen: widget.absen,
+                                    lokasi: widget.viewModel.location,
+                                    keterlambatan: keterlambatanController.text,
+                                    yaumiUserId: 7);
+                              },
+                              label: const Text("Catat Jam Masuk")),
+                        ),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: ElevatedButton.icon(
+                              icon: const Icon(Icons.pin_drop_outlined),
+                              onPressed: () {
+                                setState(() {
+                                  HttpService().showAddress().then((value) =>
+                                      widget.viewModel.location = value);
+                                });
+                              },
+                              label: const Text("Perbaharui lokasi")),
+                        ),
+                      )
               ],
             ),
           ]);

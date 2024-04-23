@@ -124,7 +124,7 @@ class _DetailPulangState extends State<DetailPulang> {
                     StaggeredGridTile.count(
                         crossAxisCellCount: 7,
                         mainAxisCellCount: TimeCheckService.checkForStaggerInt(
-                            widget.datum.attributes!.jamMasuk!),
+                            widget.datum.attributes!.jamPulang!),
                         child: Container(
                           padding: const EdgeInsets.all(8),
                           child: Column(
@@ -133,7 +133,7 @@ class _DetailPulangState extends State<DetailPulang> {
                                 leading: const Icon(Icons.abc),
                                 title: const Text("Jam Pulang:"),
                                 subtitle: Text(widget
-                                    .datum.attributes!.jamMasuk!
+                                    .datum.attributes!.jamPulang!
                                     .replaceRange(5, null, "")),
                               ),
                               ListTile(
@@ -145,7 +145,7 @@ class _DetailPulangState extends State<DetailPulang> {
                                         .perbedaanWaktuPulang),
                               ),
                               TimeCheckService.checkTimeInput(
-                                  time: widget.datum.attributes!.jamMasuk!,
+                                  time: widget.datum.attributes!.jamPulang!,
                                   pulangAwalController: pulangAwalController,
                                   pulangAwalInputFormatter:
                                       pulangAwalInputFormatter,
