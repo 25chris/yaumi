@@ -156,13 +156,20 @@ class _WfoCardState extends State<WfoCard> {
               ),
             ),
 
-            Text(
-              _determineMessage(),
-              textAlign: TextAlign.center,
-              style: ktsBodyRegular.copyWith(
-                fontSize: 12.0,
-              ),
-            ),
+            widget.datum != null
+                ? Text(
+                    _determineMessage(),
+                    textAlign: TextAlign.center,
+                    style: ktsBodyRegular.copyWith(
+                      fontSize: 12.0,
+                    ),
+                  )
+                : Text(
+                    "General jam kerja dari pukul 08:00 hingga 16:00 sekitar 8 jam.",
+                    style: ktsBodyRegular.copyWith(
+                      fontSize: 12.0,
+                    ),
+                  ),
 
             //Tombol
             widget.datum != null
@@ -232,13 +239,19 @@ class _WfoCardState extends State<WfoCard> {
   }
 
   String _determineMessage() {
+    // Handle null jamMasuk or jamPulang
+    if (widget.datum!.attributes!.jamMasuk == null &&
+        widget.datum!.attributes!.jamPulang == null) {
+      return "2 null";
+    } else if (widget.datum!.attributes!.jamPulang == null) {
+      return "1 null";
+    }
+
     // Parse the times
     DateTime startTime = DateTime.parse(
-        '${widget.viewModel.selectedDateTime.toIso8601String().split('T')[0]} ${widget.datum!.attributes!.jamMasuk!}');
-    DateTime endTime = widget.datum!.attributes!.jamPulang != null
-        ? DateTime.parse(
-            '${widget.viewModel.selectedDateTime.toIso8601String().split('T')[0]} ${widget.datum!.attributes!.jamPulang}')
-        : DateTime.now();
+        '${widget.viewModel.selectedDateTime.toIso8601String().split('T')[0]} ${widget.datum!.attributes!.jamMasuk}');
+    DateTime endTime = DateTime.parse(
+        '${widget.viewModel.selectedDateTime.toIso8601String().split('T')[0]} ${widget.datum!.attributes!.jamPulang}');
 
     // Calculate the worked duration
     Duration workedDuration = endTime.difference(startTime);
