@@ -306,6 +306,13 @@ class HttpService {
     }
   }
 
+// ░██╗░░░░░░░██╗███████╗░█████╗░
+// ░██║░░██╗░░██║██╔════╝██╔══██╗
+// ░╚██╗████╗██╔╝█████╗░░██║░░██║
+// ░░████╔═████║░██╔══╝░░██║░░██║
+// ░░╚██╔╝░╚██╔╝░██║░░░░░╚█████╔╝
+// ░░░╚═╝░░░╚═╝░░╚═╝░░░░░░╚════╝░
+
   Future postAbsenMasukData(
       {required String date,
       required String timestamp,
@@ -405,6 +412,51 @@ class HttpService {
       "data": {"udzurKeterlambatan": keterlambatan}
     });
     request.headers.addAll(headers);
+
+// Send the request
+    http.StreamedResponse response = await request.send();
+
+// Handle the response
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      print('Error: ${response.reasonPhrase}');
+      // To debug, read the response body for more details.
+      String responseBody = await response.stream.bytesToString();
+      print('Response body: $responseBody');
+    }
+  }
+
+// ██╗░░░░░██╗██╗███╗░░██╗  ░█████╗░██╗░░░██╗████████╗██╗
+// ██║░░░░░██║██║████╗░██║  ██╔══██╗██║░░░██║╚══██╔══╝██║
+// ██║░░░░░██║██║██╔██╗██║  ██║░░╚═╝██║░░░██║░░░██║░░░██║
+// ██║██╗░░██║██║██║╚████║  ██║░░██╗██║░░░██║░░░██║░░░██║
+// ██║╚█████╔╝██║██║░╚███║  ╚█████╔╝╚██████╔╝░░░██║░░░██║
+// ╚═╝░╚════╝░╚═╝╚═╝░░╚══╝  ░╚════╝░░╚═════╝░░░░╚═╝░░░╚═╝
+
+  Future postCutiKerja(
+      {required String date,
+      required String timestamp,
+      required String? statusKehadiran,
+      required String? lokasi,
+      required int yaumiUser}) async {
+    var headers = {'Content-Type': 'application/json'};
+    var uri = Uri.parse('https://amala-api.online/api/absens');
+
+// Create a new multipart request
+    var request = http.Request('POST', uri);
+
+// Add text fields
+    request.body = json.encode({
+      "data": {
+        "date": date,
+        "timeStamp": timestamp,
+        "statusKehadiran": statusKehadiran,
+        "lokasi": lokasi,
+        "approval": false,
+        "yaumi_user": yaumiUser
+      }
+    });
 
 // Send the request
     http.StreamedResponse response = await request.send();

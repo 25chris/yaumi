@@ -12,6 +12,7 @@ import '../ui/dialogs/dzikir/dzikir_dialog.dart';
 import '../ui/dialogs/fardhu/fardhu_dialog.dart';
 import '../ui/dialogs/info_alert/info_alert_dialog.dart';
 import '../ui/dialogs/profile_settings/profile_settings_dialog.dart';
+import '../ui/dialogs/prompter/prompter_dialog.dart';
 import '../ui/dialogs/rawatib/rawatib_dialog.dart';
 import '../ui/dialogs/shaum/shaum_dialog.dart';
 import '../ui/dialogs/tahajud/tahajud_dialog.dart';
@@ -29,6 +30,7 @@ enum DialogType {
   shaum,
   dzikir,
   taklim,
+  prompter,
 }
 
 void setupDialogUi() {
@@ -55,6 +57,8 @@ void setupDialogUi() {
         DzikirDialog(request: request, completer: completer),
     DialogType.taklim: (context, request, completer) =>
         TaklimDialog(request: request, completer: completer),
+    DialogType.prompter: (context, request, completer) =>
+        PrompterDialog(request: request, completer: completer),
   };
 
   dialogService.registerCustomDialogBuilders(builders);

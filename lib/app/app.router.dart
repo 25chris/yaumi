@@ -190,8 +190,12 @@ class StackedRouter extends _i1.RouterBase {
       );
     },
     _i11.AbsenIjinCutiView: (data) {
+      final args = data.getArgs<AbsenIjinCutiViewArguments>(nullOk: false);
       return _i15.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i11.AbsenIjinCutiView(),
+        builder: (context) => _i11.AbsenIjinCutiView(
+            key: args.key,
+            selectedDateTime: args.selectedDateTime,
+            isEmergency: args.isEmergency),
         settings: data,
       );
     },
@@ -341,6 +345,38 @@ class StrapiLoginViewArguments {
   @override
   int get hashCode {
     return key.hashCode ^ currentUser.hashCode;
+  }
+}
+
+class AbsenIjinCutiViewArguments {
+  const AbsenIjinCutiViewArguments({
+    this.key,
+    required this.selectedDateTime,
+    required this.isEmergency,
+  });
+
+  final _i15.Key? key;
+
+  final DateTime selectedDateTime;
+
+  final bool isEmergency;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "selectedDateTime": "$selectedDateTime", "isEmergency": "$isEmergency"}';
+  }
+
+  @override
+  bool operator ==(covariant AbsenIjinCutiViewArguments other) {
+    if (identical(this, other)) return true;
+    return other.key == key &&
+        other.selectedDateTime == selectedDateTime &&
+        other.isEmergency == isEmergency;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode ^ selectedDateTime.hashCode ^ isEmergency.hashCode;
   }
 }
 
@@ -593,14 +629,21 @@ extension NavigatorStateExtension on _i18.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> navigateToAbsenIjinCutiView([
+  Future<dynamic> navigateToAbsenIjinCutiView({
+    _i15.Key? key,
+    required DateTime selectedDateTime,
+    required bool isEmergency,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return navigateTo<dynamic>(Routes.absenIjinCutiView,
+        arguments: AbsenIjinCutiViewArguments(
+            key: key,
+            selectedDateTime: selectedDateTime,
+            isEmergency: isEmergency),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -810,14 +853,21 @@ extension NavigatorStateExtension on _i18.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> replaceWithAbsenIjinCutiView([
+  Future<dynamic> replaceWithAbsenIjinCutiView({
+    _i15.Key? key,
+    required DateTime selectedDateTime,
+    required bool isEmergency,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return replaceWith<dynamic>(Routes.absenIjinCutiView,
+        arguments: AbsenIjinCutiViewArguments(
+            key: key,
+            selectedDateTime: selectedDateTime,
+            isEmergency: isEmergency),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

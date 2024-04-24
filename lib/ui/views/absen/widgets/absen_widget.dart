@@ -6,6 +6,8 @@ import 'package:yaumi/models/strapi/absen_strapi.dart';
 import 'package:yaumi/services/http_service.dart';
 import 'package:yaumi/ui/views/absen/absen_viewmodel.dart';
 import 'package:yaumi/ui/views/absen/widgets/absen_form.dart';
+import 'package:yaumi/ui/views/absen/widgets/abstein_card.dart';
+import 'package:yaumi/ui/views/absen/widgets/page_wfo.dart';
 import 'package:yaumi/ui/views/absen/widgets/wfo_card.dart';
 import 'package:yaumi/ui/views/absen/widgets/wfo_masuk_card.dart';
 import 'package:yaumi/ui/views/absen/widgets/wfo_pulang_card.dart';
@@ -44,26 +46,27 @@ class AbsenWidget extends StatelessWidget {
               );
             } else {
               Datum datum = result.first;
-              return Column(
-                children: [
-                  WfoCard(
+              if (datum.attributes!.statusKehadiran ==
+                  StatusKehadiran.wfo.name) {
+                return PageWfo(
                     viewModel: viewModel,
                     userAccount: userAccount,
-                    datum: datum,
-                  ),
-                  WfoMasukCard(
-                      viewModel: viewModel,
-                      userAccount: userAccount,
-                      datum: datum),
-                  datum.attributes!.jamPulang != null
-                      ? WfoPulangCard(
-                          viewModel: viewModel,
-                          userAccount: userAccount,
-                          datum: datum,
-                        )
-                      : Container()
-                ],
-              );
+                    datum: datum);
+              } else if (datum.attributes!.statusKehadiran ==
+                  StatusKehadiran.ijin.name) {
+                return Center(
+                  child: Text("Ijin"),
+                );
+              } else if (datum.attributes!.statusKehadiran ==
+                  StatusKehadiran.sakit.name) {
+                return Center(
+                  child: Text("Ijin"),
+                );
+              } else {
+                return Center(
+                  child: Text("Ijin"),
+                );
+              }
             }
           } catch (e) {
             print(e);

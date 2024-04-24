@@ -978,6 +978,30 @@ class MockHttpService extends _i2.Mock implements _i7.HttpService {
       ) as _i5.Future<dynamic>);
 
   @override
+  _i5.Future<dynamic> postCutiKerja({
+    required String? date,
+    required String? timestamp,
+    required String? statusKehadiran,
+    required String? lokasi,
+    required int? yaumiUser,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #postCutiKerja,
+          [],
+          {
+            #date: date,
+            #timestamp: timestamp,
+            #statusKehadiran: statusKehadiran,
+            #lokasi: lokasi,
+            #yaumiUser: yaumiUser,
+          },
+        ),
+        returnValue: _i5.Future<dynamic>.value(),
+        returnValueForMissingStub: _i5.Future<dynamic>.value(),
+      ) as _i5.Future<dynamic>);
+
+  @override
   _i5.Future<String> getAddressFromLatLng(
     double? latitude,
     double? longitude,

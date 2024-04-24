@@ -1,6 +1,5 @@
 import 'package:camera/camera.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:stacked/stacked.dart';
@@ -8,7 +7,6 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:yaumi/app/app.dialogs.dart';
 import 'package:yaumi/app/app.locator.dart';
 import 'package:yaumi/app/app.router.dart';
-import 'package:yaumi/blocs/bloc/absen_bloc.dart';
 import 'package:yaumi/models/absen.dart';
 import 'package:yaumi/services/http_service.dart';
 
@@ -19,7 +17,7 @@ class AbsenPulangViewModel extends BaseViewModel {
 
   bool isLoading = false;
   String? imagePath;
-  var location = 'Lokasi gagal diambil';
+  var location = '';
 
   Future<CameraController> initCamera() async {
     final cameras = await availableCameras();
@@ -53,11 +51,11 @@ class AbsenPulangViewModel extends BaseViewModel {
     rebuildUi();
   }
 
-  void fetchAdreess() {
+  Future<void> fetchAdreess() async {
     isLoading = true;
     rebuildUi();
     try {
-      _httpService.showAddress().then((value) => location = value);
+      await _httpService.showAddress().then((value) => location = value);
       isLoading = false;
       rebuildUi();
     } catch (e) {

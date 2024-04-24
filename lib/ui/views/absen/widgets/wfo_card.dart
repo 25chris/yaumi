@@ -86,156 +86,186 @@ class _WfoCardState extends State<WfoCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        padding: const EdgeInsets.all(8),
-        child: Column(
-          children: [
-            //tanggal & jam
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    const Icon(Icons.calendar_month),
-                    horizontalSpaceTiny,
-                    Text(DateFormat("dd MMM yyyy", "id_ID")
-                        .format(widget.viewModel.selectedDateTime))
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Icon(Icons.access_time),
-                    horizontalSpaceTiny,
-                    Text(DateFormat.Hm().format(DateTime.now()))
-                  ],
-                )
-              ],
-            ),
+    return widget.viewModel.selectedDateTime !=
+                DateTime(DateTime.now().year, DateTime.now().month,
+                    DateTime.now().day) &&
+            widget.datum == null
+        ? Container()
+        : Card(
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              child: Column(
+                children: [
+                  //tanggal & jam
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(Icons.calendar_month),
+                          horizontalSpaceTiny,
+                          Text(DateFormat("dd MMM yyyy", "id_ID")
+                              .format(widget.viewModel.selectedDateTime))
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          const Icon(Icons.access_time),
+                          horizontalSpaceTiny,
+                          Text(DateFormat.Hm().format(DateTime.now()))
+                        ],
+                      )
+                    ],
+                  ),
 
-            //durasi waktu kerja
-            Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        color: Colors.grey[200]),
-                    child: Text(_hours.toString().padLeft(2, '0'),
-                        style: const TextStyle(fontSize: 20)),
-                  ),
-                  horizontalSpaceTiny,
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        color: Colors.grey[200]),
-                    child: Text(_minutes.toString().padLeft(2, '0'),
-                        style: const TextStyle(fontSize: 20)),
-                  ),
-                  horizontalSpaceTiny,
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        color: Colors.grey[200]),
-                    child: Text(_seconds.toString().padLeft(2, '0'),
-                        style: const TextStyle(fontSize: 20)),
-                  ),
-                  horizontalSpaceTiny,
-                  Text(
-                    "HRS",
-                    style: ktsBodyRegular.copyWith(
-                        fontSize: 17.0,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.blueGrey[700]),
-                  )
+                  //durasi waktu kerja
+                  widget.datum != null &&
+                          widget.datum!.attributes!.jamPulang == null &&
+                          widget.viewModel.selectedDateTime !=
+                              DateTime(DateTime.now().year,
+                                  DateTime.now().month, DateTime.now().day)
+                      ? Text(
+                          "ALPHA",
+                          style: ktsBodyLarge.copyWith(
+                              color: Colors.red, fontWeight: FontWeight.w800),
+                        )
+                      : Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    color: Colors.grey[200]),
+                                child: Text(_hours.toString().padLeft(2, '0'),
+                                    style: const TextStyle(fontSize: 20)),
+                              ),
+                              horizontalSpaceTiny,
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    color: Colors.grey[200]),
+                                child: Text(_minutes.toString().padLeft(2, '0'),
+                                    style: const TextStyle(fontSize: 20)),
+                              ),
+                              horizontalSpaceTiny,
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    color: Colors.grey[200]),
+                                child: Text(_seconds.toString().padLeft(2, '0'),
+                                    style: const TextStyle(fontSize: 20)),
+                              ),
+                              horizontalSpaceTiny,
+                              Text(
+                                "HRS",
+                                style: ktsBodyRegular.copyWith(
+                                    fontSize: 17.0,
+                                    fontWeight: FontWeight.w800,
+                                    color: Colors.blueGrey[700]),
+                              )
+                            ],
+                          ),
+                        ),
+
+                  widget.datum != null
+                      ? Text(
+                          _determineMessage(),
+                          textAlign: TextAlign.center,
+                          style: ktsBodyRegular.copyWith(
+                            fontSize: 12.0,
+                          ),
+                        )
+                      : Text(
+                          "General jam kerja dari pukul 08:00 hingga 16:00 sekitar 8 jam.",
+                          style: ktsBodyRegular.copyWith(
+                            fontSize: 12.0,
+                          ),
+                        ),
+
+                  //Tombol
+                  widget.datum != null
+                      ? widget.datum!.attributes!.jamPulang == null
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                widget.viewModel.selectedDateTime !=
+                                        DateTime(
+                                            DateTime.now().year,
+                                            DateTime.now().month,
+                                            DateTime.now().day)
+                                    ? Container()
+                                    : ElevatedButton.icon(
+                                        style: ElevatedButton.styleFrom(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            padding: const EdgeInsets.all(8),
+                                            backgroundColor: Colors.white),
+                                        onPressed: null,
+                                        icon: const Icon(Icons.cases_outlined),
+                                        label: Text(
+                                          "Sedang Bekerja",
+                                          style: ktsBodyRegular.copyWith(
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.w800),
+                                        )),
+                                widget.viewModel.selectedDateTime !=
+                                        DateTime(
+                                            DateTime.now().year,
+                                            DateTime.now().month,
+                                            DateTime.now().day)
+                                    ? Container()
+                                    : ElevatedButton.icon(
+                                        style: ElevatedButton.styleFrom(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            padding: const EdgeInsets.all(8),
+                                            backgroundColor: Colors.red),
+                                        onPressed: () {
+                                          widget.viewModel.toAbsenPulang(
+                                              selectedDatetime: widget
+                                                  .viewModel.selectedDateTime,
+                                              userAccount: widget.userAccount,
+                                              datum: widget.datum!);
+                                        },
+                                        icon: const Icon(Icons.logout),
+                                        label: Text(
+                                          "Selesai bekerja",
+                                          style: ktsBodyRegular.copyWith(
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.w800),
+                                        )),
+                              ],
+                            )
+                          : Container()
+                      : ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              padding: const EdgeInsets.all(8),
+                              backgroundColor: Colors.blue[800]),
+                          onPressed: () {
+                            widget.viewModel.toAbsenMasuk(
+                              selectedDatetime:
+                                  widget.viewModel.selectedDateTime,
+                              userAccount: widget.userAccount,
+                            );
+                          },
+                          icon: const Icon(Icons.login),
+                          label: Text(
+                            "Masuk Kerja",
+                            style: ktsBodyRegular.copyWith(
+                                fontSize: 12.0, fontWeight: FontWeight.w800),
+                          ))
                 ],
               ),
             ),
-
-            widget.datum != null
-                ? Text(
-                    _determineMessage(),
-                    textAlign: TextAlign.center,
-                    style: ktsBodyRegular.copyWith(
-                      fontSize: 12.0,
-                    ),
-                  )
-                : Text(
-                    "General jam kerja dari pukul 08:00 hingga 16:00 sekitar 8 jam.",
-                    style: ktsBodyRegular.copyWith(
-                      fontSize: 12.0,
-                    ),
-                  ),
-
-            //Tombol
-            widget.datum != null
-                ? widget.datum!.attributes!.jamPulang == null
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ElevatedButton.icon(
-                              style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  padding: const EdgeInsets.all(8),
-                                  backgroundColor: Colors.white),
-                              onPressed: null,
-                              icon: const Icon(Icons.cases_outlined),
-                              label: Text(
-                                "Sedang Bekerja",
-                                style: ktsBodyRegular.copyWith(
-                                    fontSize: 12.0,
-                                    fontWeight: FontWeight.w800),
-                              )),
-                          ElevatedButton.icon(
-                              style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  padding: const EdgeInsets.all(8),
-                                  backgroundColor: Colors.red),
-                              onPressed: () {
-                                widget.viewModel.toAbsenPulang(
-                                    selectedDatetime:
-                                        widget.viewModel.selectedDateTime,
-                                    userAccount: widget.userAccount,
-                                    datum: widget.datum!);
-                              },
-                              icon: const Icon(Icons.logout),
-                              label: Text(
-                                "Selesai bekerja",
-                                style: ktsBodyRegular.copyWith(
-                                    fontSize: 12.0,
-                                    fontWeight: FontWeight.w800),
-                              )),
-                        ],
-                      )
-                    : Container()
-                : ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        padding: const EdgeInsets.all(8),
-                        backgroundColor: Colors.blue[800]),
-                    onPressed: () {
-                      widget.viewModel.toAbsenMasuk(
-                        selectedDatetime: widget.viewModel.selectedDateTime,
-                        userAccount: widget.userAccount,
-                      );
-                    },
-                    icon: const Icon(Icons.login),
-                    label: Text(
-                      "Masuk Kerja",
-                      style: ktsBodyRegular.copyWith(
-                          fontSize: 12.0, fontWeight: FontWeight.w800),
-                    ))
-          ],
-        ),
-      ),
-    );
+          );
   }
 
   String _determineMessage() {
