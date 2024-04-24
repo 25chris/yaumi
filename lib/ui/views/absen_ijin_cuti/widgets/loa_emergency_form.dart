@@ -139,7 +139,7 @@ class _LoaEmergencyFormState extends State<LoaEmergencyForm> {
                               tanggal: DateFormat("EEEE, dd MMMM yyyy", "id_ID")
                                   .format(widget.selectedDateTime),
                               alasanIjin: ijinCutiController.text,
-                              date: DateFormat("yyyy-mm-dd")
+                              date: DateFormat("yyyy-MM-dd")
                                   .format(widget.selectedDateTime),
                               timestamp: widget.selectedDateTime.toString(),
                               lokasi: widget.viewModel.location!,

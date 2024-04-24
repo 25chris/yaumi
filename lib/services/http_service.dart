@@ -457,6 +457,7 @@ class HttpService {
         "yaumi_user": yaumiUser
       }
     });
+    request.headers.addAll(headers);
 
 // Send the request
     http.StreamedResponse response = await request.send();
