@@ -10,21 +10,21 @@ import 'package:yaumi/ui/views/absen/absen_viewmodel.dart';
 
 bool done = false;
 
-class WfoCard extends StatefulWidget {
+class CardWfo extends StatefulWidget {
   final AbsenViewModel viewModel;
   final GoogleSignInAccount userAccount;
   final Datum? datum;
-  const WfoCard(
+  const CardWfo(
       {super.key,
       required this.viewModel,
       required this.userAccount,
       required this.datum});
 
   @override
-  State<WfoCard> createState() => _WfoCardState();
+  State<CardWfo> createState() => _WfoCardState();
 }
 
-class _WfoCardState extends State<WfoCard> {
+class _WfoCardState extends State<CardWfo> {
   int _hours = 0;
   int _minutes = 0;
   int _seconds = 0;

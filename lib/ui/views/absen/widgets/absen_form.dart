@@ -4,8 +4,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:yaumi/models/absen.dart';
 import 'package:yaumi/ui/common/app_shared_style.dart';
 import 'package:yaumi/ui/views/absen/absen_viewmodel.dart';
+import 'package:yaumi/ui/views/absen/widgets/card_ijin.dart';
 import 'package:yaumi/ui/views/absen/widgets/page_ijin.dart';
-import 'package:yaumi/ui/views/absen/widgets/wfo_card.dart';
+import 'package:yaumi/ui/views/absen/widgets/card_wfo.dart';
 
 class AbsenForm extends StatefulWidget {
   final AbsenViewModel viewModel;
@@ -28,13 +29,13 @@ class _AbsenFormState extends State<AbsenForm> {
       children: [
         Padding(
           padding: const EdgeInsets.all(10.0),
-          child: WfoCard(
+          child: CardWfo(
             viewModel: widget.viewModel,
             userAccount: widget.userAccount,
             datum: null,
           ),
         ),
-        PageIjin(viewModel: widget.viewModel),
+        CardIjin(viewModel: widget.viewModel),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Card(

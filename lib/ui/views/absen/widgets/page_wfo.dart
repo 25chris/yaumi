@@ -3,7 +3,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:yaumi/models/strapi/absen_strapi.dart';
 import 'package:yaumi/ui/views/absen/absen_viewmodel.dart';
 import 'package:yaumi/ui/views/absen/widgets/abstein_card.dart';
-import 'package:yaumi/ui/views/absen/widgets/wfo_card.dart';
+import 'package:yaumi/ui/views/absen/widgets/card_wfo.dart';
 import 'package:yaumi/ui/views/absen/widgets/wfo_masuk_card.dart';
 import 'package:yaumi/ui/views/absen/widgets/wfo_pulang_card.dart';
 
@@ -21,7 +21,7 @@ class PageWfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        WfoCard(
+        CardWfo(
           viewModel: viewModel,
           userAccount: userAccount,
           datum: datum,

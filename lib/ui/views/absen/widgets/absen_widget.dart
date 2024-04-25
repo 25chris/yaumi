@@ -7,8 +7,9 @@ import 'package:yaumi/services/http_service.dart';
 import 'package:yaumi/ui/views/absen/absen_viewmodel.dart';
 import 'package:yaumi/ui/views/absen/widgets/absen_form.dart';
 import 'package:yaumi/ui/views/absen/widgets/abstein_card.dart';
+import 'package:yaumi/ui/views/absen/widgets/page_ijin.dart';
 import 'package:yaumi/ui/views/absen/widgets/page_wfo.dart';
-import 'package:yaumi/ui/views/absen/widgets/wfo_card.dart';
+import 'package:yaumi/ui/views/absen/widgets/card_wfo.dart';
 import 'package:yaumi/ui/views/absen/widgets/wfo_masuk_card.dart';
 import 'package:yaumi/ui/views/absen/widgets/wfo_pulang_card.dart';
 
@@ -54,17 +55,18 @@ class AbsenWidget extends StatelessWidget {
                     datum: datum);
               } else if (datum.attributes!.statusKehadiran ==
                   StatusKehadiran.ijin.name) {
-                return Center(
-                  child: Text("Ijin"),
+                return PageIjin(
+                  viewModel: viewModel,
+                  datum: datum,
                 );
               } else if (datum.attributes!.statusKehadiran ==
                   StatusKehadiran.sakit.name) {
                 return Center(
-                  child: Text("Ijin"),
+                  child: Text("Sakit"),
                 );
               } else {
                 return Center(
-                  child: Text("Ijin"),
+                  child: Text("WFH"),
                 );
               }
             }
