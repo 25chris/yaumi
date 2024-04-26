@@ -24,86 +24,91 @@ class PrompterDialog extends StackedView<PrompterDialogModel> {
     PrompterDialogModel viewModel,
     Widget? child,
   ) {
-    return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      backgroundColor: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+    return viewModel.isLoading
+        ? Center(
+            child: CircularProgressIndicator(
+              strokeWidth: 6,
+              color: Colors.black,
+            ),
+          )
+        : Dialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            backgroundColor: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        request.title ?? 'Hello Stacked Dialog!!',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w900,
+                      Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              request.title ?? 'Hello Stacked Dialog!!',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                            if (request.description != null) ...[
+                              verticalSpaceTiny,
+                              Text(
+                                request.description!,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: kcMediumGrey,
+                                ),
+                                maxLines: 3,
+                                softWrap: true,
+                              ),
+                            ],
+                          ],
                         ),
                       ),
-                      if (request.description != null) ...[
-                        verticalSpaceTiny,
-                        Text(
-                          request.description!,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: kcMediumGrey,
+                      Container(
+                        width: _graphicSize,
+                        height: _graphicSize,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFF6E7B0),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(_graphicSize / 2),
                           ),
-                          maxLines: 3,
-                          softWrap: true,
                         ),
-                      ],
+                        alignment: Alignment.center,
+                        child: const Text('⭐️', style: TextStyle(fontSize: 30)),
+                      )
                     ],
                   ),
-                ),
-                Container(
-                  width: _graphicSize,
-                  height: _graphicSize,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFF6E7B0),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(_graphicSize / 2),
-                    ),
-                  ),
-                  alignment: Alignment.center,
-                  child: const Text('⭐️', style: TextStyle(fontSize: 30)),
-                )
-              ],
+                  verticalSpaceMedium,
+                  Row(
+                    children: [
+                      TextButton.icon(
+                          onPressed: () async {
+                            await viewModel.postCutiKerjaDarurat(
+                                date: request.data['date'],
+                                timestamp: request.data['timestamp'],
+                                lokasi: request.data['lokasi'],
+                                userAccount: request.data['userAccount'],
+                                yaumiUser: request.data['yaumiUserId']);
+                          },
+                          icon: Icon(Icons.thumb_up_alt),
+                          label: Text("Iya")),
+                      TextButton.icon(
+                          onPressed: () =>
+                              completer(DialogResponse(confirmed: true)),
+                          icon: Icon(Icons.cancel),
+                          label: Text("Tidak")),
+                    ],
+                  )
+                ],
+              ),
             ),
-            verticalSpaceMedium,
-            Row(
-              children: [
-                TextButton.icon(
-                    onPressed: () async {
-                      print(request.data['date']);
-                      print(request.data['timestamp']);
-                      print(request.data['lokasi']);
-                      print(request.data['yaumiUserId']);
-                      await viewModel.postCutiKerjaDarurat(
-                          date: request.data['date'],
-                          timestamp: request.data['timestamp'],
-                          lokasi: request.data['lokasi'],
-                          yaumiUser: request.data['yaumiUserId']);
-                      completer(DialogResponse(confirmed: true));
-                    },
-                    icon: Icon(Icons.thumb_up_alt),
-                    label: Text("Iya")),
-                TextButton.icon(
-                    onPressed: () => completer(DialogResponse(confirmed: true)),
-                    icon: Icon(Icons.cancel),
-                    label: Text("Tidak")),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
+          );
   }
 
   @override

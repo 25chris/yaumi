@@ -1,11 +1,14 @@
 import 'package:fdottedline_nullsafety/fdottedline__nullsafety.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:yaumi/ui/common/app_shared_style.dart';
 import 'package:yaumi/ui/views/absen/absen_viewmodel.dart';
 
 class CardIjin extends StatefulWidget {
   final AbsenViewModel viewModel;
-  const CardIjin({super.key, required this.viewModel});
+  final GoogleSignInAccount userAccount;
+  const CardIjin(
+      {super.key, required this.viewModel, required this.userAccount});
 
   @override
   State<CardIjin> createState() => _CardIjinState();
@@ -45,7 +48,8 @@ class _CardIjinState extends State<CardIjin> {
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton.icon(
                         onPressed: () {
-                          widget.viewModel.toAbsenIjinCuti();
+                          widget.viewModel
+                              .toAbsenIjinCuti(userAccount: widget.userAccount);
                         },
                         icon: Icon(Icons.abc),
                         label: Text("Ajukan Cuti")),
@@ -55,7 +59,8 @@ class _CardIjinState extends State<CardIjin> {
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton.icon(
                         onPressed: () {
-                          widget.viewModel.toAbsenIjinCutiDarurat();
+                          widget.viewModel.toAbsenIjinCutiDarurat(
+                              userAccount: widget.userAccount);
                         },
                         icon: Icon(Icons.abc),
                         label: Text("Ijin Cuti Kerja")),

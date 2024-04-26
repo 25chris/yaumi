@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:yaumi/app/app.dialogs.dart';
@@ -52,6 +53,7 @@ class AbsenIjinCutiViewModel extends BaseViewModel {
       required String date,
       required String timestamp,
       required String lokasi,
+      required GoogleSignInAccount userAccount,
       required int yaumiUserId}) {
     _dialogService.showCustomDialog(
         variant: DialogType.prompter,
@@ -62,6 +64,7 @@ class AbsenIjinCutiViewModel extends BaseViewModel {
           "timestamp": timestamp,
           "statusKehadiran": StatusKehadiran.ijin.name,
           "lokasi": lokasi,
+          "userAccount": userAccount,
           "yaumiUserId": yaumiUserId
         });
   }

@@ -454,7 +454,7 @@ class HttpService {
         "timeStamp": timestamp,
         "statusKehadiran": statusKehadiran,
         "lokasi": lokasi,
-        "approval": false,
+        "approval": null,
         "yaumi_user": yaumiUser
       }
     });

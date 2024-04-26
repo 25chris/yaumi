@@ -195,7 +195,8 @@ class StackedRouter extends _i1.RouterBase {
         builder: (context) => _i11.AbsenIjinCutiView(
             key: args.key,
             selectedDateTime: args.selectedDateTime,
-            isEmergency: args.isEmergency),
+            isEmergency: args.isEmergency,
+            userAccount: args.userAccount),
         settings: data,
       );
     },
@@ -353,6 +354,7 @@ class AbsenIjinCutiViewArguments {
     this.key,
     required this.selectedDateTime,
     required this.isEmergency,
+    required this.userAccount,
   });
 
   final _i15.Key? key;
@@ -361,9 +363,11 @@ class AbsenIjinCutiViewArguments {
 
   final bool isEmergency;
 
+  final _i16.GoogleSignInAccount userAccount;
+
   @override
   String toString() {
-    return '{"key": "$key", "selectedDateTime": "$selectedDateTime", "isEmergency": "$isEmergency"}';
+    return '{"key": "$key", "selectedDateTime": "$selectedDateTime", "isEmergency": "$isEmergency", "userAccount": "$userAccount"}';
   }
 
   @override
@@ -371,12 +375,16 @@ class AbsenIjinCutiViewArguments {
     if (identical(this, other)) return true;
     return other.key == key &&
         other.selectedDateTime == selectedDateTime &&
-        other.isEmergency == isEmergency;
+        other.isEmergency == isEmergency &&
+        other.userAccount == userAccount;
   }
 
   @override
   int get hashCode {
-    return key.hashCode ^ selectedDateTime.hashCode ^ isEmergency.hashCode;
+    return key.hashCode ^
+        selectedDateTime.hashCode ^
+        isEmergency.hashCode ^
+        userAccount.hashCode;
   }
 }
 
@@ -633,6 +641,7 @@ extension NavigatorStateExtension on _i18.NavigationService {
     _i15.Key? key,
     required DateTime selectedDateTime,
     required bool isEmergency,
+    required _i16.GoogleSignInAccount userAccount,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -643,7 +652,8 @@ extension NavigatorStateExtension on _i18.NavigationService {
         arguments: AbsenIjinCutiViewArguments(
             key: key,
             selectedDateTime: selectedDateTime,
-            isEmergency: isEmergency),
+            isEmergency: isEmergency,
+            userAccount: userAccount),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -857,6 +867,7 @@ extension NavigatorStateExtension on _i18.NavigationService {
     _i15.Key? key,
     required DateTime selectedDateTime,
     required bool isEmergency,
+    required _i16.GoogleSignInAccount userAccount,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -867,7 +878,8 @@ extension NavigatorStateExtension on _i18.NavigationService {
         arguments: AbsenIjinCutiViewArguments(
             key: key,
             selectedDateTime: selectedDateTime,
-            isEmergency: isEmergency),
+            isEmergency: isEmergency,
+            userAccount: userAccount),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

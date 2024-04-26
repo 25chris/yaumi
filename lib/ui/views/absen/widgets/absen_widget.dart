@@ -58,6 +58,7 @@ class AbsenWidget extends StatelessWidget {
                 return PageIjin(
                   viewModel: viewModel,
                   datum: datum,
+                  userAccount: userAccount,
                 );
               } else if (datum.attributes!.statusKehadiran ==
                   StatusKehadiran.sakit.name) {

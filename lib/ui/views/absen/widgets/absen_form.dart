@@ -35,7 +35,7 @@ class _AbsenFormState extends State<AbsenForm> {
             datum: null,
           ),
         ),
-        CardIjin(viewModel: widget.viewModel),
+        CardIjin(viewModel: widget.viewModel, userAccount: widget.userAccount),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Card(

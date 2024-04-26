@@ -11,6 +11,7 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:yaumi/blocs/bloc/absen_bloc.dart';
 import 'package:yaumi/blocs/bloc/settings_bloc.dart';
 import 'package:yaumi/blocs/bloc/yaumi_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,6 +47,15 @@ class MainApp extends StatelessWidget {
       navigatorKey: StackedService.navigatorKey,
       navigatorObservers: [
         StackedService.routeObserver,
+      ],
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('id', ''), // Indonesian
+        Locale('en', ''), // English, or other supported locales
       ],
     );
   }

@@ -1,6 +1,7 @@
 import 'package:fdottedline_nullsafety/fdottedline__nullsafety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:yaumi/ui/common/app_shared_style.dart';
@@ -12,8 +13,12 @@ import 'package:yaumi/widgets/input_field.dart';
 class LoaEmergencyForm extends StatefulWidget {
   final DateTime selectedDateTime;
   final AbsenIjinCutiViewModel viewModel;
+  final GoogleSignInAccount userAccount;
   const LoaEmergencyForm(
-      {super.key, required this.viewModel, required this.selectedDateTime});
+      {super.key,
+      required this.viewModel,
+      required this.selectedDateTime,
+      required this.userAccount});
 
   @override
   State<LoaEmergencyForm> createState() => _LoaEmergencyFormState();
@@ -139,6 +144,7 @@ class _LoaEmergencyFormState extends State<LoaEmergencyForm> {
                               tanggal: DateFormat("EEEE, dd MMMM yyyy", "id_ID")
                                   .format(widget.selectedDateTime),
                               alasanIjin: ijinCutiController.text,
+                              userAccount: widget.userAccount,
                               date: DateFormat("yyyy-MM-dd")
                                   .format(widget.selectedDateTime),
                               timestamp: widget.selectedDateTime.toString(),

@@ -84,14 +84,20 @@ class AbsenViewModel extends BaseViewModel {
         selectedDate: selectedDatetime, userAccount: userAccount, datum: datum);
   }
 
-  Future<void> toAbsenIjinCuti() async {
+  Future<void> toAbsenIjinCuti(
+      {required GoogleSignInAccount userAccount}) async {
     _navigationService.navigateToAbsenIjinCutiView(
-        isEmergency: false, selectedDateTime: selectedDateTime);
+        isEmergency: false,
+        selectedDateTime: selectedDateTime,
+        userAccount: userAccount);
   }
 
-  Future<void> toAbsenIjinCutiDarurat() async {
+  Future<void> toAbsenIjinCutiDarurat(
+      {required GoogleSignInAccount userAccount}) async {
     _navigationService.navigateToAbsenIjinCutiView(
-        isEmergency: true, selectedDateTime: selectedDateTime);
+        isEmergency: true,
+        selectedDateTime: selectedDateTime,
+        userAccount: userAccount);
   }
 
   Future replaceToAbsenView({required GoogleSignInAccount userAccount}) async {
