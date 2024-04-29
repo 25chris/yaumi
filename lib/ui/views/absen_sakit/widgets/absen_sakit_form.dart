@@ -1,3 +1,4 @@
+import 'package:fdottedline_nullsafety/fdottedline__nullsafety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -62,7 +63,7 @@ class _AbsenSakitFormState extends State<AbsenSakitForm> {
             width: MediaQuery.of(context).size.width,
             child: ElevatedButton(
               onPressed: () => widget.viewModel.selectDateRange(context),
-              child: const Text('Pilih tanggal cuti'),
+              child: const Text('Pilih tanggal Istirahat'),
             ),
           ),
           verticalSpaceSmall,
@@ -130,6 +131,26 @@ class _AbsenSakitFormState extends State<AbsenSakitForm> {
             ],
           ),
           verticalSpaceSmall,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FDottedLine(
+              color: Colors.lightBlue[600]!,
+              height: 70.0,
+              width: 70.0,
+              strokeWidth: 2.0,
+              dottedLength: 10.0,
+              space: 2.0,
+              corner: FDottedLineCorner.all(10),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Surat keterangan sakit dari dokter boleh diupload maksimal 2x24 jam setelah ijin ini dibuat. Surat keterangan sakit bisa didapatkan secara langsung di Rumah Sakit atau Puskesmas terdekat. Jika kesulitan untuk pergi ke klinik terdekat, silahkan konsultasikan masalah kesehatan melalui Aplikasi HaloDoc dan meminta QR Code Surat Keterangan Sakit dari Dokter yang menangani secara online.",
+                  textAlign: TextAlign.center,
+                  style: ktsBodyRegular.copyWith(fontFamily: "Poppins"),
+                ),
+              ),
+            ),
+          )
         ],
       )),
       bottomNavigationBar: ElevatedButton.icon(
