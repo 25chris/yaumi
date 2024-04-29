@@ -983,6 +983,9 @@ class MockHttpService extends _i2.Mock implements _i7.HttpService {
     required String? timestamp,
     required String? statusKehadiran,
     required String? lokasi,
+    required String? alasanIjin,
+    required String? tanggalMulaiIjin,
+    required String? tanggalAkhirIjin,
     required int? yaumiUser,
   }) =>
       (super.noSuchMethod(
@@ -994,8 +997,23 @@ class MockHttpService extends _i2.Mock implements _i7.HttpService {
             #timestamp: timestamp,
             #statusKehadiran: statusKehadiran,
             #lokasi: lokasi,
+            #alasanIjin: alasanIjin,
+            #tanggalMulaiIjin: tanggalMulaiIjin,
+            #tanggalAkhirIjin: tanggalAkhirIjin,
             #yaumiUser: yaumiUser,
           },
+        ),
+        returnValue: _i5.Future<dynamic>.value(),
+        returnValueForMissingStub: _i5.Future<dynamic>.value(),
+      ) as _i5.Future<dynamic>);
+
+  @override
+  _i5.Future<dynamic> deleteAbsenById({required int? absenId}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteAbsenById,
+          [],
+          {#absenId: absenId},
         ),
         returnValue: _i5.Future<dynamic>.value(),
         returnValueForMissingStub: _i5.Future<dynamic>.value(),

@@ -1,4 +1,7 @@
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:stacked_services/stacked_services.dart';
+import 'package:yaumi/app/app.dialogs.dart';
+import 'package:yaumi/app/app.locator.dart';
 
 class LoginApi {
   static final _googleSignIn = GoogleSignIn();
@@ -6,14 +9,13 @@ class LoginApi {
   static Future<GoogleSignInAccount?> login() => _googleSignIn.signIn();
   static Future signOut = _googleSignIn.signOut();
 
-  static Future<bool?> checkSignInStatus() async {
+  final _dialogService = locator<DialogService>();
+
+  Future<bool?> checkSignInStatus() async {
     try {
       // Attempt to get the currently authenticated user
       GoogleSignInAccount? currentUser = _googleSignIn.currentUser;
-      if (currentUser == null) {
-        // Attempt to sign in the user without user interaction
-        currentUser = await _googleSignIn.signInSilently();
-      }
+      currentUser ??= await _googleSignIn.signInSilently();
 
       if (currentUser != null) {
         // User is signed in; navigate to a different screen
@@ -23,7 +25,10 @@ class LoginApi {
         return false;
       }
     } catch (error) {
-      print(error); // Handle the error as appropriate in your app
+      _dialogService.showCustomDialog(
+          variant: DialogType.infoAlert,
+          title: "Error",
+          description: "Terjadi error: $error");
     }
     return null;
   }

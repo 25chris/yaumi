@@ -130,33 +130,42 @@ class _LoaEmergencyFormState extends State<LoaEmergencyForm> {
                       title: const Text("Lokasi input data:"),
                       subtitle: Text(widget.viewModel.location!),
                     ),
-              widget.viewModel.location == ""
-                  ? ElevatedButton(
-                      onPressed: () {
-                        widget.viewModel.fetchAdreess();
-                      },
-                      child: const Text('Perbaharui lokasi input data!'),
-                    )
-                  : ElevatedButton(
-                      onPressed: () {
-                        if (widget.viewModel.formKey.currentState!.validate()) {
-                          widget.viewModel.promptIjinDialog(
-                              tanggal: DateFormat("EEEE, dd MMMM yyyy", "id_ID")
-                                  .format(widget.selectedDateTime),
-                              alasanIjin: ijinCutiController.text,
-                              userAccount: widget.userAccount,
-                              date: DateFormat("yyyy-MM-dd")
-                                  .format(widget.selectedDateTime),
-                              timestamp: widget.selectedDateTime.toString(),
-                              lokasi: widget.viewModel.location!,
-                              yaumiUserId: 7);
-                        }
-                      },
-                      child: const Text('Submit Cuti Kerja Darurat'),
-                    ),
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(8),
+        child: widget.viewModel.location == ""
+            ? ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.green)),
+                onPressed: () {
+                  widget.viewModel.fetchAdreess();
+                },
+                child: const Text('Perbaharui lokasi input data!'),
+              )
+            : ElevatedButton(
+                onPressed: () {
+                  if (widget.viewModel.formKey.currentState!.validate()) {
+                    widget.viewModel.promptIjinDialog(
+                        tanggal: DateFormat("EEEE, dd MMMM yyyy", "id_ID")
+                            .format(widget.selectedDateTime),
+                        alasanIjin: ijinCutiController.text,
+                        userAccount: widget.userAccount,
+                        date: DateFormat("yyyy-MM-dd")
+                            .format(widget.selectedDateTime),
+                        timestamp: widget.selectedDateTime.toString(),
+                        lokasi: widget.viewModel.location!,
+                        yaumiUserId: 7,
+                        tanggalMulaiIjin: DateFormat("yyyy-MM-dd")
+                            .format(widget.selectedDateTime),
+                        tanggalAkhirIjin: DateFormat("yyyy-MM-dd")
+                            .format(widget.selectedDateTime));
+                  }
+                },
+                child: const Text('Submit Cuti Kerja Darurat'),
+              ),
       ),
     );
   }

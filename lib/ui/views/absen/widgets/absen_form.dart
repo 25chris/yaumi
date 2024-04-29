@@ -5,7 +5,7 @@ import 'package:yaumi/models/absen.dart';
 import 'package:yaumi/ui/common/app_shared_style.dart';
 import 'package:yaumi/ui/views/absen/absen_viewmodel.dart';
 import 'package:yaumi/ui/views/absen/widgets/card_ijin.dart';
-import 'package:yaumi/ui/views/absen/widgets/page_ijin.dart';
+import 'package:yaumi/ui/views/absen/widgets/card_sakit.dart';
 import 'package:yaumi/ui/views/absen/widgets/card_wfo.dart';
 
 class AbsenForm extends StatefulWidget {
@@ -36,72 +36,7 @@ class _AbsenFormState extends State<AbsenForm> {
           ),
         ),
         CardIjin(viewModel: widget.viewModel, userAccount: widget.userAccount),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  FDottedLine(
-                    color: Colors.lightBlue[600]!,
-                    height: 70.0,
-                    width: 70.0,
-                    strokeWidth: 2.0,
-                    dottedLength: 10.0,
-                    space: 2.0,
-                    corner: FDottedLineCorner.all(10),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Ijin tidak masuk kerja karena sakit wajib untuk melampirkan surat keterangan sakit dari dokter. Surat Keterangan sakit boleh diupload maksimal 2x24 jam setelah ijin karena sakit dibuat. Pastikan juga untuk mengabari atasan langsung atau bagian administrasi.",
-                        textAlign: TextAlign.center,
-                        style: ktsBodyRegular.copyWith(fontFamily: "Poppins"),
-                      ),
-                    ),
-                  ),
-                  ElevatedButton.icon(
-                      onPressed: () {},
-                      icon: Icon(Icons.abc),
-                      label: Text("Sakit"))
-                ],
-              ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  FDottedLine(
-                    color: Colors.lightBlue[600]!,
-                    height: 70.0,
-                    width: 70.0,
-                    strokeWidth: 2.0,
-                    dottedLength: 10.0,
-                    space: 2.0,
-                    corner: FDottedLineCorner.all(10),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Bekerja dari rumah hanya bisa dilakukan saat ada udzur darurat tertentu dan disetujui oleh atasan langsung. Silahkan lampirkan surat persetujuan tertulis dari atasan langsung atau direksi, atau upload bukti persetujuan via whatsapp.",
-                        textAlign: TextAlign.center,
-                        style: ktsBodyRegular.copyWith(fontFamily: "Poppins"),
-                      ),
-                    ),
-                  ),
-                  ElevatedButton.icon(
-                      onPressed: () {},
-                      icon: Icon(Icons.abc),
-                      label: Text("Work From Home"))
-                ],
-              ),
-            ),
-          ),
-        ),
+        CardSakit(viewModel: widget.viewModel, userAccount: widget.userAccount),
       ],
     );
   }

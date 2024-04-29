@@ -5,11 +5,9 @@ import 'package:intl/intl.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:yaumi/app/app.dialogs.dart';
 import 'package:yaumi/app/app.locator.dart';
-import 'package:yaumi/models/absen.dart';
 import 'package:yaumi/models/strapi/absen_strapi.dart';
 import 'package:yaumi/models/strapi/yaumi_strapi.dart' as yaumiStrapi;
 import 'package:yaumi/models/yaumi_user.dart';
-import 'package:yaumi/services/snacked_service.dart';
 
 class HttpService {
   final _dialogService = locator<DialogService>();
@@ -28,8 +26,14 @@ class HttpService {
       String responseBody = await response.stream.bytesToString();
       return yaumiStrapi.YaumiStrapi.fromJson(json.decode(responseBody));
     } else {
-      print(response.reasonPhrase);
+      _dialogService.showCustomDialog(
+          variant: DialogType.infoAlert,
+          title: "Data tidak dapat diambil",
+          description:
+              "Error dengan kode: ${response.statusCode}, cek koneksi internet anda lalu coba beberapa saat lagi. Atau hubungi bagian administrasi.");
+      // print(response.reasonPhrase);
     }
+    return null;
   }
 
   Future<yaumiStrapi.YaumiStrapi?> getYaumiByMail(
@@ -45,8 +49,14 @@ class HttpService {
       String responseBody = await response.stream.bytesToString();
       return yaumiStrapi.YaumiStrapi.fromJson(json.decode(responseBody));
     } else {
-      print(response.reasonPhrase);
+      _dialogService.showCustomDialog(
+          variant: DialogType.infoAlert,
+          title: "Data tidak dapat diambil",
+          description:
+              "Error dengan kode: ${response.statusCode}, cek koneksi internet anda lalu coba beberapa saat lagi. Atau hubungi bagian administrasi.");
+      // print(response.reasonPhrase);
     }
+    return null;
   }
 
   Future<YaumiUser?> getYaumiUser() async {
@@ -61,7 +71,12 @@ class HttpService {
       // Assuming you have a fromJson method that properly parses the JSON into a YaumiUser object
       return YaumiUser.fromJson(json.decode(responseBody));
     } else {
-      print(response.reasonPhrase);
+      _dialogService.showCustomDialog(
+          variant: DialogType.infoAlert,
+          title: "Data tidak dapat diambil",
+          description:
+              "Error dengan kode: ${response.statusCode}, cek koneksi internet anda lalu coba beberapa saat lagi. Atau hubungi bagian administrasi.");
+      // print(response.reasonPhrase);
       return null;
     }
   }
@@ -121,9 +136,14 @@ class HttpService {
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
+      // print(await response.stream.bytesToString());
     } else {
-      print(response.reasonPhrase);
+      _dialogService.showCustomDialog(
+          variant: DialogType.infoAlert,
+          title: "Data tidak dapat diambil",
+          description:
+              "Error dengan kode: ${response.statusCode}, cek koneksi internet anda lalu coba beberapa saat lagi. Atau hubungi bagian administrasi.");
+      // print(response.reasonPhrase);
     }
   }
 
@@ -143,10 +163,15 @@ class HttpService {
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      print("Success");
+      // print("Success");
       // print(await response.stream.bytesToString());
     } else {
-      print(response.reasonPhrase);
+      _dialogService.showCustomDialog(
+          variant: DialogType.infoAlert,
+          title: "Data tidak dapat diambil",
+          description:
+              "Error dengan kode: ${response.statusCode}, cek koneksi internet anda lalu coba beberapa saat lagi. Atau hubungi bagian administrasi.");
+      // print(response.reasonPhrase);
     }
   }
 
@@ -164,19 +189,37 @@ class HttpService {
             orElse: () => null,
           );
           if (user != null) {
-            print(
-                'User with email $email is already registered with ID: ${user['id']}');
+            _dialogService.showCustomDialog(
+                variant: DialogType.infoAlert,
+                title: "Email Sudah Terdaftar",
+                description:
+                    "$email sudah terdaftar di database dengan id: ${user['id']}");
           } else {
-            print('User with email $email is not registered.');
+            _dialogService.showCustomDialog(
+                variant: DialogType.infoAlert,
+                title: "$email Belum Terdaftar",
+                description: "$email belum terdaftar di database.");
           }
         } else {
-          print('Unexpected response format.');
+          _dialogService.showCustomDialog(
+              variant: DialogType.infoAlert,
+              title: "Terjadi Kesalahan",
+              description:
+                  "Sepertinya server kami bermasalah. Silahkan hubungi bagian administrasi.");
         }
       } else {
-        print('Failed to fetch users. Status code: ${response.statusCode}');
+        _dialogService.showCustomDialog(
+            variant: DialogType.infoAlert,
+            title: "Gagal Mengambil Data User",
+            description:
+                "Gagal mengambil data user dengan kode error: ${response.statusCode}");
       }
     } catch (e) {
-      print('An error occurred: $e');
+      _dialogService.showCustomDialog(
+          variant: DialogType.infoAlert,
+          title: "Terjadi Error",
+          description:
+              "Error saat mengambil data user. Silahkan cek koneksi internet anda lalu coba beberapa saat lagi. Jika masalah berlanjut hubungi bagian administrasi.");
     }
   }
 
@@ -254,7 +297,7 @@ class HttpService {
               }),
             );
             if (postResponse.statusCode == 200) {
-              print('submitted');
+              // print('submitted');
             } else {
               _dialogService.showCustomDialog(
                   variant: DialogType.infoAlert,
@@ -263,10 +306,17 @@ class HttpService {
                       "Code ${postResponse.statusCode}, Bad Request!!");
             }
           } else {
-            print('user not registered');
+            _dialogService.showCustomDialog(
+                variant: DialogType.infoAlert,
+                title: "Tidak Terdaftar",
+                description: "User belum terdaftar, silahkan coba lagi.");
           }
         } else {
-          print('response unexpected');
+          _dialogService.showCustomDialog(
+              variant: DialogType.infoAlert,
+              title: "Terjadi Kesalahan",
+              description:
+                  "Sepertinya server kami bermasalah. Silahkan hubungi bagian administrasi.");
         }
       } else {
         _dialogService.showCustomDialog(
@@ -274,10 +324,13 @@ class HttpService {
             title: "No User",
             description:
                 "User anda tidak dapat ditemukan, coba logout dahulu atau hubungi Administrasi PT. GSP");
-        print('no user');
       }
     } catch (e) {
-      print('internet');
+      _dialogService.showCustomDialog(
+          variant: DialogType.infoAlert,
+          title: "Cek Koneksi Internet Anda",
+          description:
+              "Koneksi internet anda bermasalah, silahkan cek koneksi internet anda lalu coba beberapa saat lagi.");
     }
   }
 
@@ -299,10 +352,13 @@ class HttpService {
 
     if (response.statusCode == 200) {
       String responseBody = await response.stream.bytesToString();
-      print(responseBody);
       return AbsenStrapi.fromJson(json.decode(responseBody));
     } else {
-      print(response.reasonPhrase);
+      _dialogService.showCustomDialog(
+          variant: DialogType.infoAlert,
+          title: "Data tidak dapat diambil",
+          description:
+              "Error dengan kode: ${response.statusCode}, cek koneksi internet anda lalu coba beberapa saat lagi. Atau hubungi bagian administrasi.");
     }
     return null;
   }
@@ -353,12 +409,13 @@ class HttpService {
 
 // Handle the response
     if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
     } else {
-      print('Error: ${response.reasonPhrase}');
-      // To debug, read the response body for more details.
-      String responseBody = await response.stream.bytesToString();
-      print('Response body: $responseBody');
+      // String responseBody = await response.stream.bytesToString();
+      _dialogService.showCustomDialog(
+          variant: DialogType.infoAlert,
+          title: "Data tidak dapat diambil",
+          description:
+              "Error dengan kode: ${response.statusCode}, cek koneksi internet anda lalu coba beberapa saat lagi. Atau hubungi bagian administrasi.");
     }
   }
 
@@ -392,12 +449,12 @@ class HttpService {
 
 // Handle the response
     if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
     } else {
-      print('Error: ${response.reasonPhrase}');
-      // To debug, read the response body for more details.
-      String responseBody = await response.stream.bytesToString();
-      print('Response body: $responseBody');
+      _dialogService.showCustomDialog(
+          variant: DialogType.infoAlert,
+          title: "Data tidak dapat diambil",
+          description:
+              "Error dengan kode: ${response.statusCode}, cek koneksi internet anda lalu coba beberapa saat lagi. Atau hubungi bagian administrasi.");
     }
   }
 
@@ -419,12 +476,12 @@ class HttpService {
 
 // Handle the response
     if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
     } else {
-      print('Error: ${response.reasonPhrase}');
-      // To debug, read the response body for more details.
-      String responseBody = await response.stream.bytesToString();
-      print('Response body: $responseBody');
+      _dialogService.showCustomDialog(
+          variant: DialogType.infoAlert,
+          title: "Gagal Mengambil Data User",
+          description:
+              "Gagal mengambil data user dengan kode error: ${response.statusCode}");
     }
   }
 
@@ -440,14 +497,17 @@ class HttpService {
       required String timestamp,
       required String? statusKehadiran,
       required String? lokasi,
+      required String alasanIjin,
+      required String tanggalMulaiIjin,
+      required String tanggalAkhirIjin,
       required int yaumiUser}) async {
     var headers = {'Content-Type': 'application/json'};
     var uri = Uri.parse('https://amala-api.online/api/absens');
 
-// Create a new multipart request
+    // Create a new multipart request
     var request = http.Request('POST', uri);
 
-// Add text fields
+    // Add text fields
     request.body = json.encode({
       "data": {
         "date": date,
@@ -455,22 +515,44 @@ class HttpService {
         "statusKehadiran": statusKehadiran,
         "lokasi": lokasi,
         "approval": null,
-        "yaumi_user": yaumiUser
+        "yaumi_user": yaumiUser,
+        "udzurIjin": alasanIjin,
+        "tanggalMulaiIjin": tanggalMulaiIjin,
+        "tanggalAkhirIjin": tanggalAkhirIjin
       }
     });
     request.headers.addAll(headers);
 
-// Send the request
+    // Send the request
     http.StreamedResponse response = await request.send();
 
-// Handle the response
+    // Handle the response
     if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
     } else {
-      print('Error: ${response.reasonPhrase}');
-      // To debug, read the response body for more details.
-      String responseBody = await response.stream.bytesToString();
-      print('Response body: $responseBody');
+      _dialogService.showCustomDialog(
+          variant: DialogType.infoAlert,
+          title: "Gagal Mengambil Data User",
+          description:
+              "Gagal mengambil data user dengan kode error: ${response.statusCode}");
+    }
+  }
+
+  Future deleteAbsenById({required int absenId}) async {
+    try {
+      var request = http.Request(
+          'DELETE', Uri.parse('https://amala-api.online/api/absens/$absenId'));
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        return;
+        // print(await response.stream.bytesToString());
+      } else {
+        // print(response.reasonPhrase);
+        return;
+      }
+    } catch (e) {
+      return;
     }
   }
 
@@ -515,7 +597,7 @@ class HttpService {
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-      print("location data: $data");
+      // print("location data: $data");
       if (data['results'].isNotEmpty) {
         // This will give you full address.
         String formattedAddress = data['results'][0]['formatted_address'];
@@ -533,10 +615,10 @@ class HttpService {
       Position position = await _determinePosition();
       String address =
           await getAddressFromLatLng(position.latitude, position.longitude);
-      print('Address: $address');
+      // print('Address: $address');
       return address;
     } catch (e) {
-      print('Error occurred: $e');
+      // print('Error occurred: $e');
       return '';
     }
   }

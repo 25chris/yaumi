@@ -62,18 +62,17 @@ class AbsenWidget extends StatelessWidget {
                 );
               } else if (datum.attributes!.statusKehadiran ==
                   StatusKehadiran.sakit.name) {
-                return Center(
+                return const Center(
                   child: Text("Sakit"),
                 );
               } else {
-                return Center(
+                return const Center(
                   child: Text("WFH"),
                 );
               }
             }
           } catch (e) {
-            print(e);
-            return Center(
+            return const Center(
               child: Text('data'),
             );
           }

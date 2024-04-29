@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:yaumi/ui/common/ui_helpers.dart';
-import 'package:yaumi/ui/common/yaumi_temp.dart';
-
 import 'package:yaumi/ui/views/absen/absen_viewmodel.dart';
 
 class WorkPhotoButtons extends StatelessWidget {
@@ -12,7 +10,6 @@ class WorkPhotoButtons extends StatelessWidget {
       {super.key, required this.viewModel, required this.userAccount});
   @override
   Widget build(BuildContext context) {
-    print('imageFilePath: $imageFilePath');
     return Column(
       children: [
         verticalSpaceSmall,
@@ -21,22 +18,21 @@ class WorkPhotoButtons extends StatelessWidget {
           style: TextStyle(fontSize: 13, color: Colors.blueGrey[600]),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ElevatedButton.icon(
               onPressed: () {},
-              icon: Icon(Icons.camera_alt),
-              label: Text('Selfie Masuk'),
+              icon: const Icon(Icons.camera_alt),
+              label: const Text('Selfie Masuk'),
             ),
             ElevatedButton.icon(
               onPressed: () {
                 // Placeholder for "Pulang Kerja" function
-                print('Pulang Kerja button pressed');
               },
-              icon: Icon(Icons.camera_alt),
-              label: Text('Selfie Pulang'),
+              icon: const Icon(Icons.camera_alt),
+              label: const Text('Selfie Pulang'),
             ),
           ],
         ),

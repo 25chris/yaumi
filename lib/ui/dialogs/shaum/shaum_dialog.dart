@@ -100,7 +100,6 @@ class ShaumDialog extends StackedView<ShaumDialogModel> {
                               value: yaumi.shaumSunnah,
                               hint: Text('Select Shaum Sunnah'),
                               onChanged: (ShaumSunnah? val) {
-                                print(val);
                                 context.read<YaumiBloc>().add(UpdateYaumi(
                                     yaumi: yaumi.copyWith(shaumSunnah: val)));
                               },

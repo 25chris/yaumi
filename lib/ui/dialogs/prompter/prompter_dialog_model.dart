@@ -16,6 +16,9 @@ class PrompterDialogModel extends BaseViewModel {
       required String timestamp,
       required String lokasi,
       required GoogleSignInAccount userAccount,
+      required String alasanIjin,
+      required String tanggalMulaiIjin,
+      required String tanggalAkhirIjin,
       required int yaumiUser}) async {
     isLoading = true;
     rebuildUi();
@@ -24,6 +27,9 @@ class PrompterDialogModel extends BaseViewModel {
           date: date,
           timestamp: timestamp,
           statusKehadiran: StatusKehadiran.ijin.name,
+          alasanIjin: alasanIjin,
+          tanggalMulaiIjin: tanggalMulaiIjin,
+          tanggalAkhirIjin: tanggalAkhirIjin,
           lokasi: lokasi,
           yaumiUser: yaumiUser);
       _navigationService.replaceWithAbsenView(userAccount: userAccount);

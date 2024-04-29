@@ -66,6 +66,15 @@ class AbsenViewModel extends BaseViewModel {
     return;
   }
 
+  //=======CUTI
+  Future<void> batalkanPengajuanCuti({required int absenId}) async {
+    isLoading = true;
+    rebuildUi();
+    await _httpService.deleteAbsenById(absenId: absenId);
+    isLoading = false;
+    rebuildUi();
+  }
+
   //==============control function
 
   //==============NAVIGATION===================
@@ -98,6 +107,10 @@ class AbsenViewModel extends BaseViewModel {
         isEmergency: true,
         selectedDateTime: selectedDateTime,
         userAccount: userAccount);
+  }
+
+  Future<void> toAbsenSakit({required GoogleSignInAccount userAccount}) async {
+    _navigationService.navigateToAbsenSakitView(userAccount: userAccount);
   }
 
   Future replaceToAbsenView({required GoogleSignInAccount userAccount}) async {

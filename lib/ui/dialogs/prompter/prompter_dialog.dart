@@ -94,7 +94,12 @@ class PrompterDialog extends StackedView<PrompterDialogModel> {
                                 timestamp: request.data['timestamp'],
                                 lokasi: request.data['lokasi'],
                                 userAccount: request.data['userAccount'],
-                                yaumiUser: request.data['yaumiUserId']);
+                                yaumiUser: request.data['yaumiUserId'],
+                                alasanIjin: request.data['alasanIjin'],
+                                tanggalMulaiIjin:
+                                    request.data['tanggalMulaiIjin'],
+                                tanggalAkhirIjin:
+                                    request.data['tanggalAkhirIjin']);
                           },
                           icon: Icon(Icons.thumb_up_alt),
                           label: Text("Iya")),

@@ -27,6 +27,8 @@ import 'package:yaumi/ui/views/absen_masuk/absen_masuk_view.dart';
 import 'package:yaumi/ui/views/absen_pulang/absen_pulang_view.dart';
 import 'package:yaumi/ui/views/absen_detail/absen_detail_view.dart';
 import 'package:yaumi/ui/dialogs/prompter/prompter_dialog.dart';
+import 'package:yaumi/ui/dialogs/prompt_pembatalan/prompt_pembatalan_dialog.dart';
+import 'package:yaumi/ui/views/absen_sakit/absen_sakit_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -44,6 +46,7 @@ import 'package:yaumi/ui/dialogs/prompter/prompter_dialog.dart';
     MaterialRoute(page: AbsenMasukView),
     MaterialRoute(page: AbsenPulangView),
     MaterialRoute(page: AbsenDetailView),
+    MaterialRoute(page: AbsenSakitView),
 // @stacked-route
   ],
   dependencies: [
@@ -70,6 +73,7 @@ import 'package:yaumi/ui/dialogs/prompter/prompter_dialog.dart';
     StackedDialog(classType: DzikirDialog),
     StackedDialog(classType: TaklimDialog),
     StackedDialog(classType: PrompterDialog),
+    StackedDialog(classType: PromptPembatalanDialog),
 // @stacked-dialog
   ],
 )

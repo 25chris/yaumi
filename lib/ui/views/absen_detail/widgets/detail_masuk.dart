@@ -146,8 +146,8 @@ class _DetailMasukState extends State<DetailMasuk> {
                                 title: const Text("Status absen:"),
                                 subtitle: TimeCheckService.checkTimeStatus(
                                     widget.datum.attributes!.jamMasuk!,
-                                    widget
-                                        .datum.attributes!.perbedaanWaktuMasuk),
+                                    widget.datum.attributes!
+                                        .perbedaanWaktuMasuk!),
                               ),
                               TimeCheckService.checkTimeInput(
                                   time: widget.datum.attributes!.jamMasuk!,

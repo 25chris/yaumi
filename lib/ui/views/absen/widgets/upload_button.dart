@@ -15,14 +15,13 @@ class ContainerWithTextAndUploadButton extends StatelessWidget {
           style: TextStyle(fontSize: 13, color: Colors.blueGrey[600]),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         ElevatedButton.icon(
           onPressed: () {
             // Placeholder for upload function
-            print('Upload button pressed');
           },
-          icon: Icon(Icons.cloud_upload),
-          label: Text('Upload'),
+          icon: const Icon(Icons.cloud_upload),
+          label: const Text('Upload'),
         ),
       ],
     );
