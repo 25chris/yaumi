@@ -7,6 +7,7 @@ import 'package:yaumi/services/http_service.dart';
 import 'package:yaumi/ui/views/absen/absen_viewmodel.dart';
 import 'package:yaumi/ui/views/absen/widgets/absen_form.dart';
 import 'package:yaumi/ui/views/absen/widgets/page_ijin.dart';
+import 'package:yaumi/ui/views/absen/widgets/page_sakit.dart';
 import 'package:yaumi/ui/views/absen/widgets/page_wfo.dart';
 
 class AbsenWidget extends StatelessWidget {
@@ -58,9 +59,7 @@ class AbsenWidget extends StatelessWidget {
                 );
               } else if (datum.attributes!.statusKehadiran ==
                   StatusKehadiran.sakit.name) {
-                return const Center(
-                  child: Text("Sakit"),
-                );
+                return const PageSakit();
               } else {
                 return const Center(
                   child: Text("WFH"),
