@@ -8,9 +8,6 @@ import 'package:yaumi/models/absen.dart';
 import 'package:yaumi/ui/common/app_shared_style.dart';
 import 'package:yaumi/ui/views/absen/widgets/absen_date_picker.dart';
 import 'package:yaumi/ui/views/absen/widgets/absen_widget.dart';
-import 'package:yaumi/ui/views/absen/widgets/main_widget.dart';
-import 'package:yaumi/ui/views/absen/widgets/wfo_masuk_card.dart';
-import 'package:yaumi/ui/views/absen/widgets/wfo_pulang_card.dart';
 
 import 'absen_viewmodel.dart';
 

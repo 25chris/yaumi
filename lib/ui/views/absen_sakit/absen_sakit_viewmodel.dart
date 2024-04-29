@@ -3,15 +3,21 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:yaumi/app/app.dialogs.dart';
 import 'package:yaumi/app/app.locator.dart';
+import 'package:yaumi/app/app.router.dart';
 import 'package:yaumi/services/http_service.dart';
 
 class AbsenSakitViewModel extends BaseViewModel {
   final _httpService = locator<HttpService>();
   final _dialogService = locator<DialogService>();
   final _navigationService = locator<NavigationService>();
+  final formKey = GlobalKey<FormState>();
+  bool isLoading = false;
   DateTimeRange? newDateRange;
   File? suratSakitImage;
 
@@ -53,5 +59,42 @@ class AbsenSakitViewModel extends BaseViewModel {
       }
     }
     rebuildUi();
+  }
+
+  Future<void> submitIjinSakit(
+      {required String ijinSakit,
+      required BuildContext context,
+      required String date,
+      required String namaPenyakit,
+      required GoogleSignInAccount userAccount,
+      required int yaumiUser}) async {
+    if (formKey.currentState!.validate()) {
+      if (newDateRange != null) {
+        FocusScope.of(context).requestFocus(FocusNode());
+        isLoading = true;
+        rebuildUi();
+        try {
+          await _httpService.postIjinSakit(
+              date: date,
+              namaPenyakit: namaPenyakit,
+              tanggalMulaiIjin:
+                  DateFormat("yyyy-MM-dd").format(newDateRange!.start),
+              tanggalAkhirIjin:
+                  DateFormat("yyyy-MM-dd").format(newDateRange!.end),
+              yaumiUser: yaumiUser);
+          _navigationService.replaceWithAbsenView(userAccount: userAccount);
+        } catch (e) {
+          isLoading = false;
+          rebuildUi();
+          _dialogService.showCustomDialog(
+              variant: DialogType.infoAlert,
+              title: "Ijin Sakit Gagal Submit",
+              description:
+                  "Cek koneksi internet anda, lalu coba beberapa saat lagi. Jika masalah masih berlanjut, hubungi bagian administrasi.");
+        }
+      } else {
+        await selectDateRange(context);
+      }
+    }
   }
 }

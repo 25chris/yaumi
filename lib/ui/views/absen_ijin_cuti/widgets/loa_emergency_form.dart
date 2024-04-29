@@ -149,19 +149,14 @@ class _LoaEmergencyFormState extends State<LoaEmergencyForm> {
                 onPressed: () {
                   if (widget.viewModel.formKey.currentState!.validate()) {
                     widget.viewModel.promptIjinDialog(
-                        tanggal: DateFormat("EEEE, dd MMMM yyyy", "id_ID")
-                            .format(widget.selectedDateTime),
+                        selectedDate: widget.selectedDateTime,
                         alasanIjin: ijinCutiController.text,
                         userAccount: widget.userAccount,
                         date: DateFormat("yyyy-MM-dd")
                             .format(widget.selectedDateTime),
                         timestamp: widget.selectedDateTime.toString(),
                         lokasi: widget.viewModel.location!,
-                        yaumiUserId: 7,
-                        tanggalMulaiIjin: DateFormat("yyyy-MM-dd")
-                            .format(widget.selectedDateTime),
-                        tanggalAkhirIjin: DateFormat("yyyy-MM-dd")
-                            .format(widget.selectedDateTime));
+                        yaumiUserId: 7);
                   }
                 },
                 child: const Text('Submit Cuti Kerja Darurat'),

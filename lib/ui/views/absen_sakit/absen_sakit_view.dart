@@ -7,7 +7,10 @@ import 'absen_sakit_viewmodel.dart';
 
 class AbsenSakitView extends StackedView<AbsenSakitViewModel> {
   final GoogleSignInAccount userAccount;
-  const AbsenSakitView({Key? key, required this.userAccount}) : super(key: key);
+  final DateTime selectedDate;
+  const AbsenSakitView(
+      {Key? key, required this.userAccount, required this.selectedDate})
+      : super(key: key);
 
   @override
   Widget builder(
@@ -20,6 +23,7 @@ class AbsenSakitView extends StackedView<AbsenSakitViewModel> {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: AbsenSakitForm(
         viewModel: viewModel,
+        selectedDate: selectedDate,
         userAccount: userAccount,
       ),
     ));

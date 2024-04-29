@@ -21,21 +21,6 @@ class AbsenIjinCutiViewModel extends BaseViewModel {
   final loaFormKey = GlobalKey<FormState>();
   DateTimeRange? newDateRange;
 
-  DateTimeRange? dateRange;
-  Future<void> _selectDateRange(BuildContext context) async {
-    final DateTimeRange? newDateRange = await showDateRangePicker(
-      context: context,
-      firstDate: DateTime.now(),
-      lastDate: DateTime(DateTime.now().year + 1),
-      initialDateRange: dateRange,
-    );
-
-    if (newDateRange != null) {
-      dateRange = newDateRange;
-      rebuildUi();
-    }
-  }
-
   Future<void> fetchAdreess() async {
     isLoading = true;
     rebuildUi();
@@ -54,31 +39,38 @@ class AbsenIjinCutiViewModel extends BaseViewModel {
     }
   }
 
-  void promptIjinDialog(
-      {required String tanggal,
-      required String alasanIjin,
+  Future<void> promptIjinDialog(
+      {required String alasanIjin,
       required String date,
       required String timestamp,
       required String lokasi,
-      required String tanggalMulaiIjin,
-      required String tanggalAkhirIjin,
       required GoogleSignInAccount userAccount,
-      required int yaumiUserId}) {
-    _dialogService.showCustomDialog(
-        variant: DialogType.prompter,
-        title: "Rincian Cuti $tanggal",
-        description: "Submit cuti kerja dengan rincian: $alasanIjin",
-        data: {
-          "date": date,
-          "timestamp": timestamp,
-          "statusKehadiran": StatusKehadiran.ijin.name,
-          "lokasi": lokasi,
-          "userAccount": userAccount,
-          "yaumiUserId": yaumiUserId,
-          "alasanIjin": alasanIjin,
-          "tanggalMulaiIjin": tanggalMulaiIjin,
-          "tanggalAkhirIjin": tanggalAkhirIjin
-        });
+      required DateTime selectedDate,
+      required int yaumiUserId}) async {
+    try {
+      await _dialogService.showCustomDialog(
+          variant: DialogType.prompter,
+          title:
+              "Rincian Cuti ${DateFormat("dd MMM yy").format(newDateRange!.start)} - ${DateFormat("dd MMM yy").format(newDateRange!.end)}",
+          description: "Submit cuti kerja dengan rincian: $alasanIjin",
+          data: {
+            "date": date,
+            "timestamp": timestamp,
+            "statusKehadiran": StatusKehadiran.ijin.name,
+            "lokasi": lokasi,
+            "userAccount": userAccount,
+            "yaumiUserId": yaumiUserId,
+            "alasanIjin": alasanIjin,
+            "tanggalMulaiIjin":
+                DateFormat("yyyy-MM-dd").format(newDateRange!.start),
+            "tanggalAkhirIjin":
+                DateFormat("yyyy-MM-dd").format(newDateRange!.end),
+            "selectedDate": selectedDate
+          });
+      _navigationService.replaceWithAbsenView(userAccount: userAccount);
+    } catch (e) {
+      return;
+    }
   }
 
   //===LOA_FORM
@@ -127,39 +119,22 @@ class AbsenIjinCutiViewModel extends BaseViewModel {
       {required BuildContext context,
       required TextEditingController ijinCutiController,
       required String date,
+      required DateTime selectedDate,
       required GoogleSignInAccount userAccount,
       required int yaumiUser}) async {
     if (loaFormKey.currentState!.validate()) {
       if (newDateRange != null) {
         FocusScope.of(context).requestFocus(FocusNode());
-        isLoading = true;
-        rebuildUi();
-        try {
-          await _httpService.postCutiKerja(
-              date: date,
-              timestamp: DateTime.now().toString(),
-              statusKehadiran: StatusKehadiran.ijin.name,
-              lokasi: location,
-              alasanIjin: ijinCutiController.text,
-              tanggalMulaiIjin:
-                  DateFormat("yyyy-MM-dd").format(newDateRange!.start),
-              tanggalAkhirIjin:
-                  DateFormat("yyyy-MM-dd").format(newDateRange!.end),
-              yaumiUser: yaumiUser);
-          isLoading = false;
-          _navigationService.replaceWithAbsenView(userAccount: userAccount);
-        } catch (e) {
-          isLoading = false;
-          rebuildUi();
-          _dialogService.showCustomDialog(
-              variant: DialogType.infoAlert,
-              title: "Data Gagal Dikirmkan",
-              description:
-                  "Cek koneksi internet anda, lalu coba beberapa saat lagi. Jika masalah masih berlanjut, hubungi pihak administrasi.");
-        }
+        promptIjinDialog(
+            alasanIjin: ijinCutiController.text,
+            date: date,
+            timestamp: DateTime.now().toString(),
+            lokasi: location!,
+            userAccount: userAccount,
+            selectedDate: selectedDate,
+            yaumiUserId: 7);
       } else {
         await selectDateRange(context);
-        print("No date range selected");
       }
     }
   }

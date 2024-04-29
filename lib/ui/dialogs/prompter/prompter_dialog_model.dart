@@ -2,13 +2,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:yaumi/app/app.locator.dart';
-import 'package:yaumi/app/app.router.dart';
 import 'package:yaumi/models/absen.dart';
 import 'package:yaumi/services/http_service.dart';
 
 class PrompterDialogModel extends BaseViewModel {
   final _httpService = locator<HttpService>();
-  final _navigationService = locator<NavigationService>();
 
   bool isLoading = false;
   Future<void> postCutiKerjaDarurat(
@@ -17,8 +15,10 @@ class PrompterDialogModel extends BaseViewModel {
       required String lokasi,
       required GoogleSignInAccount userAccount,
       required String alasanIjin,
+      required DateTime selectedDate,
       required String tanggalMulaiIjin,
       required String tanggalAkhirIjin,
+      required Function(DialogResponse) completer,
       required int yaumiUser}) async {
     isLoading = true;
     rebuildUi();
@@ -32,7 +32,7 @@ class PrompterDialogModel extends BaseViewModel {
           tanggalAkhirIjin: tanggalAkhirIjin,
           lokasi: lokasi,
           yaumiUser: yaumiUser);
-      _navigationService.replaceWithAbsenView(userAccount: userAccount);
+      completer(DialogResponse(confirmed: true));
     } catch (e) {
       isLoading = false;
       rebuildUi();

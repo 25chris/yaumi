@@ -90,7 +90,9 @@ class PrompterDialog extends StackedView<PrompterDialogModel> {
                       TextButton.icon(
                           onPressed: () async {
                             await viewModel.postCutiKerjaDarurat(
+                                completer: completer,
                                 date: request.data['date'],
+                                selectedDate: request.data['selectedDate'],
                                 timestamp: request.data['timestamp'],
                                 lokasi: request.data['lokasi'],
                                 userAccount: request.data['userAccount'],

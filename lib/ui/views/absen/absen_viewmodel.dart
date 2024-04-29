@@ -95,7 +95,7 @@ class AbsenViewModel extends BaseViewModel {
 
   Future<void> toAbsenIjinCuti(
       {required GoogleSignInAccount userAccount}) async {
-    _navigationService.navigateToAbsenIjinCutiView(
+    _navigationService.replaceWithAbsenIjinCutiView(
         isEmergency: false,
         selectedDateTime: selectedDateTime,
         userAccount: userAccount);
@@ -103,14 +103,15 @@ class AbsenViewModel extends BaseViewModel {
 
   Future<void> toAbsenIjinCutiDarurat(
       {required GoogleSignInAccount userAccount}) async {
-    _navigationService.navigateToAbsenIjinCutiView(
+    _navigationService.replaceWithAbsenIjinCutiView(
         isEmergency: true,
         selectedDateTime: selectedDateTime,
         userAccount: userAccount);
   }
 
   Future<void> toAbsenSakit({required GoogleSignInAccount userAccount}) async {
-    _navigationService.navigateToAbsenSakitView(userAccount: userAccount);
+    _navigationService.navigateToAbsenSakitView(
+        userAccount: userAccount, selectedDate: selectedDateTime);
   }
 
   Future replaceToAbsenView({required GoogleSignInAccount userAccount}) async {

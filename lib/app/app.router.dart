@@ -243,8 +243,10 @@ class StackedRouter extends _i1.RouterBase {
     _i15.AbsenSakitView: (data) {
       final args = data.getArgs<AbsenSakitViewArguments>(nullOk: false);
       return _i16.MaterialPageRoute<dynamic>(
-        builder: (context) =>
-            _i15.AbsenSakitView(key: args.key, userAccount: args.userAccount),
+        builder: (context) => _i15.AbsenSakitView(
+            key: args.key,
+            userAccount: args.userAccount,
+            selectedDate: args.selectedDate),
         settings: data,
       );
     },
@@ -518,26 +520,31 @@ class AbsenSakitViewArguments {
   const AbsenSakitViewArguments({
     this.key,
     required this.userAccount,
+    required this.selectedDate,
   });
 
   final _i16.Key? key;
 
   final _i17.GoogleSignInAccount userAccount;
 
+  final DateTime selectedDate;
+
   @override
   String toString() {
-    return '{"key": "$key", "userAccount": "$userAccount"}';
+    return '{"key": "$key", "userAccount": "$userAccount", "selectedDate": "$selectedDate"}';
   }
 
   @override
   bool operator ==(covariant AbsenSakitViewArguments other) {
     if (identical(this, other)) return true;
-    return other.key == key && other.userAccount == userAccount;
+    return other.key == key &&
+        other.userAccount == userAccount &&
+        other.selectedDate == selectedDate;
   }
 
   @override
   int get hashCode {
-    return key.hashCode ^ userAccount.hashCode;
+    return key.hashCode ^ userAccount.hashCode ^ selectedDate.hashCode;
   }
 }
 
@@ -771,6 +778,7 @@ extension NavigatorStateExtension on _i19.NavigationService {
   Future<dynamic> navigateToAbsenSakitView({
     _i16.Key? key,
     required _i17.GoogleSignInAccount userAccount,
+    required DateTime selectedDate,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -778,7 +786,8 @@ extension NavigatorStateExtension on _i19.NavigationService {
         transition,
   }) async {
     return navigateTo<dynamic>(Routes.absenSakitView,
-        arguments: AbsenSakitViewArguments(key: key, userAccount: userAccount),
+        arguments: AbsenSakitViewArguments(
+            key: key, userAccount: userAccount, selectedDate: selectedDate),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -1014,6 +1023,7 @@ extension NavigatorStateExtension on _i19.NavigationService {
   Future<dynamic> replaceWithAbsenSakitView({
     _i16.Key? key,
     required _i17.GoogleSignInAccount userAccount,
+    required DateTime selectedDate,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -1021,7 +1031,8 @@ extension NavigatorStateExtension on _i19.NavigationService {
         transition,
   }) async {
     return replaceWith<dynamic>(Routes.absenSakitView,
-        arguments: AbsenSakitViewArguments(key: key, userAccount: userAccount),
+        arguments: AbsenSakitViewArguments(
+            key: key, userAccount: userAccount, selectedDate: selectedDate),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

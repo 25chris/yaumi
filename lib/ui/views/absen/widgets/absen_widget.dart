@@ -6,12 +6,8 @@ import 'package:yaumi/models/strapi/absen_strapi.dart';
 import 'package:yaumi/services/http_service.dart';
 import 'package:yaumi/ui/views/absen/absen_viewmodel.dart';
 import 'package:yaumi/ui/views/absen/widgets/absen_form.dart';
-import 'package:yaumi/ui/views/absen/widgets/abstein_card.dart';
 import 'package:yaumi/ui/views/absen/widgets/page_ijin.dart';
 import 'package:yaumi/ui/views/absen/widgets/page_wfo.dart';
-import 'package:yaumi/ui/views/absen/widgets/card_wfo.dart';
-import 'package:yaumi/ui/views/absen/widgets/wfo_masuk_card.dart';
-import 'package:yaumi/ui/views/absen/widgets/wfo_pulang_card.dart';
 
 class AbsenWidget extends StatelessWidget {
   final AbsenViewModel viewModel;

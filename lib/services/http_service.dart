@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:yaumi/app/app.dialogs.dart';
 import 'package:yaumi/app/app.locator.dart';
+import 'package:yaumi/models/absen.dart';
 import 'package:yaumi/models/strapi/absen_strapi.dart';
 import 'package:yaumi/models/strapi/yaumi_strapi.dart' as yaumiStrapi;
 import 'package:yaumi/models/yaumi_user.dart';
@@ -554,6 +555,48 @@ class HttpService {
     } catch (e) {
       return;
     }
+  }
+
+// ░██████╗░█████╗░██╗░░██╗██╗████████╗
+// ██╔════╝██╔══██╗██║░██╔╝██║╚══██╔══╝
+// ╚█████╗░███████║█████═╝░██║░░░██║░░░
+// ░╚═══██╗██╔══██║██╔═██╗░██║░░░██║░░░
+// ██████╔╝██║░░██║██║░╚██╗██║░░░██║░░░
+// ╚═════╝░╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░░╚═╝░░░
+
+  Future postIjinSakit(
+      {required String date,
+      required String namaPenyakit,
+      required String tanggalMulaiIjin,
+      required String tanggalAkhirIjin,
+      required int yaumiUser}) async {
+    var headers = {'Content-Type': 'application/json'};
+    var uri = Uri.parse('https://amala-api.online/api/absens');
+
+    // Create a new multipart request
+    var request = http.Request('POST', uri);
+
+    // Add text fields
+    request.body = json.encode({
+      "data": {
+        "date": date,
+        "timeStamp": DateTime.now().toString(),
+        "statusKehadiran": StatusKehadiran.sakit.name,
+        "approval": null,
+        "yaumi_user": yaumiUser,
+        "namaPenyakit": namaPenyakit,
+        "tanggalMulaiIjin": tanggalMulaiIjin,
+        "tanggalAkhirIjin": tanggalAkhirIjin
+      }
+    });
+    request.headers.addAll(headers);
+
+    // Send the request
+    http.StreamedResponse response = await request.send();
+
+    // Handle the response
+    if (response.statusCode == 200) {
+    } else {}
   }
 
 // ██╗░░░░░░█████╗░░█████╗░░█████╗░████████╗██╗░█████╗░███╗░░██╗

@@ -188,20 +188,14 @@ class _LOAFormState extends State<LOAForm> {
             bottomNavigationBar: Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton.icon(
-                  onPressed: () => widget.viewModel.promptIjinDialog(
-                      tanggal:
-                          "${DateFormat("dd MMM yy").format(widget.viewModel.newDateRange!.start)} - ${DateFormat("dd MMM yy").format(widget.viewModel.newDateRange!.end)}",
-                      alasanIjin: ijinCutiController.text,
+                  onPressed: () => widget.viewModel.submitForm(
+                      context: context,
+                      ijinCutiController: ijinCutiController,
                       date: DateFormat("yyyy-MM-dd")
                           .format(widget.selectedDateTime),
-                      timestamp: DateTime.now().toString(),
-                      lokasi: widget.viewModel.location!,
-                      tanggalMulaiIjin: DateFormat("yyyy-MM-dd")
-                          .format(widget.viewModel.newDateRange!.start),
-                      tanggalAkhirIjin: DateFormat("yyyy-MM-dd")
-                          .format(widget.viewModel.newDateRange!.end),
+                      selectedDate: widget.selectedDateTime,
                       userAccount: widget.userAccount,
-                      yaumiUserId: 7),
+                      yaumiUser: 7),
                   icon: const Icon(Icons.turn_left_outlined),
                   label: const Text("Ajukan Cuti")),
             ),

@@ -4,7 +4,9 @@ import 'package:yaumi/ui/views/absen/absen_viewmodel.dart';
 
 class AbsenDatePicker extends StatefulWidget {
   final AbsenViewModel viewModel;
-  const AbsenDatePicker({super.key, required this.viewModel});
+  final DateTime? selectedDate;
+  const AbsenDatePicker(
+      {super.key, required this.viewModel, this.selectedDate});
 
   @override
   State<AbsenDatePicker> createState() => _AbsenDatePickerState();
@@ -26,7 +28,8 @@ class _AbsenDatePickerState extends State<AbsenDatePicker> {
       DateTime.now().subtract(const Duration(days: 11)),
       controller: controller,
       locale: "id_ID",
-      initialSelectedDate: widget.viewModel.selectedDateTime,
+      initialSelectedDate:
+          widget.selectedDate ?? widget.viewModel.selectedDateTime,
       selectionColor: Colors.teal,
       selectedTextColor: Colors.white,
       activeDates: List.generate(
