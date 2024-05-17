@@ -62,15 +62,15 @@ Once the project is up and running, you can explore the various features of the 
 
 ### Homepage
 
-![Homepage Screenshot](path/to/homepage-screenshot.png)
+![Homepage Screenshot](https://raw.githubusercontent.com/25chris/yaumi/main/Screenshot_2024-05-17-17-22-30-457_com.example.school_management.webp)
 
 ### Prayer Schedule
 
-![Prayer Schedule Screenshot](path/to/prayer-schedule-screenshot.png)
+![Prayer Schedule Screenshot](https://raw.githubusercontent.com/25chris/yaumi/main/Screenshot_2024-05-17-17-22-42-980_com.example.school_management.webp)
 
 ### Attendance
 
-![Attendance Screenshot](path/to/attendance-screenshot.png)
+![Attendance Screenshot](https://raw.githubusercontent.com/25chris/yaumi/main/Screenshot_2024-05-17-17-22-49-153_com.example.school_management.webp)
 
 ## App Features
 
