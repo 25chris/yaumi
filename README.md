@@ -66,6 +66,10 @@ Once the project is up and running, you can explore the various features of the 
   <img src="https://raw.githubusercontent.com/25chris/yaumi/main/Screenshot_2024-05-17-17-22-30-457_com.example.school_management.webp" height="300" alt="Homepage Screenshot" />
   <img src="https://raw.githubusercontent.com/25chris/yaumi/main/Screenshot_2024-05-17-17-22-42-980_com.example.school_management.webp" height="300" alt="Prayer Schedule Screenshot" />
   <img src="https://raw.githubusercontent.com/25chris/yaumi/main/Screenshot_2024-05-17-17-22-49-153_com.example.school_management.webp" height="300" alt="Attendance Screenshot" />
+  <img src="https://raw.githubusercontent.com/25chris/yaumi/main/Screenshot_2024-05-17-17-22-53-241_com.example.school_management.webp" height="300" alt="Attendance Screenshot" />
+  <img src="https://raw.githubusercontent.com/25chris/yaumi/main/Screenshot_2024-05-17-17-22-57-703_com.example.school_management.webp" height="300" alt="Attendance Screenshot" />
+  <img src="https://raw.githubusercontent.com/25chris/yaumi/main/Screenshot_2024-05-17-17-23-04-822_com.example.school_management.webp" height="300" alt="Attendance Screenshot" />
+  <img src="https://raw.githubusercontent.com/25chris/yaumi/main/Screenshot_2024-05-17-17-23-49-975_com.example.school_management.webp" height="300" alt="Attendance Screenshot" />
 </p>
 
 
