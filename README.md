@@ -60,17 +60,14 @@ To get a local copy up and running, follow these simple steps.
 
 Once the project is up and running, you can explore the various features of the app. Here's a brief overview of the main pages:
 
-### Homepage
+## Screenshots
 
-![Homepage Screenshot](https://raw.githubusercontent.com/25chris/yaumi/main/Screenshot_2024-05-17-17-22-30-457_com.example.school_management.webp)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/25chris/yaumi/main/Screenshot_2024-05-17-17-22-30-457_com.example.school_management.webp" height="300" alt="Homepage Screenshot" />
+  <img src="https://raw.githubusercontent.com/25chris/yaumi/main/Screenshot_2024-05-17-17-22-42-980_com.example.school_management.webp" height="300" alt="Prayer Schedule Screenshot" />
+  <img src="https://raw.githubusercontent.com/25chris/yaumi/main/Screenshot_2024-05-17-17-22-49-153_com.example.school_management.webp" height="300" alt="Attendance Screenshot" />
+</p>
 
-### Prayer Schedule
-
-![Prayer Schedule Screenshot](https://raw.githubusercontent.com/25chris/yaumi/main/Screenshot_2024-05-17-17-22-42-980_com.example.school_management.webp)
-
-### Attendance
-
-![Attendance Screenshot](https://raw.githubusercontent.com/25chris/yaumi/main/Screenshot_2024-05-17-17-22-49-153_com.example.school_management.webp)
 
 ## App Features
 
